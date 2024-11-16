@@ -65,9 +65,27 @@ Nos saldrá un diálogo en el que confirmaremos el target, y simplemente tendrem
 En esta imagen podemos ver la estructura de la web que se mencionaba anteriormente.
 ## Scanner
 
+ZAP también tiene un active scan al igual que Burp, que nos va a permitir encontrar vulnerabilidades filtrando por severidad.
 
+Para acceder a este escáner, deberemos de dar click derecho sobre el target que queremos analizar, y dar click en Attack > Active Scan.
 
+Al igual que el Spider, nos saldrá un diálogo en el que tendremos que confirmar, y ya comenzará el escáner. 
 
+Una vez terminado el escáner, podremos dirigirnos a Report > Generate Report, y nos dará un archivo .html en el que podremos ver las vulnerabilidades encontradas, según la confianza que tiene ZAP de que esta vulnerabilidad es real.
+
+Además, podremos ver POCs de como atacar estas vulnerabilidades, ya que nos proporcionará URLs que atacar.
+
+![[Captura de pantalla 2024-11-16 a las 13.37.19.png]]
+
+## Marketplace
+
+Podemos acceder a los addons de ZAP desde este icono:
+
+![[Pasted image 20241116133825.png]]
+
+Aquí podremos instalar distintos addons, como por ejemplo, FuzzDB Files o FuzzDB Offensive, que nos permitirían añadir más payloads al fuzzer de ZAP, como por ejemplo, wordlists de ejecución de comandos.
+
+![[Pasted image 20241116133952.png]]
 
 ---
 # References
