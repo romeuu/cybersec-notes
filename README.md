@@ -7,4 +7,4 @@ Ahora mismo me encuentro estudiando para el CBBH de HackTheBox, además de prepa
 A medida que vaya avanzando, posiblemente incluya referencias a scripting también.
 
 ¡Nos vemos!
-![[totodile-pokemon.gif]]
+![](https://github.com/romeuu/cybersec-notes/blob/master/Files/totodile-pokemon.gif)
