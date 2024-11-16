@@ -52,5 +52,22 @@ Esta sección nos permitirá ajustar opciones de nuestro fuzzing, podremos ajust
 Solo faltaría darle a start, y el fuzzer empezará a funcionar.
 
 
+## Spider
+
+La función spider nos va a permitir hacer crawling en toda la página web. Al finalizar el escaneo, nos mostrará las URLs que ha encontrado, y veremos en el panel lateral, la estructura de la web.
+
+Para acceder a esta herramienta, haremos una petición a la página web en la que queremos hacer el crawl, y daremos click derecho en la petición en el historial, y seleccionaremos Attack > Spider.
+
+Nos saldrá un diálogo en el que confirmaremos el target, y simplemente tendremos que aceptar.
+
+![[Captura de pantalla 2024-11-16 a las 12.45.24.png]]
+
+En esta imagen podemos ver la estructura de la web que se mencionaba anteriormente.
+## Scanner
+
+
+
+
+
 ---
 # References
