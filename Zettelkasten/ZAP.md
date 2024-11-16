@@ -26,7 +26,31 @@ El Fuzz Location de ZAP será el equivalente al payload position del Intruder de
 
 ### Payloads
 
+Los payloads son iguales a Intruder, solo que no son tan avanzadas. Con el botón de Add podremos añadir las payloads que necesitemos, pudiendo escoger entre 8 tipos diferentes. 
+
+Están disponibles los siguientes tipos:
+- File: Nos permite seleccionar una wordlist.
+- File Fuzzers: Nos permite seleccionar wordlists que incluye ZAP.
+- Numberz: Nos permite generar secuencias numéricas con increments customizados.
+
+### Processors
+
+Esta sección nos va a permitir hacer procesamiento de nuestras payloads. Podremos usar:
+
+- Base64 decode/encode
+- MD5 Hash
+- Postfix String
+- Prefix String
+- SHA-1/256/512 Hash
+- URL Decode/Encode
+- Script
+
+### Options
+
+Esta sección nos permitirá ajustar opciones de nuestro fuzzing, podremos ajustar el número de hilos que se usan para que el escaneo funciona más rápido, por ejemplo, a 20 hilos.
+
+Solo faltaría darle a start, y el fuzzer empezará a funcionar.
 
 
 ---
-# {{References}}
+# References
