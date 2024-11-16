@@ -5,3 +5,6 @@ Este repositorio sirve a modo de backup continuo de mis notas de ciberseguridad.
 Ahora mismo me encuentro estudiando para el CBBH de HackTheBox, además de preparando el eJPTv2, así que todo estará enfocado principalmente a estas dos certificaciones.
 
 A medida que vaya avanzando, posiblemente incluya referencias a scripting también.
+
+¡Nos vemos!
+![[totodile-pokemon.gif]]
