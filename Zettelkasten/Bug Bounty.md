@@ -25,6 +25,10 @@ Procedimiento básico:
 - Enumeración y búsqueda
 - Osint
 
+Checklist:
+
+- [ ] Revisar cookies y cambiarlas con intercept.
+- [ ] Revisar mecanismo de autenticación, y de olvidar contraseña.
 
 
 
