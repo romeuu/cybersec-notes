@@ -9,7 +9,7 @@ Siguiente vídeo: Assesment Methodologies & Auditing. Information Gathering - 02
 
 01 - Assesment Methodologies & Auditing.
 	- Information Gathering
-		- [[What is Information Gathering]]
+		- [[Information Gathering]]
 		- [[Passive Information Gathering]]
 		- [[Active Information Gathering]]
 	- Enumeration
