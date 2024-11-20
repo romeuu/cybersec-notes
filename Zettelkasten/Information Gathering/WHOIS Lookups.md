@@ -1,6 +1,6 @@
  20-11-2024 19:44
 Status: #idea
-Tags:
+Tags: [[Passive Information Gathering]]
 
 # WHOIS Lookups
 
