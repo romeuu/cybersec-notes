@@ -1,6 +1,6 @@
  20-11-2024 20:46
 Status: #idea
-Tags:
+Tags: [[Active Information Gathering]]
 
 # Virtual Hosts
 
