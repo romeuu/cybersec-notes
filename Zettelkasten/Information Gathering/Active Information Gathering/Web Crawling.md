@@ -34,7 +34,7 @@ pip3 install scrapy
 
 ## ReconSpider
 
-Para instalar ReconSpider, necesitaremos instalar scrapy antes, ya que es un módulo que se requiere.
+Para instalar ReconSpider, necesitaremos instalar scrapy antes, ya que es un módulo que se requiere.`
 
 ```shell-session
 wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip

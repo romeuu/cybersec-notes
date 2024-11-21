@@ -9,10 +9,10 @@ Este tipo de técnica requiere de recuperar el mayor número de información pos
 [[Website Recon & Footprinting]]
 
 Actividades que serían pasivas:
-- Uso de motores de búsqueda
+- [[Google Dorking]]
 - [[WHOIS Lookups]]
 - [[DNS]]
-- Análisis de Web Archive
+- [[Web Archive]]
 - Análisis en redes sociales
 - Repositorios de código
 
