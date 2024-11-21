@@ -12,6 +12,7 @@ Este tipo de recolección de información nos permite interactuar directamente c
 - Enumeración de servicios
 - [[Web Crawling]]
 - [[robots.txt]]
+- [[Well-Known URIs]]
 
 
 
