@@ -63,5 +63,34 @@ wafw00f inlanefreight.com
 
 Y tan sencillo como eso, nos dará el WAF.
 
+## Nikto
+
+Nikto es un escáner open source potente que aunque su principal función sea el escaneo de vulnerabilidades, sus habilidades para el fingerprinting son muy buenas también.
+
+Si necesitamos instalar nikto lo podremos hacer con este comando:
+
+```shell-session
+sudo apt update && sudo apt install -y perl
+git clone https://github.com/sullo/nikto
+cd nikto/program
+chmod +x ./nikto.pl
+```
+
+Con este comando, haremos que se ejecuten solo los módulos de fingerprinting, ya que la opción -Tuning b, nos permite hacer esto mismo, mientras que -h indica el target.
+
+```shell-session
+nikto -h inlanefreight.com -Tuning b
+```
+
+## Whatweb
+
+Con la herramienta whatweb podremos obtener más información de una página web, saber el CMS que utiliza, versiones, etc.
+
+```shell-session
+whatweb -a3 http://app.inlanefreight.local -v
+```
+
+
+
 ---
 # {{References}}

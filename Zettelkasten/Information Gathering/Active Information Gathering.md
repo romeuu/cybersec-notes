@@ -8,10 +8,10 @@ Este tipo de recolección de información nos permite interactuar directamente c
 - Escaneo de puertos
 - Escaneo de vulnerabilidades
 - Network Mapping
-- Banner Grabbing
-- Fingerprinting de OS
+- [[Fingerprinting]]
 - Enumeración de servicios
-- Web Spidering
+- [[Web Crawling]]
+- [[robots.txt]]
 
 
 
