@@ -114,6 +114,45 @@ ffuf -w /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ
 
 ## Fuzzing parámetros POST
 
+Al ser POST, no sirve enviar parámetros en la url, por lo tanto tendremos que mandar un body y poner un content type.
+
+> [!Tip de PHP:]
+> In PHP, "POST" data "content-type" can only accept "application/x-www-form-urlencoded". So, we can set that in "ffuf" with "-H 'Content-Type: application/x-www-form-urlencoded'".
+
+Lo primero que tendremos que hacer será ver que parámetros acepta, por lo tanto haremos FUZZ de eso primero. Podrás usar un comando como este:
+
+```shell-session
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
+```
+
+Como antes, tendrás que filtrar por size, y ya tendrás los parámetros que admite.
+
+En este caso hemos visto que admite un parámetro llamado id, por lo tanto podremos hacer Fuzzing del valor de id.
+
+## Value Fuzzing
+
+Es común que por ejemplo, los ids sean valores numéricos y autoincrementables, aunque pueden ser uuids en aplicaciones más robustas.
+
+Por lo tanto, podremos generar una wordlist de números enteros para probar. Se puede usar un bucle for en una secuencia y guardarlo en un txt con este comando:
+
+```shell-session
+for i in $(seq 1 1000); do echo $i >> ids.txt; done
+```
+
+Posteriormente, lo único que nos faltaría sería usar esta wordlist y poner la keyword FUZZ en nuestra propiedad id.
+
+```shell-session
+ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
+```
+
+Recuerda, tendrás que filtrar por size también.
+
+Posteriormente podremos hacer un curl si por ejemplo encontramos un id 73, y queremos probar a ver que sale, o hacerlo directamente en ZAP/Burp.
+
+```
+curl -X POST http://admin.academy.htb:59036/admin/admin.php -d "id=73"
+```
+
 
 ---
 # {{References}}
