@@ -15,7 +15,7 @@ apt install ffuf -y
 Fuff se puede usar para hacer Fuzzing de directorios por ejemplo, como en este comando, donde necesitamos mapear FUZZ en la seclist, y FUZZ para el directorio:
 
 ```
-ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://83.136.255.173:59036/FUZZ
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://83.136.255.173:59036/FUZZ -ic
 ```
 
 ## Extensiones
@@ -23,7 +23,7 @@ ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
 Podemos usar ffuf para hacer fuzzing de extensiones usando una seclist de extensiones y poniéndolo al final del nombre del fichero que buscamos.
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://SERVER_IP:PORT/blog/indexFUZZ
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://SERVER_IP:PORT/indexFUZZ -ic
 ```
 
 ## Page Fuzzing
@@ -31,7 +31,7 @@ ffuf -w /opt/useful/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ -u ht
 También podemos hacer lo mismo pero para el nombre de la página, si estamos convencidos de que sabemos la extensión.
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://SERVER_IP:PORT/blog/FUZZ.php
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ.php -ic
 ```
 
 ## Recursividad
@@ -39,7 +39,7 @@ ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
 Con fuff podremos especificar una recursividad, lo que hará que se escaneen otros directorios/rutas, dentro de los que ha encontrado, esto se puede hacer con la flag -recursion-depth, y especificando la extensión con -e.
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ -recursion -recursion-depth 1 -e .php -v
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://SERVER_IP:PORT/FUZZ -recursion -recursion-depth 1 -e .php -v -ic
 ```
 
 
@@ -48,7 +48,7 @@ ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
 Con ffuf también podremos hacer fuzzing de subdominios, usando una wordlist de subdominios y simplemente poniendo la keyword FUZZ en la url.
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u https://FUZZ.inlanefreight.com/
+ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u https://FUZZ.inlanefreight.com/ -ic
 ```
 
 ## VHOSTS
@@ -56,7 +56,7 @@ ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ 
 Para descubrir VHOSTS en una IP o dominio, podremos usar la header Host de la siguiente manera:
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb'
+ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb' -ic
 
 
         /'___\  /'___\           /'___\       
@@ -97,7 +97,7 @@ Veremos que todas las palabras dan un 200 OK, pero lo que de verdad importa es e
 Para esto tendremos la flag -fs, que nos permite hacer filtering por el size de nuestra respuesta, por lo tanto, en el anterior ejemplo haríamos -fs 900, y nos saldrían todas las peticiones que no tengan 900 como size de respuesta.
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb' -fs 900
+ffuf -w /opt/useful/seclists/Discovery/DNS/subdomains-top1million-5000.txt:FUZZ -u http://academy.htb:PORT/ -H 'Host: FUZZ.academy.htb' -fs 900 -ic
 ```
 
 A partir de aquí, tendríamos que añadir nuestro nuevo subdominio a /etc/hosts para poder acceder a el.
@@ -109,7 +109,7 @@ Al igual que en los anteriores casos también podremos hacer fuzzing de parámet
 Pasará lo mismo que con los vhosts y necesitaremos filtrar por size, por lo tanto debemos hacer un primer escaneo y posteriormente, coger el size que nos devuelve y meterlo en la flag -fs.
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php?FUZZ=key -fs xxx
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php?FUZZ=key -fs xxx -ic
 ```
 
 ## Fuzzing parámetros POST
@@ -122,7 +122,7 @@ Al ser POST, no sirve enviar parámetros en la url, por lo tanto tendremos que m
 Lo primero que tendremos que hacer será ver que parámetros acepta, por lo tanto haremos FUZZ de eso primero. Podrás usar un comando como este:
 
 ```shell-session
-ffuf -w /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'FUZZ=key' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx -ic
 ```
 
 Como antes, tendrás que filtrar por size, y ya tendrás los parámetros que admite.
@@ -142,7 +142,7 @@ for i in $(seq 1 1000); do echo $i >> ids.txt; done
 Posteriormente, lo único que nos faltaría sería usar esta wordlist y poner la keyword FUZZ en nuestra propiedad id.
 
 ```shell-session
-ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx
+ffuf -w ids.txt:FUZZ -u http://admin.academy.htb:PORT/admin/admin.php -X POST -d 'id=FUZZ' -H 'Content-Type: application/x-www-form-urlencoded' -fs xxx -ic
 ```
 
 Recuerda, tendrás que filtrar por size también.
