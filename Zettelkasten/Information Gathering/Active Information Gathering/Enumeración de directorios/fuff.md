@@ -20,5 +20,25 @@ ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
 
 ## Extensiones
 
+Podemos usar ffuf para hacer fuzzing de extensiones usando una seclist de extensiones y poniéndolo al final del nombre del fichero que buscamos.
+
+```shell-session
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/web-extensions.txt:FUZZ -u http://SERVER_IP:PORT/blog/indexFUZZ
+```
+
+
+## Page Fuzzing
+
+También podemos hacer lo mismo pero para el nombre de la página, si estamos convencidos de que sabemos la extensión.
+
+```shell-session
+ffuf -w /opt/useful/seclists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://SERVER_IP:PORT/blog/FUZZ.php
+```
+
+## Recursividad
+
+
+
+
 ---
 # {{References}}
