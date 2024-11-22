@@ -17,7 +17,7 @@ Explicación:
  - Con la opción -f, ponemos la wordlist que queremos usar.
  - Y con la opción -r, activamos recursividad, que quiere decir que si dnsenum encuentra un subdominio, intentará buscar subdominios de este subdominio.
 
-Para hacer bruteforcing con gobuster y **si tienes VHOSTS**, tendrás que usar este comando:
+Para hacer bruteforcing con gobuster y **si es un puerto distinto al 80, tendremos que usar vhosts**, por lo tanto tendrás que usar este comando:
 
 ```bash
 gobuster vhost -u http://inlanefreight.htb:32368 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
