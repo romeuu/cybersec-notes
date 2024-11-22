@@ -16,7 +16,7 @@ Gobuster es una herramienta poderosa que no solo se usa para la fuerza bruta de 
     dig +short inlanefreight.htb
     ```
 
-1. **Preparar la Wordlist**: Prepara una lista de palabras (wordlist) que contenga posibles nombres de virtual hosts. Puedes usar una lista precompilada como SecLists o crear una personalizada basada en la industria de tu objetivo, convenciones de nomenclatura, etc.
+2. **Preparar la Wordlist**: Prepara una lista de palabras (wordlist) que contenga posibles nombres de virtual hosts. Puedes usar una lista precompilada como SecLists o crear una personalizada basada en la industria de tu objetivo, convenciones de nomenclatura, etc.
     
 3. **Ejecutar Gobuster para Virtual Hosts**: Una vez que tengas la IP del target y la wordlist, puedes ejecutar Gobuster para intentar descubrir virtual hosts. La sintaxis general del comando es:
 

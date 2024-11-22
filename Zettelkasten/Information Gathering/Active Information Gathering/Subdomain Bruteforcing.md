@@ -23,7 +23,11 @@ Para hacer bruteforcing con gobuster y **si es un puerto distinto al 80, tendrem
 gobuster vhost -u http://inlanefreight.htb:32368 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
 ```
 
+Si encuentras subdominios, podrás hacer lo mismo, pero para intentar buscar subdominios dentro de un subdominio, por ejemplo:
 
+```bash
+gobuster vhost -u http://web1337.inlanefreight.htb:32368 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
+```
 
 
 ---
