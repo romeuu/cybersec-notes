@@ -1,6 +1,6 @@
  07-08-2024 20:22
 Status: #idea
-Tags: [[Exploiting]]
+Tags: [[Exploiting]], [[SQL Injections]]
 
 # SQLMap
 

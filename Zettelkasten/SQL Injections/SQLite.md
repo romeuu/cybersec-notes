@@ -1,6 +1,6 @@
 06-08-2024 16:14
 Status: #idea
-Tags: [[Bases de datos]]
+Tags: [[SQL Injections]]
 
 # SQLite
 
