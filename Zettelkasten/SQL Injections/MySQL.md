@@ -513,8 +513,28 @@ mysql> SELECT * FROM logins WHERE username != 'john' AND id > 1;
 ```
 
 ## Multiple Operator Precedence
+SQL soporta operaciones como suma, división.y operaciones de bits. Por lo tanto, una query podría tener múltiples expresiones a la vez, siendo el orden determinado por la preferencia del operador.
 
+Aquí hay una lista de los operadores ordenados por orden de preferencia:
 
+- División (`/`), Multiplicación (`*`), y Módulo (`%`).
+- Suma (`+`) y resta (`-`).
+- Comparación (`=, >, <, <=, >=, !=, LIKE`)
+- NOT (`!`)
+- AND (`&&`)
+- OR (`||`)
+
+```shell-session
+mysql> select * from logins where username != 'tom' AND id > 3 - 2;
+
++----+---------------+------------+---------------------+
+| id | username      | password   | date_of_joining     |
++----+---------------+------------+---------------------+
+|  2 | administrator | adm1n_p@ss | 2020-07-03 12:03:53 |
+|  3 | john          | john123!   | 2020-07-03 12:03:57 |
++----+---------------+------------+---------------------+
+2 rows in set (0.00 sec)
+```
 
 ---
 # {{References}}
