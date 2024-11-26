@@ -32,6 +32,14 @@ El impacto de una inyección SQL puede ser devastador, sobre todo si los permiso
 
 Para prevenir este tipo de vulnerabilidad, deberemos asegurarnos de que el código de nuestra web es fuerte y seguro, además de tener permisos especificados en nuestra base de datos y tener un back-end que haga comprobaciones antes de llamar a la base de datos.
 
+## Syntax Errors
+
+```php
+Error: near line 1: near "'": syntax error
+```
+
+Es común encontrarnos con errores de sintaxis cuando estamos haciendo payloads y probándolas. Normalmente este problema se debe a que no estamos cerrando bien los apóstrofes o hemos escrito algo mal.
+
 
 
 ---
