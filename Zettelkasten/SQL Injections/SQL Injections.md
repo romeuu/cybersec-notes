@@ -251,7 +251,91 @@ SELECT * FROM logins WHERE (username='' OR id = 5) -- '' AND id > 1) AND passwor
 
 ### Union Clause
 
+Esta sentencia de SQL se usa para combinar los resultados de múltiples SELECT. Esto quiere decir que con una inyección UNION podremos leer datos de las tablas que queramos dentro del DMBS, incluso de otras bases de datos. Vamos a ver un ejemplo en una base de datos de muestra:
 
+```shell-session
+mysql> SELECT * FROM ports;
+
++----------+-----------+
+| code     | city      |
++----------+-----------+
+| CN SHA   | Shanghai  |
+| SG SIN   | Singapore |
+| ZZ-21    | Shenzhen  |
++----------+-----------+
+3 rows in set (0.00 sec)
+```
+
+```shell-session
+mysql> SELECT * FROM ships;
+
++----------+-----------+
+| Ship     | city      |
++----------+-----------+
+| Morrison | New York  |
++----------+-----------+
+1 rows in set (0.00 sec)
+```
+
+Usando el UNION en las tablas tendremos este resultado, ya que se han combinado los resultados y se han volcado los datos de la tabla ships en la tabla ports.
+
+```shell-session
+mysql> SELECT * FROM ports UNION SELECT * FROM ships;
+
++----------+-----------+
+| code     | city      |
++----------+-----------+
+| CN SHA   | Shanghai  |
+| SG SIN   | Singapore |
+| Morrison | New York  |
+| ZZ-21    | Shenzhen  |
++----------+-----------+
+4 rows in set (0.00 sec)
+```
+
+> [!IMPORTANTE]
+> El tipo de datos tiene que ser exactamente igual al hacer el UNION, si no fallará.
+
+#### Columnas pares
+
+Para que el UNION funcione, necesitaremos que se usen el mismo número de columnas en ambas tablas. Por ejemplo, si intentamos hacer un UNION cuando hay diferente número de columnas, obtendremos este mensaje:
+
+```shell-session
+mysql> SELECT city FROM ports UNION SELECT * FROM ships;
+
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+```
+
+Una vez que tengamos el mismo número de columnas, podremos ejecutar el UNION sin problema alguna, por ejemplo:
+
+```sql
+SELECT * from products where product_id = '1' UNION SELECT username, password from passwords-- '
+```
+
+Este UNION nos devolverá el username y el password de la tabla passwords volcado en la tabla products, asumiendo que la tabla de products tenga 2 columnas.
+
+#### Columnas impares
+
+En la mayoría de los casos no vamos a tener tanta suerte y que las columnas de una tabla sean el mismo número que las de la otra tabla. Pero hay maneras de solucionar esto. La más común es meter "basura" en nuestra query SQL. Podríamos hacer queries como las siguientes:
+
+```sql
+SELECT "junk" from passwords
+```
+
+```sql
+SELECT 1 from passwords
+```
+
+Esto nos devolverá "junk" y 1 respectivamente.
+
+> [!IMPORTANTE]
+> Cuando rellenemos con datos basura, tenemos que asegurarnos que los tipos de datos son iguales, si no la query no funcionará. Por simplicidad, usaremos números, ya que también nos ayudarán a llevar cuenta de las posiciones en nuestra payload.
+> 
+
+> [!tip] TIP
+> Para inyecciones SQL avanzadas, podríamos usar 'NULL' para rellenar columnas, ya que se adapta a todo tipo de datos.
+
+ 
 
 ---
 # {{References}}
