@@ -1,4 +1,4 @@
- 25-11-2024 18:54
+25-11-2024 18:54
 Status: #idea
 Tags: 
 
@@ -332,14 +332,61 @@ SELECT 1 from passwords
 
 Esto nos devolverá "junk" y 1 respectivamente.
 
-> [!IMPORTANTE]
+> [!info] IMPORTANTE
 > Cuando rellenemos con datos basura, tenemos que asegurarnos que los tipos de datos son iguales, si no la query no funcionará. Por simplicidad, usaremos números, ya que también nos ayudarán a llevar cuenta de las posiciones en nuestra payload.
-> 
 
 > [!tip] TIP
 > Para inyecciones SQL avanzadas, podríamos usar 'NULL' para rellenar columnas, ya que se adapta a todo tipo de datos.
 
- 
+Conociendo esto, nos quedarán queries como esta:
+
+```sql
+SELECT * from products where product_id = '1' UNION SELECT username, 2 from passwords
+```
+
+Si tuviésemos más columnas, tendríamos que modificar el UNION y añadir más números:
+
+```sql
+UNION SELECT username, 2, 3, 4 from passwords-- '
+```
+
+Esto devolverá algo así:
+
+```shell
+mysql> SELECT * from products where product_id UNION SELECT username, 2, 3, 4 from passwords-- '
+
++-----------+-----------+-----------+-----------+
+| product_1 | product_2 | product_3 | product_4 |
++-----------+-----------+-----------+-----------+
+|   admin   |    2      |    3      |    4      |
++-----------+-----------+-----------+-----------+
+```
+
+#### Ejercicio Resuelto
+
+El enunciado nos dice lo siguiente: 
+
+Connect to the above MySQL server with the 'mysql' tool, and find the number of records returned when doing a 'Union' of all records in the 'employees' table and all records in the 'departments' table.
+
+Una vez conectados vemos que tenemos dos tablas, una llamada employees y otra departments, como estamos conectados directamente a la base de datos podremos usar estos comandos:
+
+```sql
+DESCRIBE employees;
+```
+
+```sql
+DESCRIBE departments;
+```
+
+Esto nos permitirá ver que columnas tiene employees y cuales tiene departments, y posteriormente podremos preparar nuestra query para hacer el union.
+
+Employees en este caso tiene 6 columnas, y departments 2, por lo tanto la query quedaría así:
+
+```sql
+SELECT * FROM employees UNION SELECT dept_no, dept_name, 1,2,3,4 FROM departments
+```
+
+
 
 ---
 # {{References}}
