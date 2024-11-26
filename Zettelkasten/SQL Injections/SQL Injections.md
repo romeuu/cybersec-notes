@@ -7,6 +7,7 @@ Tags:
 - [[#SQL Injection (SQLi)|SQL Injection (SQLi)]]
 - [[#Syntax Errors|Syntax Errors]]
 - [[#Tipos de SQL Injections|Tipos de SQL Injections]]
+- [[#Authentication Bypass|Authentication Bypass]]
 
 
 La mayoría de aplicaciones tienen una base de datos para guardar información de lo que sucede en la aplicación. Para conseguir que la web sea dinámica, se necesita interactuar en tiempo real con la base de datos.
@@ -61,6 +62,26 @@ En casos más complicados, no veremos el output en el front-end, por lo que tend
 Con el tipo **Boolean Based** podremos usar statements para controlar si una página nos devuelve algo de output, por ejemplo 'original query response', si nuestra condición es true. Mientras que las inyecciones **Time Based**, podremos usar queries de SQL para por ejemplo, introducir una pequeña delay con la sentencia Sleep().
 
 Y finalmente, en algunos casos no tendremos acceso directo al output, por lo que tendremos que dirigir el output a una localización remota, como un registro DNS, esperando recuperar el output desde ahí. Esto se conoce como inyección **Out-of-band**.
+
+## Authentication Bypass
+
+En el siguiente panel de administración podremos ver el funcionamiento de una inyección SQL para burlar la seguridad de este.
+
+![[Pasted image 20241126185850.png]]
+
+Si nos logeamos con el usuario admin y la contraseña p@ssw0rd, funcionará y podremos logearnos como admin. Pero, ¿podríamos acceder al panel sin saber la contraseña?
+
+![[Pasted image 20241126185917.png]]
+
+La query que se está ejecutando es la siguiente:
+
+```sql
+SELECT * FROM logins WHERE username='admin' AND password = 'p@ssw0rd';
+```
+
+Vemos como la página está recuperando los parámetros que enviamos, tanto el username como el password y usándolos directamente en la query.
+
+Esto es una luz verde para las SQL injection, ya que este es el tipo de código que nos permitirá vulnerar la seguridad.
 
 
 
