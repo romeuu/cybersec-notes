@@ -4,6 +4,11 @@ Tags:
 
 # SQL Injections
 
+- [[#SQL Injection (SQLi)|SQL Injection (SQLi)]]
+- [[#Syntax Errors|Syntax Errors]]
+- [[#Tipos de SQL Injections|Tipos de SQL Injections]]
+
+
 La mayoría de aplicaciones tienen una base de datos para guardar información de lo que sucede en la aplicación. Para conseguir que la web sea dinámica, se necesita interactuar en tiempo real con la base de datos.
 
 El flujo de funcionamiento es el siguiente:
@@ -39,6 +44,23 @@ Error: near line 1: near "'": syntax error
 ```
 
 Es común encontrarnos con errores de sintaxis cuando estamos haciendo payloads y probándolas. Normalmente este problema se debe a que no estamos cerrando bien los apóstrofes o hemos escrito algo mal.
+
+
+## Tipos de SQL Injections
+
+Se caracterizan por cuando y como conseguimos acceder a los datos.
+
+![[Pasted image 20241126183711.png]]
+
+En casos sencillos, el output será mostrado por pantalla en el front-end, pudiendo así leerlo directamente. Esto se conoce como In-band, y tiene dos tipos: **Union Based**, y **Error Based**.
+
+Con el **Union Based** podremos especificar la localización específica para que la query vuelque los datos ahí. Mientras que la **Error Based**, se identifica cuando podemos los errores de PHP o SQL en el front-end, lo que nos permitirá crear un error SQL que nos devuelva el resultado de nuestra query.
+
+En casos más complicados, no veremos el output en el front-end, por lo que tendremos que utilizar lógica SQL para conseguir ver el output caracter a caracter. Esto se conoce como **Blind SQL Injection**, y tiene dos tipos: **Boolean Based** y **Time Based**.
+
+Con el tipo **Boolean Based** podremos usar statements para controlar si una página nos devuelve algo de output, por ejemplo 'original query response', si nuestra condición es true. Mientras que las inyecciones **Time Based**, podremos usar queries de SQL para por ejemplo, introducir una pequeña delay con la sentencia Sleep().
+
+Y finalmente, en algunos casos no tendremos acceso directo al output, por lo que tendremos que dirigir el output a una localización remota, como un registro DNS, esperando recuperar el output desde ahí. Esto se conoce como inyección **Out-of-band**.
 
 
 
