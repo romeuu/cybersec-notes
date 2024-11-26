@@ -3,7 +3,6 @@ Status: #idea
 Tags: 
 
 # SQL Injections
-
 - [[#SQL Injection (SQLi)|SQL Injection (SQLi)]]
 - [[#Syntax Errors|Syntax Errors]]
 - [[#Tipos de SQL Injections|Tipos de SQL Injections]]
@@ -12,6 +11,11 @@ Tags:
 	- [[#Authentication Bypass#Ejercicio Resuelto|Ejercicio Resuelto]]
 	- [[#Authentication Bypass#Usando comentarios|Usando comentarios]]
 		- [[#Usando comentarios#Otro ejemplo|Otro ejemplo]]
+		- [[#Usando comentarios#Ejercicio Resuelto|Ejercicio Resuelto]]
+	- [[#Authentication Bypass#Union Clause|Union Clause]]
+		- [[#Union Clause#Columnas pares|Columnas pares]]
+		- [[#Union Clause#Columnas impares|Columnas impares]]
+
 
 
 La mayoría de aplicaciones tienen una base de datos para guardar información de lo que sucede en la aplicación. Para conseguir que la web sea dinámica, se necesita interactuar en tiempo real con la base de datos.
