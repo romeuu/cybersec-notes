@@ -3,6 +3,7 @@ Status: #idea
 Tags: 
 
 # SQL Injections
+
 - [[#SQL Injection (SQLi)|SQL Injection (SQLi)]]
 - [[#Syntax Errors|Syntax Errors]]
 - [[#Tipos de SQL Injections|Tipos de SQL Injections]]
@@ -15,6 +16,8 @@ Tags:
 	- [[#Authentication Bypass#Union Clause|Union Clause]]
 		- [[#Union Clause#Columnas pares|Columnas pares]]
 		- [[#Union Clause#Columnas impares|Columnas impares]]
+		- [[#Union Clause#Ejercicio Resuelto|Ejercicio Resuelto]]
+
 
 
 
