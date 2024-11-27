@@ -17,7 +17,12 @@ Tags:
 		- [[#Union Clause#Columnas pares|Columnas pares]]
 		- [[#Union Clause#Columnas impares|Columnas impares]]
 		- [[#Union Clause#Ejercicio Resuelto|Ejercicio Resuelto]]
-
+	- [[#Authentication Bypass#Union Injection|Union Injection]]
+		- [[#Union Injection#Descubrir el número de columnas|Descubrir el número de columnas]]
+			- [[#Descubrir el número de columnas#Order By|Order By]]
+			- [[#Descubrir el número de columnas#Union|Union]]
+	- [[#Authentication Bypass#Location of Injection|Location of Injection]]
+		- [[#Location of Injection#Ejercicio Resuelto|Ejercicio Resuelto]]
 
 
 
@@ -389,7 +394,104 @@ Employees en este caso tiene 6 columnas, y departments 2, por lo tanto la query 
 SELECT * FROM employees UNION SELECT dept_no, dept_name, 1,2,3,4 FROM departments
 ```
 
+### Union Injection
 
+Ahora que sabemos que son las cláusulas UNION podremos empezar a entender que son este tipo de inyecciones.
+
+Se nos presenta esta web, y si probamos una payload sencilla como un apóstrofe tendremos un syntax error.
+
+![[Pasted image 20241127190532.png]]
+
+Esto nos indica que posiblemente sea vulnerable a inyecciones SQL.
+
+#### Descubrir el número de columnas
+
+Para descubrir el número de columnas que hay, podremos comenzar usando un ORDER BY. Con esto incrementaremos el número de columnas, hasta que nos devuelva un error. Al darnos este error, sabremos el número de columnas que tiene la tabla.
+
+##### Order By
+
+Es seguro que hay al menos una columna en la tabla, por lo tanto podríamos empezar con el siguiente payload:
+
+```sql
+' order by 1-- -
+```
+
+Ahora tendremos que ir incrementándola de 1 en uno, por ejemplo, order by 2, order by 3, etc. Si nos da un error en order by 4, pues nos estará diciendo que la tabla tiene 3 columnas.
+
+##### Union
+
+Esto se puede hacer también con el UNION, incrementado el número de columnas que le pasamos, por ejemplo:
+
+```sql
+cn' UNION select 1,2,3,4-- -
+```
+
+Seguiríamos haciendo sucesivamente: 1,2,3,4,5 hasta que funcione bien, ya que con el UNION el error que nos da es inverso al ORDER BY, ya que nos indica que que el SELECT tiene un distinto número de columnas.
+
+Esto es lo que veríamos si tenemos que seguir añadiendo columnas:
+
+![[Pasted image 20241127191254.png]]
+
+Y esto si ha salido bien:
+
+![[Pasted image 20241127191320.png]]
+
+Una vez sepamos cuantas columnas tiene nuestro objetivo, podremos pasar al siguiente paso y comenzar a formar payloads.
+
+### Location of Injection
+
+La ubicación de la inyección va a depender de lo que se nos esté mostrando, ya que como vemos en la imagen de abajo, con nuestra payload UNION habíamos puesto 1,2,3,4 y solo se muestran 2,3,4. Esto es común, ya que hay campos que no interesa mostrar al usuario, como por ejemplo, el id.
+
+Por lo tanto, no deberíamos poner nuestra inyección al principio, ya que si no, no se vería.
+
+![[Pasted image 20241127191320.png]]
+
+Este es uno de los beneficios que nos aporta usar números como data basura, ya que nos permitirá ver directamente las posiciones.
+
+Para probar que podemos obtener datos de la base de datos, probaremos directamente la query @@version.
+
+```sql
+cn' UNION select 1,@@version,3,4-- -
+```
+
+Con lo que obtendremos esto:
+
+![[Pasted image 20241127191742.png]]
+
+#### Ejercicio Resuelto
+
+Se nos presenta este panel:
+![[Captura de pantalla 2024-11-27 a las 19.21.05.png]]
+
+Mi primer instinto es probar a poner cualquier cosa en el search box, y veremos como está filtrando, presuntamente de una base de datos.
+
+Para probar si es vulnerable, podremos usar un apóstrofe y veremos que saltan errores sintácticos:
+
+![[Captura de pantalla 2024-11-27 a las 19.22.10.png]]
+
+Automáticamente, voy a buscar el número de columnas que hay disponibles, usando quieres como el union select, por lo que he llegado a usar esta payload:
+
+```sql
+a' UNION select 1,2,3 -- -
+```
+
+Como vemos, nos da error de número de columnas:
+
+![[Captura de pantalla 2024-11-27 a las 19.24.52.png]]
+
+Si subimos a 4, funcionará, por lo que veremos esto:
+
+![[Captura de pantalla 2024-11-27 a las 19.25.36.png]]
+
+A partir de aquí, podremos substituir el número 2,3,4 por lo que querremos ejecutar, en este caso la función user(), quedando la query así:
+
+```sql
+a' UNION select 1,user(),3,4 -- -
+```
+
+Mostrándonos así el usuario activo en bbdd:
+
+![[Captura de pantalla 2024-11-27 a las 19.26.39.png]]
 
 ---
 # {{References}}
