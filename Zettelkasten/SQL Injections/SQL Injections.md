@@ -943,6 +943,16 @@ Lo que nos permite ver el contenido del directorio. Ahora solo faltaría encontr
 
 ![[Captura de pantalla 2024-11-27 a las 21.10.57.png]]
 
+## Como mitigar las SQL Injections
+
+Para mitigar las SQL injections tendremos que usar funciones que nos lo permitan en el lenguaje de nuestra web, por ejemplo, en PHP podremos usar mysqli_real_escape_string() que nos permitirá escapar apóstrofes. También podremos usar un regex para testear que no tenga caracteres extraños como barras, o apóstrofes.
+
+Por otra parte, existen otras medidas como WAFs (Cloudflare o Modsecurity) que bloquearán cualquier request que contenga la string INFORMATION_SCHEMA.
+
+También podremos usar queries parametrizadas, ya sea en PHP Vanilla, o Laravel/Symfony podremos usar preparadores de queries o query builders en inglés.
+
+
+
 ---
 
 # {{References}}
