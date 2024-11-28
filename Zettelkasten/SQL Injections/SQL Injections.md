@@ -3,6 +3,7 @@ Status: #idea
 Tags: 
 
 # SQL Injections
+
 - [[#SQL Injection (SQLi)|SQL Injection (SQLi)]]
 - [[#Syntax Errors|Syntax Errors]]
 - [[#Tipos de SQL Injections|Tipos de SQL Injections]]
@@ -41,6 +42,7 @@ Tags:
 	- [[#Escribiendo ficheros#Escribiendo en ficheros con SQL Injection|Escribiendo en ficheros con SQL Injection]]
 	- [[#Escribiendo ficheros#Escribiendo una Web Shell|Escribiendo una Web Shell]]
 	- [[#Escribiendo ficheros#Ejercicio Resuelto|Ejercicio Resuelto]]
+- [[#Como mitigar las SQL Injections|Como mitigar las SQL Injections]]
 
 
 La mayoría de aplicaciones tienen una base de datos para guardar información de lo que sucede en la aplicación. Para conseguir que la web sea dinámica, se necesita interactuar en tiempo real con la base de datos.
