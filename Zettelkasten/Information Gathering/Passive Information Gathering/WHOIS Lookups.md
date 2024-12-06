@@ -18,6 +18,7 @@ whois example.com
 
 Esto nos proporcionará toda la información que necesitaremos sobre este dominio.
 
+También podremos usar páginas como https://who.is, que harían exactamente lo mismo, pero en una web.
 
 ---
 # {{References}}
