@@ -16,7 +16,7 @@ Netcraft es una herramienta online que nos permite hacer recon de una web con fa
 
 ![[Captura de pantalla 2024-12-06 a las 13.44.55.png]]
 
-[Enlace a netcraft](https://sitereport.netcraft.com/?url=https://www.netcraft.com)
+[Enlace a netcraft](https://sitereport.netcraft.com/)
 
 ---
 # {{References}}
