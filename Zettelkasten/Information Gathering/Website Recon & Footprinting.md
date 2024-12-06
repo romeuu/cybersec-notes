@@ -18,7 +18,12 @@ Tenemos herramientas como **==whatweb==**, que viene por defecto instalado en ka
 
 Si queremos descargar una página al completo para analizar el código fuente, podremos descargar la aplicación **==httrack==** (sudo apt-get isntall webhttrack).
 
+Hay herramientas como netcraft, que combinan todo esto y nos dan información muy útil.
+## Netcraft
 
+[Netcraft](https://sitereport.netcraft.com/) es una herramienta online que nos permite hacer recon de una web con facilidad, teniendo información como el network, la delegación de IPs, SSL/TLS, la transferencia de certificados, trackers, etc.
+
+![[Captura de pantalla 2024-12-06 a las 13.44.55.png]]
 
 
 ---
