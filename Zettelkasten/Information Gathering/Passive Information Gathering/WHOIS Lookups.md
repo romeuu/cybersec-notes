@@ -8,7 +8,15 @@ WHOIS es un protocolo de consulta y respuesta ampliamente utilizado, diseñado p
 
 Sería como una guía telefónica gigante de Internet, que te permite buscar quién es el propietario o el responsable de diversos activos en línea.
 
+WHOIS nos permitirá saber quién ha registrado el dominio, con que servicio, la fecha de cuando se ha registrado, si se ha actualizado y más información sobre este.
 
+Para ejecutarlo en Linux usaremos este comando:
+
+```shell
+whois example.com
+```
+
+Esto nos proporcionará toda la información que necesitaremos sobre este dominio.
 
 
 ---
