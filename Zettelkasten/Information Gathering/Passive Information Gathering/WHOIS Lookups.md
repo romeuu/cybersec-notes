@@ -20,5 +20,7 @@ Esto nos proporcionará toda la información que necesitaremos sobre este domini
 
 También podremos usar páginas como https://who.is, que harían exactamente lo mismo, pero en una web.
 
+También se puede usar whois para ips, lo que nos proporcionará información sobre el bloque de IPs, el rango, quién es el dueño, etc.
+
 ---
 # {{References}}
