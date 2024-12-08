@@ -13,8 +13,9 @@ Si queremos ampliar y conseguir más dorks podemos acceder a esta web: https://w
     Ejemplo:
     
     - `site:example.com` → Busca solo dentro de example.com.
+    - `site:*.example.com` → Busca subdominios de example.com.
     - `site:.gov` → Busca en sitios web con dominio `.gov`.
-2. **`intitle:`**  
+1. **`intitle:`**  
     Busca una palabra o frase dentro del título de una página.  
     Ejemplo:
     
@@ -82,8 +83,6 @@ Si queremos ampliar y conseguir más dorks podemos acceder a esta web: https://w
     Ejemplo:
     
     - `"seguridad informática" AROUND(5) "contraseñas"` → Encuentra páginas donde "seguridad informática" y "contraseñas" están a una distancia máxima de 5 palabras.
-
-
 
 ---
 # {{References}}
