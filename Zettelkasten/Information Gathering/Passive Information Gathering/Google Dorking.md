@@ -4,6 +4,8 @@ Tags: [[Bug Bounty]], [[Passive Information Gathering]]
 
 # Google Dorking
 
+Si queremos ampliar y conseguir más dorks podemos acceder a esta web: https://www.exploit-db.com/google-hacking-database, que nos permitirá ver más dorks que nos pueden venir bien al enumerar a nuestro objetivo.
+
 ### Operadores básicos de Google Dorking:
 
 1. **`site:`**  
@@ -80,8 +82,6 @@ Tags: [[Bug Bounty]], [[Passive Information Gathering]]
     Ejemplo:
     
     - `"seguridad informática" AROUND(5) "contraseñas"` → Encuentra páginas donde "seguridad informática" y "contraseñas" están a una distancia máxima de 5 palabras.
-
-
 
 
 
