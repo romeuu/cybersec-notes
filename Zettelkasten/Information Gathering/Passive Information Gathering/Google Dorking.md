@@ -1,6 +1,6 @@
  20-09-2024 21:11
 Status: #idea
-Tags: [[Bug Bounty]]
+Tags: [[Bug Bounty]], [[Passive Information Gathering]]
 
 # Google Dorking
 

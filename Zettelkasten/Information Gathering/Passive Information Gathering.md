@@ -13,6 +13,7 @@ Actividades que serían pasivas:
 - [[WHOIS Lookups]]
 - [[DNS]]
 - [[Web Archive]]
+- [[Subdomain Enumeration]]
 - Análisis en redes sociales
 - Repositorios de código
 
