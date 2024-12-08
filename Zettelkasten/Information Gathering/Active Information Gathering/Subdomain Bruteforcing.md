@@ -6,6 +6,8 @@ Tags: [[Active Information Gathering]]
 
 Para hacer enumeración de subdominios hay varias herramientas. Entre ellas destacamos DNSEnum, que nos permitirá hacer enumeración de registros DNS, Zone Transfers, Bruteforcing de subdominios, Google Scraping, Reverse Lookups, y WHOIS Lookups.
 
+## DNSEnum
+
 Aquí tenemos un ejemplo común:
 
 ```bash
@@ -28,6 +30,7 @@ Si encuentras subdominios, podrás hacer lo mismo, pero para intentar buscar sub
 ```bash
 gobuster vhost -u http://web1337.inlanefreight.htb:32368 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt --append-domain
 ```
+
 
 
 ---

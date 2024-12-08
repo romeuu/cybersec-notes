@@ -12,7 +12,6 @@ Hay distintas técnicas de fingerprinting:
 - Búsqueda de respuestas específicas.
 - Analizar contenido de la página.
 
-
 ## Banner Grabbing
 
 Con un simple curl obtendremos el banner que nos devuelve el servidor.
