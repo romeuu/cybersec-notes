@@ -14,6 +14,7 @@ Actividades que serían pasivas:
 - [[DNS]]
 - [[Web Archive]]
 - [[Subdomain Enumeration]]
+- [[Email Harvesting]]
 - Análisis en redes sociales
 - Repositorios de código
 
