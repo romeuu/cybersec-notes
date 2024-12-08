@@ -15,6 +15,7 @@ Actividades que serían pasivas:
 - [[Web Archive]]
 - [[Subdomain Enumeration]]
 - [[Email Harvesting]]
+- [[Leaked Password Databases]]
 - Análisis en redes sociales
 - Repositorios de código
 
