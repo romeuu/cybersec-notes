@@ -32,16 +32,13 @@ Al tener una imagen de los HOSTS, nos permite ver también si por ejemplo un hos
 
 ## DNSEnum
 
-Aquí tenemos un ejemplo común:
+Este comando, al igual que los anteriores nos dará información sobre los registros dns de cierto dominio. También podremos realizar [[Subdomain Bruteforcing]] con esta herramienta. Cabe destacar que por defecto hace bruteforcing, por lo tanto no se consideraría pasivo.
 
 ```bash
-dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -r
+dnsenum zonetransfer.me
 ```
 
-Explicación:
- - Con la opción --enum, presentamos nuestro objetivo.
- - Con la opción -f, ponemos la wordlist que queremos usar.
- - Y con la opción -r, activamos recursividad, que quiere decir que si dnsenum encuentra un subdominio, intentará buscar subdominios de este subdominio.
+
 
 
 
