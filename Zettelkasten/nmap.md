@@ -27,7 +27,7 @@ Aquí podemos ver los parámetros más comunes:
 -**p-1-10000**: Escaneará los puertos del 1 al 10000.
 -**n**: Hace que la DNS no se resuelva del equipo que se escanea.
 **-p-**: Escanea todos los puertos, no solo los más comunes.
--**T{{1-5}}**: Agresividad con la que se escaneará la red, siendo 1 la más baja, y 5 la más alta.
+-**T{{0-5}}**: Agresividad con la que se escaneará la red, siendo 0 la más baja, y 5 la más alta.
 -**iL ip.txt**: Nos permite pasarle un archivo de texto, por ejemplo, ip.txt para que nmap haga escaneos con cada IP que aparezca en el archivo.
 -**O**: OS discovery, nos ayuda a saber que sistema operativo está usando el equipo.
 -**A**: Esta flag es la combinación de -sV -O y -sC, es una opción bastante agresiva, y no se debe usar si no quieres llamar la atención.
