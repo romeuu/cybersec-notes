@@ -24,6 +24,7 @@ Aquí podemos ver los parámetros más comunes:
 -**sU**: Esta flag nos permite hacer un escaneo de los puertos UDP.
 **--all-ports**: Incluye todos los puertos en la fase de detección de versiones. Por defecto se excluyen algunos.
 -**pXXX,XXX,XXX**: Escanea los puertos que se le pase, por ejemplo -p135,80,443.
+-**p-1-10000**: Escaneará los puertos del 1 al 10000.
 -**n**: Hace que la DNS no se resuelva del equipo que se escanea.
 **-p-**: Escanea todos los puertos, no solo los más comunes.
 -**T{{1-5}}**: Agresividad con la que se escaneará la red, siendo 1 la más baja, y 5 la más alta.
@@ -31,6 +32,8 @@ Aquí podemos ver los parámetros más comunes:
 -**O**: OS discovery, nos ayuda a saber que sistema operativo está usando el equipo.
 -**A**: Esta flag es la combinación de -sV -O y -sC, es una opción bastante agresiva, y no se debe usar si no quieres llamar la atención.
 -**stats-every 10s**: Esta flag nos permite saber el progreso del escaneo, cada 10s, los segundos son configurables.
+-**F**: Escanea los 100 puertos más comunes en el target.
+-**v**: Nos permite activar el modo verbose.
 
 ## Enumeración de hosts
 
