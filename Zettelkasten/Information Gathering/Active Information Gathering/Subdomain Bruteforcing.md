@@ -4,7 +4,7 @@ Tags: [[Active Information Gathering]]
 
 # Subdomain Bruteforcing
 
-Para hacer enumeración de subdominios hay varias herramientas. Entre ellas destacamos DNSEnum, que nos permitirá hacer enumeración de registros DNS, Zone Transfers, Bruteforcing de subdominios, Google Scraping, Reverse Lookups, y WHOIS Lookups.
+Para hacer enumeración de subdominios hay varias herramientas. Entre ellas destacamos DNSEnum, que nos permitirá hacer enumeración de registros DNS, [[DNS Zone Transfers]], Bruteforcing de subdominios, Google Scraping, Reverse Lookups, y WHOIS Lookups.
 
 ## DNSEnum
 

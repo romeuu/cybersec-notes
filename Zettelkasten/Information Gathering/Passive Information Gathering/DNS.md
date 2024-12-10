@@ -14,9 +14,13 @@ Tabla de comandos de dig:
 
 DNSRecon nos permite recuperar registros como A, MX, TXT, AAAA, etc para un dominio en concreto, algo muy parecido a lo que hace dig. También nos proporcionará los nameservers.
 
+```shell
+dnsrecon -d zonetransfer.me
+```
+
 ## DnsDumpster
 
-DnsDumpster es una página web que nos permite recuperar información como DNSRecon o dig pero de manera muy ordenada y sencilla. Nos permite clasificar las acciones que realiza por tipo, es decir, por pasivo o activo.
+[DnsDumpster](https://dnsdumpster.com/) es una página web que nos permite recuperar información como DNSRecon o dig pero de manera muy ordenada y sencilla. Nos permite clasificar las acciones que realiza por tipo, es decir, por pasivo o activo.
 
 Si por ejemplo tenemos un dns que queremos investigar, podremos ver que otras webs utilizan ese mismo servidor dns también.
 
