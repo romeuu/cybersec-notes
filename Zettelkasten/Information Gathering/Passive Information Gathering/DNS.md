@@ -30,6 +30,20 @@ Además, también nos presentará subdominios en la sección de HOSTS (A), que n
 
 Al tener una imagen de los HOSTS, nos permite ver también si por ejemplo un host está protegido por cloudflare o no, etc.
 
+## DNSEnum
+
+Aquí tenemos un ejemplo común:
+
+```bash
+dnsenum --enum inlanefreight.com -f /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -r
+```
+
+Explicación:
+ - Con la opción --enum, presentamos nuestro objetivo.
+ - Con la opción -f, ponemos la wordlist que queremos usar.
+ - Y con la opción -r, activamos recursividad, que quiere decir que si dnsenum encuentra un subdominio, intentará buscar subdominios de este subdominio.
+
+
 
 
 
