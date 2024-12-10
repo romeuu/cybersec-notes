@@ -34,6 +34,8 @@ Aquí podemos ver los parámetros más comunes:
 -**stats-every 10s**: Esta flag nos permite saber el progreso del escaneo, cada 10s, los segundos son configurables.
 -**F**: Escanea los 100 puertos más comunes en el target.
 -**v**: Nos permite activar el modo verbose.
+-**oN/-oX/-oS/-oG**: Nos permite guardar el resultado del escaneo en formato normal, xml, script kiddie, o grepable.
+-**oA**: Guarda el escaneo en los 3 formatos principales al mismo tiempo.
 
 ## Enumeración de hosts
 
