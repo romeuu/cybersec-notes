@@ -32,6 +32,36 @@ Aquí podemos ver los parámetros más comunes:
 -**A**: Esta flag es la combinación de -sV -O y -sC, es una opción bastante agresiva, y no se debe usar si no quieres llamar la atención.
 -**stats-every 10s**: Esta flag nos permite saber el progreso del escaneo, cada 10s, los segundos son configurables.
 
+## Enumeración de hosts
+
+Para saber que ip tenemos tendremos que usar el comando:
+
+```shell
+ip a s
+```
+
+Posteriormente, sabremos que IP tenemos y podremos saber en que segmento nos encontramos dentro de nuestra red.
+
+Se dará el caso de que queramos identificar equipos que están conectados a nuestra red, y esto lo podremos conseguir con el parámetro -sn para que no haga port scanning (se necesita sudo):
+
+```shell
+sudo nmap -sn 192.168.2.0/24
+```
+
+Esto nos dará una lista de hosts que se encuentran en nuestra red.
+
+Esto también se puede realizar con la herramienta [[Netdiscover]].
+
+## Bloqueo de peticiones ICMP Windows
+
+Se puede dar el caso de que nmap nos diga que el host está caído, que usemos la opción -Pn. Esto se debe a que podemos estar tratando con un objetivo Windows, que bloquea las peticiones ICMP por defecto. Lo que podremos hacer es pasar directamente al port scanning:
+
+```shell
+nmap -Pn 192.168.1.1
+```
+
+Esto nos dará directamente los puertos de nuestro objetivo en caso de que esté activo.
+
 ## Vulnerabilidades:
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
@@ -43,8 +73,6 @@ Este comando buscaría vulnerabilidades, dándonos los CVEs referentes al puerto
 Esta flag es compatible con cualquier de las flags que se han mencionado arriba.
 
 Con estos CVEs podríamos ir a [[Metasploit]] y buscar por CVE.
-
-
 ## Comando base:
 
 nmap -sC -sV -Pn -n -p- --open $IP: Escaneo moi rápido.
