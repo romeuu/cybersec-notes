@@ -37,7 +37,7 @@ El paquete IP tiene una header como ya habíamos visto en otros espacios del mó
 
 - **IP Source Address**: Origen del paquete.
 - **IP Destination Address**: Destino del paquete.
-- **Time-to-Live (TTL)**: Un valor de 8 bits que nos indica hasta cuando vivirá el paquete.
+- **Time-to-Live (TTL)**: Un valor de 8 bits que nos indica hasta cuando vivirá el paquete, es decir, cuantos saltos puede dar en la red.
 - **Type-of-Service (ToS)**: Contiene un valor de 8 bits que nos indica la prioridad de cada paquete.
 - **Protocol**: Contiene un valor de 8 bits que nos indica que tipo de datos van en el payload del paquete. Por ejemplo, 6 sería TCP, 17 para UDP y 1 para ICMP.
 - Y más detalles como el **Total Length, Identification, Flags**, etc.
