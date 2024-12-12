@@ -28,7 +28,7 @@ Contiene 7 capas, que van de 7 a 1.
 | 6   | Presentation Layer | Traduce los datos entre la capa de aplicación y las capas más bajas.         | SSL/TLS, JPEG, GIF, SSH, IMAP                |
 | 5   | Session Layer      | Maneja las sesiones y conexiones entre las aplicaciones.                     | APIS, NetBIOS, RPC                           |
 | 4   | Transport Layer    | Se asegura de la comunicación end-to-end.                                    | TCP, UDP                                     |
-| 3   | Network Layer      | Responsable del addressing lógico y el routing.                              | IP, ICMP, IPSec                              |
+| 3   | [[Network Layer]]  | Responsable del addressing lógico y el routing.                              | IP, ICMP, IPSec                              |
 | 2   | Data Link Layer    | Maneja el acceso al medio físico y proporciona detección de errores.         | Ethernet, PPP, Switches, etc                 |
 | 1   | Physical Layer     | Se encarga de la conexión física entre dispositivos.                         | USB, Ethernet Cables, Coax, Fiber, Hubs, etc |
 
