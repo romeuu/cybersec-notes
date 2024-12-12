@@ -11,4 +11,10 @@ Tags:
 
 
 ---
-# {{References}}
+# Backlinks
+
+```dataview
+LIST
+FROM [[]]
+SORT file.name ASC
+```
