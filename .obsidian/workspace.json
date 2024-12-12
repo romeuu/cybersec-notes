@@ -159,11 +159,13 @@
       "canvas:Crear nuevo lienzo": false,
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
-      "command-palette:Abrir paleta de comandos": false
+      "command-palette:Abrir paleta de comandos": false,
+      "obsidian-git:Open Git source control": false
     }
   },
   "active": "f6675eb3d65d48f9",
   "lastOpenFiles": [
+    "Nuevo Documento de texto.txt",
     "Zettelkasten/Assesment Methodologies/Information Gathering/Information Gathering.md",
     "Zettelkasten/Assesment Methodologies/Footprinting And Scanning/Footprinting And Scanning.md",
     "Templates/Core Zettel Project.md",
