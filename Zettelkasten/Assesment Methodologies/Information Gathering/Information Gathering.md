@@ -1,6 +1,6 @@
  10-10-2024 19:02
 Status: #idea
-Tags: [[Information Gathering]]
+Tags: [[Information Gathering]], [[Assesment Methodologies]]
 
 # Information Gathering
 
