@@ -23,11 +23,18 @@ Posteriormente terás que parsear os datos do ficheiro findomain.out e eliminar 
 
 6- Pasa un fff para conseguir as headers e os bodies de todas as URLs válidas.
 
-	`cat hosts_scope | fff -d 1 -S -o roots`
+	cat hosts_scope | fff -d 1 -S -o roots
 
 Esto creará unha carpeta que sea roots, onde nela se creará unha carpeta por URL, onde terás o archivo de body e headers.
 
 7- Con estos archivos podes usar gf, e ver si hai algo interesante neles, como aws-keys, errores de php, etc.
+
+
+Alternativa en Laravel:
+
+1- Se crea fichero con wildcards dentro con el mismo formato.
+2- ``cat wildcards | assetfinder -subs-only | anew domains``
+3- (opcional): Si hay rango de IPs aceptado en scope, tendremos que usar amass sobre nuestro fichero de domains: ``massdns -r resolvers.txt -o S -t A domains > amass-results.txt``
 
 
 
