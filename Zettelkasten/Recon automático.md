@@ -36,6 +36,14 @@ Alternativa en Laravel:
 2- ``cat wildcards | assetfinder -subs-only | anew domains``
 3- (opcional): Si hay rango de IPs aceptado en scope, tendremos que usar amass sobre nuestro fichero de domains: ``massdns -r resolvers.txt -o S -t A domains > amass-results.txt``
 
+Integraciones pendientes:
+
+- Fix polling.
+- Facer comando para limpiar ficheiros temporales de cada programa, podes deixalos 7 días, e despois mirar por fecha e borralos.
+- **Resumen diario**: En lugar de solo enviar alertas por nuevos subdominios, podrías generar un **informe diario** que incluya información sobre todos los subdominios detectados, puertos abiertos, vulnerabilidades conocidas, y demás.
+- **Integración con más herramientas de recon**: Puedes integrar más herramientas de reconocimiento, como **Subfinder**, **Amass**, **Nmap** y **Shodan**, para realizar más investigaciones automáticas sobre los objetivos.
+- **Banner Grabbing**: Captura los banners de los servicios expuestos para obtener más detalles sobre las versiones y configuraciones de los servicios.
+- Arreglar sendDocument de Telegram.
 
 
 
