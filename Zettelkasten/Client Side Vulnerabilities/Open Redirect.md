@@ -18,6 +18,8 @@ https://example.com/login/?nextPage=https://evilsite.com/?google.com (PERMITIDO)
 
 Podemos ver como en el último caso se aprovecha que google.com es un dominio que parece estar en la whitelist, y lo concatenamos a nuestra página web maliciosa para conseguir un bypass.
 
+Un bypass común también, sería usar el símbolo @, por ejemplo, si https://google.com está permitido, podríamos hacer https://google.com@evilsite.com, y automáticamente se redirigirá a evilsite.com, en vez de a google.com.
+
 
 
 
