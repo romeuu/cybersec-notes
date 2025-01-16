@@ -20,10 +20,54 @@ Sigue esta orden:
 
 - **ACK**: El cliente reconoce la respuesta del servidor enviando un segmento TCP con la flag ACK incluida. Este número será el número secuencial generado por el servidor más uno.
 
-Una vez 
+Una vez este handshake se ha completado, ambos dispositivos podrán enviar datos en ambas direcciones. Los números secuenciales ACK serán enviados para confirmar la recepción de datos o el flow de la información.
 
+### Composición
 
+Un paquete TCP está compuesto por distinta información, como el origen, el destino, los números secuenciales, el número de acknowledgment (ACK), etc.
 
+#### Headers
+
+Hay dos headers muy importantes, que serían la **SRC** (Source) y **DST** (Destination), ambas de 16 bits, que identifican el puerto de origen, y el puerto de destino. 
+
+#### Control flags
+
+Estas flags de control nos permiten manejar distintas acciones dentro de la comunicación, como el establecimiento, el mantenimiento y la terminación de esta.
+
+**Para establecer una conexión**:
+- SYN (Set): Inicia una petición de conexión.
+- ACK (Clear): No hay acknowledgment aún.
+- FIN (Clear): No hay petición de finalización.
+
+**Respuesta a esta petición de conexión**:
+- SYN (Set): Reconoce la petición de conexión.
+- ACK (Set): Reconoce la data recibida.
+- FIN (Clear): No hay petición de finalización.
+
+**Terminar la conexión**:
+- SYN (Clear): No hay petición de conexión.
+- ACK (Set): Reconoce la data recibida.
+- FIN (Set): Inicia la finalización de la conexión.
+
+### Rango de puertos para TCP
+
+Los puertos son integer 16-bit unsigned, y son divididos en tres rangos. El puerto máximo que se puede usar es el 65535.
+
+Hay recomendación de no pisar ciertos puertos, ya que están "reservados" para servicios comunes, como por ejemplo:
+
+- HTTP: 80.
+- HTTPS: 443.
+- FTP: 21.
+- SSH: 22.
+- SMTP: 25.
+- POP3: 110.
+
+También hay puertos a partir del 1024 hasta el 49151, que no son estandarizados, pero siguen siendo usados por servicios comunes, como por ejemplo:
+
+- RDP: 3389.
+- MySQL Database: 3306.
+- HTTP Alternative Port: 8080.
+- MongoDB Database: 27017.
 
 ---
 # Backlinks
