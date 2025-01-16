@@ -10,7 +10,7 @@ Se asegura de esto gracias a mecanismos como ACK y la retransmisión de paquetes
 
 ### TCP 3-Way Handshake
 
-El funcionamiento del TCP se basa en un 3-Way Handshake, que básicamente, es una serie de peticiones entre los dos dispositivos para asegurarse de que el dispositivo sigue escuchando, y que los datos han llegado bien. 
+El funcionamiento del TCP se basa en un 3-Way Handshake, que básicamente, es una serie de peticiones entre los dos dispositivos para conseguir establecer una conexión.
 
 Sigue esta orden:
 
@@ -20,6 +20,7 @@ Sigue esta orden:
 
 - **ACK**: El cliente reconoce la respuesta del servidor enviando un segmento TCP con la flag ACK incluida. Este número será el número secuencial generado por el servidor más uno.
 
+Una vez 
 
 
 
