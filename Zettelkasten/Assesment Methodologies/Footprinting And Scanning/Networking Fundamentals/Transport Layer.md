@@ -10,7 +10,7 @@ Esta capa se asegura que exista una comunicación entre dispositivos eficaz y fi
 
 ## Protocolos usados
 
-- **TCP (Transmission Control Protocol)**: Con este protocolo se busca una fiabilidad del 100%, es decir, se asegura de que los datos lleguen a su destino con total fiabilidad, y siguiendo el orden especificado. 
+- **[[TCP]] (Transmission Control Protocol)**: Con este protocolo se busca una fiabilidad del 100%, es decir, se asegura de que los datos lleguen a su destino con total fiabilidad, y siguiendo el orden especificado. 
 
 	- Se asegura de esto gracias a mecanismos como ACK y la retransmisión de paquetes perdidos. Si un fragmento de los datos que se están enviando no es confirmado por el dispositivo de destino, se volverá a enviar automáticamente.
 	
