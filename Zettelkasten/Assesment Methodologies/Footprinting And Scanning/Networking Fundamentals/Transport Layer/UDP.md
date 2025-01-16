@@ -18,8 +18,7 @@ UDP es un protocolo que no necesita establecer una conexión estricta como TCP, 
 
 - **Independencia**: Cada paquete de UDP es independiente del paquete anterior, y del futuro. 
 
-
-
+- **Cabeceras pequeñas**: UDP tiene headers mucho más pequeñas que TCP, lo que permite que sea más ligera la comunicación.
 
 ---
 # Backlinks
