@@ -30,7 +30,7 @@ El primer paso para un pentester sería cual de esas 65536 direcciones IP están
 
 ### Herramientas a usar
 
-Para realizar Network Mapping lo más común es usar **[[nmap]]**, ya que nos permitirá hacer host discovery, escaneo de puertos, detección de servicios o fingerprinting del sistema operativo.
+Para realizar Network Mapping lo más común es usar **[[nmap]]**, ya que nos permitirá hacer [[host discovery]], escaneo de puertos, detección de servicios o fingerprinting del sistema operativo.
 
 
 
