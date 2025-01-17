@@ -10,7 +10,7 @@ Se puede realizar a través de varias técnicas, y la elección de estas depende
 
 ### Técnicas
 
-- **Ping Sweeps (ICMP Echo Requests)**: Enviar ICMP Echo Requests (ping) a un rango de direcciones IP nos permitirá identificar hosts activos. Es un método rápido y muy común.
+- **[[Ping Sweeps (ICMP Echo Requests)]]**: Enviar ICMP Echo Requests (ping) a un rango de direcciones IP nos permitirá identificar hosts activos. Es un método rápido y muy común.
 
 - **ARP Scanning**: Usar requests ARP para identificar hosts en una misma red es útil si se encuentran en el mismo dominio del broadcast. Es decir, tendrás que estar dentro de la red, si no, no funcionará.
 
