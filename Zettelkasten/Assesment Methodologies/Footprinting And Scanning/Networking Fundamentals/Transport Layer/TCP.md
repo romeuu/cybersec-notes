@@ -69,6 +69,25 @@ También hay puertos a partir del 1024 hasta el 49151, que no son estandarizados
 - HTTP Alternative Port: 8080.
 - MongoDB Database: 27017.
 
+
+### Práctico
+
+##### Listado de peticiones TCP
+ 
+Para listar las conexiones actuales de TCP en un dispositivo **Linux** se puede usar el comando: 
+
+````bash
+netstat -antp
+````
+
+Si por ejemplo, navegas a una web, podrás ver las conexiones que se establecen para el consumo de datos.
+
+Para obtener en **Windows** el mismo resultado usaremos el comando:
+
+````bash
+netstat -ano
+````
+
 ---
 # Backlinks
 
