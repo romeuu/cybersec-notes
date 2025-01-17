@@ -28,6 +28,10 @@ El primer paso para un pentester sería cual de esas 65536 direcciones IP están
 
 - **Identificar medidas de seguridad**: Identificar medidas de seguridad como firewalls, sistemas de prevención y otras medidas de seguridad nos permitirá trazar un plan teniendo en cuenta la defensa que use el host.
 
+### Herramientas a usar
+
+Para realizar Network Mapping lo más común es usar **[[nmap]]**, ya que nos permitirá hacer host discovery, escaneo de puertos, detección de servicios o fingerprinting del sistema operativo.
+
 
 
 ---
