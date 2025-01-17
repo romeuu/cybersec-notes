@@ -26,7 +26,7 @@ El primer paso para un pentester sería cual de esas 65536 direcciones IP están
 
 - **Detección de versiones de servicios**: Identificar las versiones específicas de los servicios es crucial para saber que vulnerabilidades explotar y si hay una para esa versión en concreto.
 
-- **Identificar medidas de seguridad**: Identificar medidas de seguridad como firewalls, sistemas de prevención y otras medidas de seguridad nos permitirá trazar un plan teniendo en cuenta la defensa que use la red.
+- **Identificar medidas de seguridad**: Identificar medidas de seguridad como firewalls, sistemas de prevención y otras medidas de seguridad nos permitirá trazar un plan teniendo en cuenta la defensa que use el host.
 
 
 
