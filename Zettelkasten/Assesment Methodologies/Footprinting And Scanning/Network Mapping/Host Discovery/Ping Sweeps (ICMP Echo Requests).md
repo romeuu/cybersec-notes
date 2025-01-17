@@ -17,6 +17,10 @@ ping www.site.test
 ````
 
 
+> [!TIP] TIP
+> Si estás haciendo host discovery y el host es Windows no deberemos utilizar la técnica de ping sweep, ya que Windows bloquea por defecto las peticiones ICMP Echo.
+
+
 
 
 ---
