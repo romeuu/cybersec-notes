@@ -1,6 +1,6 @@
 01-08-2024 16:20
 Status: #idea
-Tags: [[Enumeration]]
+Tags: [[Enumeration]], [[Host Discovery]]
 
 # nmap
 
@@ -57,7 +57,7 @@ Esto nos dará una lista de hosts que se encuentran en nuestra red.
 
 Esto también se puede realizar con la herramienta [[Netdiscover]].
 
-## Bloqueo de peticiones ICMP Windows
+### Bloqueo de peticiones ICMP Windows
 
 Se puede dar el caso de que nmap nos diga que el host está caído, que usemos la opción -Pn. Esto se debe a que podemos estar tratando con un objetivo Windows, que bloquea las peticiones ICMP por defecto. Lo que podremos hacer es pasar directamente al port scanning:
 
@@ -66,6 +66,12 @@ nmap -Pn 192.168.1.1
 ```
 
 Esto nos dará directamente los puertos de nuestro objetivo en caso de que esté activo.
+
+> [!TIP] Escaneo de IP múltiples
+> Si quieres escanear varias direcciones IP, puedes hacerlo poniendo un espacio entre las IP que quieres escanear:
+> ````
+> nmap 10.10.10.2 10.10.10.3
+> ````
 
 ## Vulnerabilidades:
 
@@ -80,13 +86,23 @@ Esta flag es compatible con cualquier de las flags que se han mencionado arriba.
 Con estos CVEs podríamos ir a [[Metasploit]] y buscar por CVE.
 ## Comando base:
 
-nmap -sC -sV -Pn -n -p- --open $IP: Escaneo moi rápido.
+nmap -sC -sV -Pn -n -p- --open $IP: Escaneo rápido.
 
+## Documentación
 
+Nmap tiene muy buena documentación a la que se puede acceder usando el comando man:
 
+````shell
+man nmap
+````
 
+Una vez dentro de ella, podremos usar el comando / para buscar algo en concreto, por ejemplo, si queremos buscar que es la flag -sn:
 
+````shell
+/-sn
+````
 
+Para saltar resultados, usaremos la tecla N.
 
 ---
 # {{References}}
