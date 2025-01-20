@@ -72,6 +72,10 @@ Esto nos dará directamente los puertos de nuestro objetivo en caso de que esté
 > ````
 > nmap 10.10.10.2 10.10.10.3
 > ````
+> O también podremos hacer uso de un fichero que tenga las IPs escritas dentro, una en cada línea, con el siguiente comando:
+> ````
+> nmap -iL targets.txt
+> ````
 
 ## Vulnerabilidades:
 
