@@ -122,7 +122,7 @@ nmap -sn -PS 80,443 192.168.1.1
 Con lo que hemos estado viendo, podremos crear un comando base para hacer host discovery, que quedaría de la siguiente manera:
 
 ````bash
-nmap -sn -P21,22,25,80,445,3389,8080 -PU137,138 -T4 192.168.1.1
+nmap -sn -PS21,22,25,80,445,3389,8080 -PU137,138 -T4 192.168.1.1
 ````
 
 Siendo las flags usadas las siguientes:
