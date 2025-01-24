@@ -77,6 +77,32 @@ Esto nos dará directamente los puertos de nuestro objetivo en caso de que esté
 > nmap -iL targets.txt
 > ````
 
+### Enumeración con TCP SYN
+
+La enumeración con paquetes TCP SYN scan o "half-open scan" es una forma rápida y eficiente de determinar qué puertos están abiertos en un sistema.
+
+Es más sigilosa, ya que no intenta completar la conexión TCP, por lo tanto es más probable que sistemas de detección de intrusión (IDS) o firewalls no lo registren.
+
+#### Funcionamiento
+
+1. Nmap envía un paquete **SYN** (solicitud de conexión) al puerto de destino.
+2. Si el puerto está abierto, el objetivo responde con un paquete **SYN-ACK** (confirmación de conexión).
+3. En lugar de completar la conexión enviando un **ACK**, Nmap finaliza la conexión enviando un **RST** (reset). Esto evita que se establezca una conexión completa, lo que hace que el escaneo sea más sigiloso.
+
+#### Sintaxis básica
+
+````bash
+nmap -PS 80,443 192.168.1.1
+````
+
+O especificando un rango de puertos:
+
+````bash
+nmap -PS0-1000 192.168.1.1
+````
+
+Si no se envían puertos en el parámetro, se escanearán los puertos más comunes.
+
 ## Vulnerabilidades:
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
