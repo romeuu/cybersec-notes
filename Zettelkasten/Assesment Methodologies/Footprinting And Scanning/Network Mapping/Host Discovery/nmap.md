@@ -157,14 +157,16 @@ Una buena metodología de escaneo es crucial para conseguir los mejores resultad
 - **Empezar con un fast scan**: Es recomendado empezar con un fast scan para ver a lo que nos estamos enfrentando y ver los puertos más comunes que están abiertos. Por ejemplo, lo podríamos hacer de la siguiente manera:
 
 ````bash
-nmap -Pn -F 192.168.1.1
+nmap -Pn -sS -F 192.168.1.1
 ````
 
 - Posteriormente, **escanear todos los puertos TCP** (65535): Esto lo podremos hacer con la opción **-p-**:
 
 ````bash
-nmap -T4 -Pn -p- 192.168.1.1
+nmap -T4 -Pn -sS -p- 192.168.1.1
 ````
+
+Se usa la flag **-sS**, que sirve para que se envíen paquetes SYN, si eres root se usará por defecto, y si no tendrás que especificarlo, pero es recomendable especificarlo siempre.
 
 ### Vulnerabilidades
 
