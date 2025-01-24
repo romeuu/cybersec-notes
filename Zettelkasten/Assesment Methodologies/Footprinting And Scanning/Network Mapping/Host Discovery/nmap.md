@@ -7,8 +7,11 @@ Tags: [[Enumeration]], [[Host Discovery]]
 	- [[#Enumeración de hosts#Enumeración con TCP SYN|Enumeración con TCP SYN]]
 		- [[#Enumeración con TCP SYN#Funcionamiento|Funcionamiento]]
 		- [[#Enumeración con TCP SYN#Sintaxis básica|Sintaxis básica]]
-- [[#Vulnerabilidades:|Vulnerabilidades:]]
-- [[#Comando base:|Comando base:]]
+	- [[#Enumeración de hosts#Comando recomendado para host discovery|Comando recomendado para host discovery]]
+- [[#Escaneo de puertos|Escaneo de puertos]]
+	- [[#Escaneo de puertos#Metodología de escaneo|Metodología de escaneo]]
+	- [[#Escaneo de puertos#Vulnerabilidades:|Vulnerabilidades]]
+	- [[#Escaneo de puertos#Comando base:|Comando base]]
 - [[#Documentación|Documentación]]
 
 # nmap
@@ -128,11 +131,42 @@ nmap -sn -PS21,22,25,80,445,3389,8080 -PU137,138 -T4 192.168.1.1
 Siendo las flags usadas las siguientes:
 
 - **-sn**: Indica a nmap que no se haga port scanning.
-- **-P21,22,25,80,445,3389,8080**: Hace uso de los paquetes SYN en los puertos correspondientes, ya que son puertos comunes para descubrir dispositivos tanto en Windows como en Linux.
+- **-PS21,22,25,80,445,3389,8080**: Hace uso de los paquetes SYN en los puertos correspondientes, ya que son puertos comunes para descubrir dispositivos tanto en Windows como en Linux.
 - **-T4**: Nos permite ajustar la "agresividad" del escaneo, teniendo así más velocidad.
 - **-PU137,138**: Para enumerar dispositivos que estén corriendo servicios en Windows como NetBIOS.
 
-## Vulnerabilidades:
+## Escaneo de puertos
+
+Una vez que sepamos que nuestro host está online, podremos proceder a hacer un escaneo de puertos para ver que puertos están abiertos y que servicios están corriendo detrás de estos.
+
+Cuando tratemos con objetivos que tengan Windows, una opción útil será la **-Pn**, que básicamente significa no ping, por lo tanto no hace host discovery, y simplemente haría el port scanning correspondiente.
+
+Otras opciones interesantes, son:
+
+- **-F**: Es la abreviatura de fast profile, que nos permitirá escanear los 100 puertos más comunes en vez de los 1000 por defecto. 
+- **-p80,443**: Nos permite escanear los puertos que especifiquemos, en este caso, el 80 y 443.
+
+
+> [!TIP] Puertos filtered
+> Cuando un puerto sale en la columna de state a **filtered** en Windows, significa que hay un firewall restringiendo el acceso a este puerto, y nos está indicando que nmap no tiene claro si está abierto o cerrado.
+
+### Metodología de escaneo
+
+Una buena metodología de escaneo es crucial para conseguir los mejores resultados. Aquí voy a explicar los pasos a seguir para un escaneo correcto:
+
+- **Empezar con un fast scan**: Es recomendado empezar con un fast scan para ver a lo que nos estamos enfrentando y ver los puertos más comunes que están abiertos. Por ejemplo, lo podríamos hacer de la siguiente manera:
+
+````bash
+nmap -Pn -F 192.168.1.1
+````
+
+- Posteriormente, **escanear todos los puertos TCP** (65535): Esto lo podremos hacer con la opción **-p-**:
+
+````bash
+nmap -T4 -Pn -p- 192.168.1.1
+````
+
+### Vulnerabilidades
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
 
@@ -143,7 +177,7 @@ Este comando buscaría vulnerabilidades, dándonos los CVEs referentes al puerto
 Esta flag es compatible con cualquier de las flags que se han mencionado arriba.
 
 Con estos CVEs podríamos ir a [[Metasploit]] y buscar por CVE.
-## Comando base:
+### Comando base
 
 nmap -sC -sV -Pn -n -p- --open $IP: Escaneo rápido.
 
