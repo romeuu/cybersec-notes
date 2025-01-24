@@ -2,6 +2,15 @@
 Status: #idea
 Tags: [[Enumeration]], [[Host Discovery]]
 
+- [[#Enumeración de hosts|Enumeración de hosts]]
+	- [[#Enumeración de hosts#Bloqueo de peticiones ICMP Windows|Bloqueo de peticiones ICMP Windows]]
+	- [[#Enumeración de hosts#Enumeración con TCP SYN|Enumeración con TCP SYN]]
+		- [[#Enumeración con TCP SYN#Funcionamiento|Funcionamiento]]
+		- [[#Enumeración con TCP SYN#Sintaxis básica|Sintaxis básica]]
+- [[#Vulnerabilidades:|Vulnerabilidades:]]
+- [[#Comando base:|Comando base:]]
+- [[#Documentación|Documentación]]
+
 # nmap
 
 Nmap es una herramienta útil para realizar enumeración contra una red, o ip en particular. 
