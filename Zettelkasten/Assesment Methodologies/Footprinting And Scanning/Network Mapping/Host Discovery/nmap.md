@@ -103,6 +103,12 @@ nmap -PS0-1000 192.168.1.1
 
 Si no se envían puertos en el parámetro, se escanearán los puertos más comunes.
 
+> [!TIP] Si se está haciendo host discovery...
+> Si estás realizando host discovery es mejor incluir la opción -sn, ya que no hará port scanning y nos dará más velocidad en el reconocimiento.
+> ````bash
+nmap -sn -PS 80,443 192.168.1.1
+
+
 ## Vulnerabilidades:
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
