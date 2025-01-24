@@ -168,6 +168,10 @@ nmap -T4 -Pn -sS -p- 192.168.1.1
 
 Se usa la flag **-sS**, que sirve para que se envíen paquetes SYN, si eres root se usará por defecto, y si no tendrás que especificarlo, pero es recomendable especificarlo siempre.
 
+Si necesitamos precisión al 100%, y nos da igual que se nos detecte en la red, podremos usar la opción **-sT**, que buscará completar el 3 way handshake con un escaneo TCP. Generalmente, es más recomendado usar el escaneo SYN, con **-sS**.
+
+También se pueden escanear **puertos UDP** con la flag **-sU**. Si vemos el estado open|filtered, podremos confirmar que estamos tratando con un sistema con firewall.
+
 ### Vulnerabilidades
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
@@ -203,3 +207,5 @@ Para saltar resultados, usaremos la tecla N.
 # {{References}}
 
 CSIRTCV MANUAL NMAP: https://www.csirtcv.gva.es/wp-content/uploads/2020/05/NMAP-6_-Listado-de-comandos.pdf
+
+ExplainShell: https://explainshell.com/explain?cmd=nmap+-sS
