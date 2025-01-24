@@ -122,7 +122,7 @@ nmap -sn -PS 80,443 192.168.1.1
 Con lo que hemos estado viendo, podremos crear un comando base para hacer host discovery, que quedaría de la siguiente manera:
 
 ````bash
-nmap -sn -P21,22,25,80,445,3389,8080 -T4 192.168.1.1
+nmap -sn -P21,22,25,80,445,3389,8080 -PU137,138 -T4 192.168.1.1
 ````
 
 Siendo las flags usadas las siguientes:
@@ -130,6 +130,7 @@ Siendo las flags usadas las siguientes:
 - **-sn**: Indica a nmap que no se haga port scanning.
 - **-P21,22,25,80,445,3389,8080**: Hace uso de los paquetes SYN en los puertos correspondientes, ya que son puertos comunes para descubrir dispositivos tanto en Windows como en Linux.
 - **-T4**: Nos permite ajustar la "agresividad" del escaneo, teniendo así más velocidad.
+- **-PU137,138**: Para enumerar dispositivos que estén corriendo servicios en Windows como NetBIOS.
 
 ## Vulnerabilidades:
 
