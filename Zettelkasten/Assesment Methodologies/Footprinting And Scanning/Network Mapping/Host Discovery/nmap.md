@@ -172,6 +172,8 @@ Si necesitamos precisión al 100%, y nos da igual que se nos detecte en la red, 
 
 También se pueden escanear **puertos UDP** con la flag **-sU**. Si vemos el estado open|filtered, podremos confirmar que estamos tratando con un sistema con firewall.
 
+### Versión de servicios y detección de OS
+
 ### Vulnerabilidades
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
