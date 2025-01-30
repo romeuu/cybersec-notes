@@ -10,10 +10,12 @@ Tags: [[Enumeration]], [[Host Discovery]]
 	- [[#Enumeración de hosts#Comando recomendado para host discovery|Comando recomendado para host discovery]]
 - [[#Escaneo de puertos|Escaneo de puertos]]
 	- [[#Escaneo de puertos#Metodología de escaneo|Metodología de escaneo]]
-	- [[#Escaneo de puertos#Vulnerabilidades:|Vulnerabilidades]]
-	- [[#Escaneo de puertos#Comando base:|Comando base]]
+	- [[#Escaneo de puertos#Versión de servicios y detección de OS|Versión de servicios y detección de OS]]
+		- [[#Versión de servicios y detección de OS#Detección de versión de servicios|Detección de versión de servicios]]
+		- [[#Versión de servicios y detección de OS#Detección de OS|Detección de OS]]
+	- [[#Escaneo de puertos#Vulnerabilidades|Vulnerabilidades]]
+	- [[#Escaneo de puertos#Comando base|Comando base]]
 - [[#Documentación|Documentación]]
-
 # nmap
 
 Nmap es una herramienta útil para realizar enumeración contra una red, o ip en particular. 
