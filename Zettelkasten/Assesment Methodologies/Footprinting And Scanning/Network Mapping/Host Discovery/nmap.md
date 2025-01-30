@@ -197,10 +197,10 @@ nmap -sS -sV --version-intensity 8 192.168.1.1
 
 Para obtener el sistema operativo que está usando nuestro objetivo, usaremos la flag **-O**. Se pueden dar casos en el que nmap no sepa con certeza que OS se está usando, pero podemos ver la traza del TCP/IP, ya que se incluyen normalmente pistas.
 
-Para hacer esta detección de manera más agresiva podremos usar la flag **--oscan-guess** después de -O. Esto hará que nmap intente determinar cual es el OS, mostrándonos un porcentaje de confianza. Por ejemplo:
+Para hacer esta detección de manera más agresiva podremos usar la flag **--osscan-guess** después de -O. Esto hará que nmap intente determinar cual es el OS, mostrándonos un porcentaje de confianza. Por ejemplo:
 
 ```bash
-nmap -sS -O --oscan-guess 192.168.1.1 
+nmap -sS -O --osscan-guess 192.168.1.1 
 ```
 
 ### Scripts
