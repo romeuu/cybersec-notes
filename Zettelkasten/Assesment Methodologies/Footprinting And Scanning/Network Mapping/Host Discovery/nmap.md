@@ -174,6 +174,30 @@ También se pueden escanear **puertos UDP** con la flag **-sU**. Si vemos el est
 
 ### Versión de servicios y detección de OS
 
+#### Detección de versión de servicios
+
+Por defecto, cuando se hace un escaneo de puertos contra un objetivo, ya se hace una mínima detección de servicios, que se puede ver en la columna service de un escaneo.
+
+Pero, podemos hacer una detección de servicios más fuerte con la flag **-sV,** consiguiendo así una enumeración de estos dependiendo de los puertos en los que se estén corriendo.
+
+Con esta flag, obtendremos resultados muchos más fiables, y podremos saber con más certeza que servicio está en cada puerto.
+
+Para obtener resultados más fiables (pero con más agresividad), podríamos usar la flag **--version-intensity**, con un número del 1 al 10 después de **-sV**. Por ejemplo:
+
+```bash
+nmap -sS -sV --version-intensity 8 192.168.1.1 
+```
+
+#### Detección de OS
+
+Para obtener el sistema operativo que está usando nuestro objetivo, usaremos la flag **-O**. Se pueden dar casos en el que nmap no sepa con certeza que OS se está usando, pero podemos ver la traza del TCP/IP, ya que se incluyen normalmente pistas.
+
+Para hacer esta detección de manera más agresiva podremos usar la flag **--oscan-guess** después de -O. Esto hará que nmap intente determinar cual es el OS, mostrándonos un porcentaje de confianza. Por ejemplo:
+
+```bash
+nmap -sS -O --oscan-guess 192.168.1.1 
+```
+
 ### Vulnerabilidades
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
