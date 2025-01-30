@@ -14,6 +14,7 @@ Tags: [[Enumeration]], [[Host Discovery]]
 		- [[#Versión de servicios y detección de OS#Detección de versión de servicios|Detección de versión de servicios]]
 		- [[#Versión de servicios y detección de OS#Detección de OS|Detección de OS]]
 	- [[#Escaneo de puertos#Scripts|Scripts]]
+	- [[#Escaneo de puertos#Combinado de OS, Servicios y Scripting|Combinado de OS, Servicios y Scripting]]
 	- [[#Escaneo de puertos#Vulnerabilidades|Vulnerabilidades]]
 	- [[#Escaneo de puertos#Comando base|Comando base]]
 - [[#Documentación|Documentación]]
@@ -226,6 +227,28 @@ Para ejecutar un script en concreto, usaremos la flag **--script=nombre_script**
 ```bash
 nmap -sS -sV --script=mongodb-databases -T4 192.168.1.1
 ```
+
+Y también podremos indicar varios scripts seguidos de una coma, por ejemplo:
+
+```bash
+nmap -sS -sV --script=mongodb-databases,fpt-anon -T4 192.168.1.1
+```
+
+Si por ejemplo queremos usar todos los scripts de fpt, podríamos usar una wildcard de la siguiente manera:
+
+```bash
+nmap -sS -sV --script=fpt-* -T4 192.168.1.1
+```
+
+### Combinado de OS, Servicios y Scripting
+
+Si queremos combinar todas estas opciones, existe la flag **-A**, que nos permitirá ejecutar todas esas flags, sin necesidad de escribirlas.
+
+```bash
+nmap -sS -A -T4 192.168.1.1
+```
+
+Cabe destacar que esta opción es pesada, si se quiere hacer poco ruido en la red no es recomendable.
 
 ### Vulnerabilidades
 
