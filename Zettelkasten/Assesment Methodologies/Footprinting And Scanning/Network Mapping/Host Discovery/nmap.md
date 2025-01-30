@@ -13,9 +13,11 @@ Tags: [[Enumeration]], [[Host Discovery]]
 	- [[#Escaneo de puertos#Versión de servicios y detección de OS|Versión de servicios y detección de OS]]
 		- [[#Versión de servicios y detección de OS#Detección de versión de servicios|Detección de versión de servicios]]
 		- [[#Versión de servicios y detección de OS#Detección de OS|Detección de OS]]
+	- [[#Escaneo de puertos#Scripts|Scripts]]
 	- [[#Escaneo de puertos#Vulnerabilidades|Vulnerabilidades]]
 	- [[#Escaneo de puertos#Comando base|Comando base]]
 - [[#Documentación|Documentación]]
+
 # nmap
 
 Nmap es una herramienta útil para realizar enumeración contra una red, o ip en particular. 
@@ -198,6 +200,31 @@ Para hacer esta detección de manera más agresiva podremos usar la flag **--osc
 
 ```bash
 nmap -sS -O --oscan-guess 192.168.1.1 
+```
+
+### Scripts
+
+Nmap tiene una serie de scripts que podemos ejecutar que se encuentran en la carpeta **/usr/share/nmap/scripts**. 
+
+Con la flag **-sC**, nmap nos permitirá ejecutar scripts relacionados a los servicios que el target esté usando.
+
+Es importante hacer este **-sC** con un escaneo de puertos, ya que si no no funcionará.
+
+```bash
+nmap -sS -sV -sC -T4 192.168.1.1
+```
+
+Si queremos recibir ayuda sobre un script en concreto, podremos usar la flag
+**--script-help=nombre_script**:
+
+```bash
+nmap --script-help=mongodb-databases
+```
+
+Para ejecutar un script en concreto, usaremos la flag **--script=nombre_script**, de la siguiente manera:
+
+```bash
+nmap -sS -sV --script=mongodb-databases -T4 192.168.1.1
 ```
 
 ### Vulnerabilidades
