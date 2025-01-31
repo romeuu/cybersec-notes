@@ -271,7 +271,7 @@ Una manera de detectar si el objetivo está usando un firewall, es viendo como r
 
 Para intentar saltarnos barreras de IDS, podremos usar la flag **-f**, que nos permitirá fragmentar los paquetes en datos más pequeños para que estos sistemas no detecten mucho tráfico.
 
-Podremos establecer también decoy IP, que nos permite hacer un "señuelo", es decir, que las IP que especifiquemos van a simular que están escaneando la red también. Consiguiendo así que el IDS reporte, por ejemplo, 5 escaneos desde IP únicas. Esto lo conseguiremos con la flag **-D**, y poniendo las IP con comas.
+Podremos establecer también decoy IP, que nos permite hacer un "señuelo", es decir, que las IP que especifiquemos van a simular que están escaneando la red también. Consiguiendo así que el IDS reporte, por ejemplo, 5 escaneos desde IP únicas. Esto lo conseguiremos con la flag **-D**, y poniendo las IP con comas. Puedes usar una ip de la red interna, o una externa.
 
 ```bash
 nmap -sS -D 192.168.1.1,192.168.1.2
