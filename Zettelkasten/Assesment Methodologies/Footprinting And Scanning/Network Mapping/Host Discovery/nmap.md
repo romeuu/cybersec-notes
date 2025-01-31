@@ -17,6 +17,8 @@ Tags: [[Enumeration]], [[Host Discovery]]
 	- [[#Escaneo de puertos#Combinado de OS, Servicios y Scripting|Combinado de OS, Servicios y Scripting]]
 	- [[#Escaneo de puertos#Vulnerabilidades|Vulnerabilidades]]
 	- [[#Escaneo de puertos#Comando base|Comando base]]
+- [[#Detección de firewalls y evasión de IDS|Detección de firewalls y evasión de IDS]]
+- [[#Optimización de escaneos|Optimización de escaneos]]
 - [[#Documentación|Documentación]]
 
 # nmap
@@ -278,6 +280,14 @@ nmap -sS -D 192.168.1.1,192.168.1.2
 ```
 
 También podremos modificar el largo de nuestros paquetes, con la opción **--data-length numero**, por ejemplo, --data-length 200, nos permitiría añadir 200 bytes de datos aleatorios al paquete para que no coincidan con patrones conocidos de escaneo.
+
+## Optimización de escaneos
+
+Para acelerar escaneos de nmap podemos usar las plantillas de timing (**-T**), con un valor de 0 a 5, siendo 0 paranoico (lento), y 5 insane (muy agresivo).
+
+Podemos también incluir delays con **--scan-delay**, si queremos no llamar la atención.
+
+También podemos establecer un **--host-timeout 5s**, que hará que cuando se esté haciendo el host discovery, si el objetivo no responde en 5 segundos pasa al siguiente.
 
 ## Documentación
 
