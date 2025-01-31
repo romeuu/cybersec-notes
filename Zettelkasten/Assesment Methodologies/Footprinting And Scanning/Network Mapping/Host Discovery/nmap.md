@@ -265,6 +265,20 @@ Con estos CVEs podríamos ir a [[Metasploit]] y buscar por CVE.
 
 nmap -sC -sV -Pn -n -p- --open $IP: Escaneo rápido.
 
+## Detección de firewalls y evasión de IDS
+
+Una manera de detectar si el objetivo está usando un firewall, es viendo como reacciona a un port scan, y si muestra puertos como "filtered". Para esto podremos usar la flag **-sA**, que es un TCP ACK scan, y nos indicará si los puertos están cerrados, y cuales filtered.
+
+Para intentar saltarnos barreras de IDS, podremos usar la flag **-f**, que nos permitirá fragmentar los paquetes en datos más pequeños para que estos sistemas no detecten mucho tráfico.
+
+Podremos establecer también decoy IP, que nos permite hacer un "señuelo", es decir, que las IP que especifiquemos van a simular que están escaneando la red también. Consiguiendo así que el IDS reporte, por ejemplo, 5 escaneos desde IP únicas. Esto lo conseguiremos con la flag **-D**, y poniendo las IP con comas.
+
+```bash
+nmap -sS -D 192.168.1.1,192.168.1.2
+```
+
+También podremos modificar el largo de nuestros paquetes, con la opción **--data-length numero**, por ejemplo, --data-length 200, nos permitiría añadir 200 bytes de datos aleatorios al paquete para que no coincidan con patrones conocidos de escaneo.
+
 ## Documentación
 
 Nmap tiene muy buena documentación a la que se puede acceder usando el comando man:
