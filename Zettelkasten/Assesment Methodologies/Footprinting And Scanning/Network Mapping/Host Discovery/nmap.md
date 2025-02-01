@@ -256,7 +256,9 @@ Cabe destacar que esta opción es pesada, si se quiere hacer poco ruido en la re
 
 Con nmap podremos buscar vulnerabilidades con la opción --script vuln -pXXXX, siendo un comando completo con esta flag así:
 
-**==nmap 192.168.18.239 --script vuln -p445==**
+```bash
+nmap 192.168.18.239 --script vuln -p445
+```
 
 Este comando buscaría vulnerabilidades, dándonos los CVEs referentes al puerto 445, en la máquina con IP 192.168.18.239. 
 
@@ -288,6 +290,22 @@ Para acelerar escaneos de nmap podemos usar las plantillas de timing (**-T**), c
 Podemos también incluir delays con **--scan-delay**, si queremos no llamar la atención.
 
 También podemos establecer un **--host-timeout 5s**, que hará que cuando se esté haciendo el host discovery, si el objetivo no responde en 5 segundos pasa al siguiente.
+
+## Formatos de output
+
+Siempre que estemos trabajando contra un objetivo, necesitaremos guardar los resultados que nos aporta nmap, ya que si no tendremos que realizar el escaneo otra vez.
+
+Hay cuatro tipos de output distintos, cada uno con su correspondiente flag:
+
+- **-oN**: Formato normal, tal y como lo vemos en la terminal. Normalmente se guarda en un archivo .txt.
+- **-oX**: Formato XML. Es especialmente útil si queremos importarlo posteriormente en Metasploit.
+- **-oG**: Formato grepable que nos permitirá hacer queries contra el. Es útil si estás haciendo automatización, y quieres pasar el resultado a otra utilidad.
+
+Todas estas flags esperan el nombre del fichero, por ejemplo, si queremos guardar en formato normal en un txt, haríamos esto:
+
+```bash
+nmap -Pn -oN nmap_normal.txt
+```
 
 ## Documentación
 
