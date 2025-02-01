@@ -20,7 +20,10 @@ Tags: [[cybersec-notes/Zettelkasten/Enumeration]], [[Host Discovery]]
 - [[#Detección de firewalls y evasión de IDS|Detección de firewalls y evasión de IDS]]
 - [[#Optimización de escaneos|Optimización de escaneos]]
 - [[#Formatos de output|Formatos de output]]
+	- [[#Formatos de output#Importación a Metasploit|Importación a Metasploit]]
 - [[#Documentación|Documentación]]
+- [[#Prácticas|Prácticas]]
+	- [[#Prácticas#SMB Nmap Scripts|SMB Nmap Scripts]]
 
 # nmap
 
@@ -307,6 +310,8 @@ Todas estas flags esperan el nombre del fichero, por ejemplo, si queremos guarda
 ```bash
 nmap -Pn -oN nmap_normal.txt
 ```
+
+### Importación a Metasploit
 
 Si queremos usar XML e importarlo posteriormente a Metasploit tendríamos que usar la flag **-oX**, y ejecutar el siguiente comando dentro de msfconsole, asegurándonos de que la base de datos de postgresql esté activa:
 
