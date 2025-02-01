@@ -19,6 +19,7 @@ Tags: [[Enumeration]], [[Host Discovery]]
 	- [[#Escaneo de puertos#Comando base|Comando base]]
 - [[#Detección de firewalls y evasión de IDS|Detección de firewalls y evasión de IDS]]
 - [[#Optimización de escaneos|Optimización de escaneos]]
+- [[#Formatos de output|Formatos de output]]
 - [[#Documentación|Documentación]]
 
 # nmap
@@ -307,6 +308,24 @@ Todas estas flags esperan el nombre del fichero, por ejemplo, si queremos guarda
 nmap -Pn -oN nmap_normal.txt
 ```
 
+Si queremos usar XML e importarlo posteriormente a Metasploit tendríamos que usar la flag **-oX**, y ejecutar el siguiente comando dentro de msfconsole, asegurándonos de que la base de datos de postgresql esté activa:
+
+```bash
+db_import nmap_xml.xml
+```
+
+Posteriormente podremos listar los resultados de los escaneos con estos comandos:
+
+```bash
+hosts -> Lista los hosts
+services -> Lista los servicios de los hosts
+```
+
+Si después queremos hacer escaneos directamente con metasploit y que se guarden en la base de datos automáticamente podremos usar db_nmap:
+
+```bash
+db_nmap -sS -D 192.168.1.1,192.168.1.2
+```
 ## Documentación
 
 Nmap tiene muy buena documentación a la que se puede acceder usando el comando man:
