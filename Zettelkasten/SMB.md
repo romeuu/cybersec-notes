@@ -8,7 +8,7 @@ El puerto común de SMB es 445. Por otra parte, netbios-ssn, estará en el 139, 
 
 Normalmente, con nmap podremos saber los puertos en los que se encuentran estos servicios, pero también, la versión que se está usando (flag -sV).
 
-Con la flag -sC de nmap podremos ver también información adicional, tal como el dominio de NetBIOS, la versión de producto, el nombre del equipo, etc. Esta flag se encarga de ejecutar scripts por defecto que tiene nmap, [aquí puedes encontrar una lista](https://nmap.org/nsedoc/categories/default.html)).  Para el propósito de SMB, hay scripts como el smb-os-discovery que nos darán información muy útil, como el OS, Workgroup, System time, o información de seguridad, como el nivel de privilegios de la cuenta usada, la autenticación, etc.
+Con la flag -sC de nmap podremos ver también información adicional, tal como el dominio de NetBIOS, la versión de producto, el nombre del equipo, etc. Esta flag se encarga de ejecutar scripts por defecto que tiene nmap, [aquí puedes encontrar una lista](https://nmap.org/nsedoc/categories/default.html)).  [[nmap#SMB Nmap Scripts|Para el propósito de SMB, hay scripts como el smb-os-discovery que nos darán información muy útil, como el OS, Workgroup, System time, o información de seguridad, como el nivel de privilegios de la cuenta usada, la autenticación, etc.]]
 
 > [!Explicación de página de nmap]
 > 	Intenta determinar el sistema operativo, el nombre del ordenador, el dominio, el grupo de trabajo y la hora actual a través del protocolo SMB (puertos 445 o 139). Esto se hace iniciando una sesión con la cuenta anónima (o con una cuenta de usuario adecuada, si se proporciona una; probablemente no haya diferencia); en respuesta al inicio de sesión, el servidor devolverá toda esta información.

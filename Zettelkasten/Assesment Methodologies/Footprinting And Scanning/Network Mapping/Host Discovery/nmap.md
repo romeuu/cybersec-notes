@@ -342,6 +342,300 @@ Una vez dentro de ella, podremos usar el comando / para buscar algo en concreto,
 
 Para saltar resultados, usaremos la tecla N.
 
+
+## Prácticas
+
+### SMB Nmap Scripts
+
+Se nos proporciona un laboratorio que nos pide que se haga reconocimiento sobre una máquina Windows. Además, se nos indica que posiblemente podemos extraer datos con el servicio SMB.
+
+Lo primero será verificar que el host está activo, que podremos hacer de la siguiente manera:
+
+```bash
+nmap -sn 192.168.1.1
+```
+
+Posteriormente, realizaremos un escaneo base en todos los puertos TCP, usando la enumeración de versiones de servicios, un escaneo SYN, y la ejecución de scripts comunes con el siguiente comando:
+
+```bash
+nmap -sS -sV -sC -p- 192.168.1.1
+```
+
+Lo que nos proporcionará un resultado como este:
+
+```text
+PORT      STATE SERVICE            VERSION
+135/tcp   open  msrpc              Microsoft Windows RPC
+139/tcp   open  netbios-ssn        Microsoft Windows netbios-ssn
+445/tcp   open  microsoft-ds       Windows Server 2012 R2 Standard 9600 microsoft-ds
+3389/tcp  open  ssl/ms-wbt-server?
+|_ssl-date: 2025-02-01T09:32:59+00:00; 0s from scanner time.
+| rdp-ntlm-info: 
+|   Target_Name: WIN-OMCNBKR66MN
+|   NetBIOS_Domain_Name: WIN-OMCNBKR66MN
+|   NetBIOS_Computer_Name: WIN-OMCNBKR66MN
+|   DNS_Domain_Name: WIN-OMCNBKR66MN
+|   DNS_Computer_Name: WIN-OMCNBKR66MN
+|   Product_Version: 6.3.9600
+|_  System_Time: 2025-02-01T09:32:51+00:00
+| ssl-cert: Subject: commonName=WIN-OMCNBKR66MN
+| Not valid before: 2025-01-31T09:29:15
+|_Not valid after:  2025-08-02T09:29:15
+5985/tcp  open  http               Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+47001/tcp open  http               Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
+|_http-title: Not Found
+|_http-server-header: Microsoft-HTTPAPI/2.0
+49152/tcp open  msrpc              Microsoft Windows RPC
+49153/tcp open  msrpc              Microsoft Windows RPC
+49154/tcp open  msrpc              Microsoft Windows RPC
+49155/tcp open  msrpc              Microsoft Windows RPC
+49166/tcp open  msrpc              Microsoft Windows RPC
+49180/tcp open  msrpc              Microsoft Windows RPC
+Service Info: OSs: Windows, Windows Server 2008 R2 - 2012; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| smb2-time: 
+|   date: 2025-02-01T09:32:55
+|_  start_date: 2025-02-01T09:27:51
+| smb-security-mode: 
+|   account_used: guest
+|   authentication_level: user
+|   challenge_response: supported
+|_  message_signing: disabled (dangerous, but default)
+| smb-os-discovery: 
+|   OS: Windows Server 2012 R2 Standard 9600 (Windows Server 2012 R2 Standard 6.3)
+|   OS CPE: cpe:/o:microsoft:windows_server_2012::-
+|   Computer name: WIN-OMCNBKR66MN
+|   NetBIOS computer name: WIN-OMCNBKR66MN\x00
+|   Workgroup: WORKGROUP\x00
+|_  System time: 2025-02-01T09:32:51+00:00
+| smb2-security-mode: 
+|   3:0:2: 
+|_    Message signing enabled but not required
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 91.83 seconds
+```
+
+Como vemos, con el servicio de SMB en el puerto 445 podemos extraer información del objetivo. Por lo tanto es interesante usar scripts relacionados con SMB que nmap nos proporciona.
+
+Podremos listarlos en la siguiente ruta: **/usr/share/nmap/scripts**.
+
+La práctica nos indica que podríamos extraer sesiones activas, shares, usuarios de Windows, dominios, servicios, etc. Para esto podremos usar el siguiente comando que ejecuta varios scripts relacionado con estos requerimientos:
+
+```bash
+nmap -p445 --script=smb-enum-sessions,smb-enum-shares,smb-enum-users,smb-enum-domains,smb-enum-services 192.168.1.1
+```
+
+Algunos de ellos, como el de sesiones puede fallar o no mostrar todo el output ya que se requiere una cuenta de acceso para enumerar, por lo tanto podríamos hacer lo siguiente con cada uno de ellos, o con todos juntos, ya que la práctica nos proporciona credenciales:
+
+```bash
+nmap -p445 --script=smb-enum-sessions --script-args=smbusername=administrator,smbpassword=smbserver_771 192.168.1.1
+```
+
+```bash
+nmap -p445 --script=smb-enum-sessions,smb-enum-shares,smb-enum-users,smb-enum-domains,smb-enum-services --script-args=smbusername=administrator,smbpassword=smbserver_771 192.168.1.1
+```
+
+Esto nos dará un output parecido a este, donde podremos ver:
+
+```text
+PORT    STATE SERVICE
+445/tcp open  microsoft-ds
+| smb-enum-services: 
+|   AmazonSSMAgent: 
+|     display_name: Amazon SSM Agent
+|     state: 
+|       SERVICE_CONTINUE_PENDING
+|       SERVICE_RUNNING
+|       SERVICE_PAUSED
+|       SERVICE_PAUSE_PENDING
+|     type: 
+|       SERVICE_TYPE_WIN32_OWN_PROCESS
+|       SERVICE_TYPE_WIN32
+|     controls_accepted: 
+|       SERVICE_CONTROL_PARAMCHANGE
+|       SERVICE_CONTROL_INTERROGATE
+|       SERVICE_CONTROL_NETBINDADD
+|       SERVICE_CONTROL_NETBINDENABLE
+|       SERVICE_CONTROL_STOP
+|       SERVICE_CONTROL_CONTINUE
+|   DiagTrack: 
+|     display_name: Diagnostics Tracking Service
+|     state: 
+|       SERVICE_CONTINUE_PENDING
+|       SERVICE_RUNNING
+|       SERVICE_PAUSED
+|       SERVICE_PAUSE_PENDING
+|     type: 
+|       SERVICE_TYPE_WIN32_OWN_PROCESS
+|       SERVICE_TYPE_WIN32
+|     controls_accepted: 
+|       SERVICE_CONTROL_PARAMCHANGE
+|       SERVICE_CONTROL_INTERROGATE
+|       SERVICE_CONTROL_NETBINDADD
+|       SERVICE_CONTROL_NETBINDENABLE
+|       SERVICE_CONTROL_STOP
+|       SERVICE_CONTROL_CONTINUE
+|   Ec2Config: 
+|     display_name: Ec2Config
+|     state: 
+|       SERVICE_CONTINUE_PENDING
+|       SERVICE_RUNNING
+|       SERVICE_PAUSED
+|       SERVICE_PAUSE_PENDING
+|     type: 
+|       SERVICE_TYPE_WIN32_OWN_PROCESS
+|       SERVICE_TYPE_WIN32
+|     controls_accepted: 
+|       SERVICE_CONTROL_PARAMCHANGE
+|       SERVICE_CONTROL_INTERROGATE
+|       SERVICE_CONTROL_NETBINDADD
+|       SERVICE_CONTROL_NETBINDENABLE
+|       SERVICE_CONTROL_STOP
+|       SERVICE_CONTROL_CONTINUE
+|   MSDTC: 
+|     display_name: Distributed Transaction Coordinator
+|     state: 
+|       SERVICE_CONTINUE_PENDING
+|       SERVICE_RUNNING
+|       SERVICE_PAUSED
+|       SERVICE_PAUSE_PENDING
+|     type: 
+|       SERVICE_TYPE_WIN32_OWN_PROCESS
+|       SERVICE_TYPE_WIN32
+|     controls_accepted: 
+|       SERVICE_CONTROL_PARAMCHANGE
+|       SERVICE_CONTROL_INTERROGATE
+|       SERVICE_CONTROL_NETBINDADD
+|       SERVICE_CONTROL_NETBINDENABLE
+|       SERVICE_CONTROL_STOP
+|       SERVICE_CONTROL_CONTINUE
+|   Spooler: 
+|     display_name: Print Spooler
+|     state: 
+|       SERVICE_CONTINUE_PENDING
+|       SERVICE_RUNNING
+|       SERVICE_PAUSED
+|       SERVICE_PAUSE_PENDING
+|     type: 
+|       SERVICE_TYPE_WIN32_OWN_PROCESS
+|       SERVICE_TYPE_WIN32
+|     controls_accepted: 
+|       SERVICE_CONTROL_NETBINDADD
+|       SERVICE_CONTROL_NETBINDENABLE
+|       SERVICE_CONTROL_STOP
+|_      SERVICE_CONTROL_CONTINUE
+
+Host script results:
+| smb-enum-shares: 
+|   account_used: administrator
+|   \\10.2.20.1\ADMIN$: 
+|     Type: STYPE_DISKTREE_HIDDEN
+|     Comment: Remote Admin
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: C:\Windows
+|     Anonymous access: <none>
+|     Current user access: READ/WRITE
+|   \\10.2.20.1\C: 
+|     Type: STYPE_DISKTREE
+|     Comment: 
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: C:\
+|     Anonymous access: <none>
+|     Current user access: READ
+|   \\10.2.20.1\C$: 
+|     Type: STYPE_DISKTREE_HIDDEN
+|     Comment: Default share
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: C:\
+|     Anonymous access: <none>
+|     Current user access: READ/WRITE
+|   \\10.2.20.1\D$: 
+|     Type: STYPE_DISKTREE_HIDDEN
+|     Comment: Default share
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: D:\
+|     Anonymous access: <none>
+|     Current user access: READ/WRITE
+|   \\10.2.20.1\Documents: 
+|     Type: STYPE_DISKTREE
+|     Comment: 
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: C:\Users\Administrator\Documents
+|     Anonymous access: <none>
+|     Current user access: READ
+|   \\10.2.20.1\Downloads: 
+|     Type: STYPE_DISKTREE
+|     Comment: 
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: C:\Users\Administrator\Downloads
+|     Anonymous access: <none>
+|     Current user access: READ
+|   \\10.2.20.1\IPC$: 
+|     Type: STYPE_IPC_HIDDEN
+|     Comment: Remote IPC
+|     Users: 1
+|     Max Users: <unlimited>
+|     Path: 
+|     Anonymous access: <none>
+|     Current user access: READ/WRITE
+|   \\10.2.20.1\print$: 
+|     Type: STYPE_DISKTREE
+|     Comment: Printer Drivers
+|     Users: 0
+|     Max Users: <unlimited>
+|     Path: C:\Windows\system32\spool\drivers
+|     Anonymous access: <none>
+|_    Current user access: READ/WRITE
+| smb-enum-users: 
+|   WIN-OMCNBKR66MN\Administrator (RID: 500)
+|     Description: Built-in account for administering the computer/domain
+|     Flags:       Password does not expire, Normal user account
+|   WIN-OMCNBKR66MN\bob (RID: 1010)
+|     Flags:       Password does not expire, Normal user account
+|   WIN-OMCNBKR66MN\Guest (RID: 501)
+|     Description: Built-in account for guest access to the computer/domain
+|_    Flags:       Password does not expire, Password not required, Normal user account
+| smb-enum-domains: 
+|   Builtin
+|     Groups: Access Control Assistance Operators, Administrators, Backup Operators, Certificate Service DCOM Access, Cryptographic Operators, Distributed COM Users, Event Log Readers, Guests, Hyper-V Administrators, IIS_IUSRS, Network Configuration Operators, Performance Log Users, Performance Monitor Users, Power Users, Print Operators, RDS Endpoint Servers, RDS Management Servers, RDS Remote Access Servers, Remote Desktop Users, Remote Management Users, Replicator, Users
+|     Users: n/a
+|     Creation time: 2013-08-22T14:47:57
+|     Passwords: min length: n/a; min age: n/a days; max age: 42 days; history: n/a passwords
+|     Account lockout disabled
+|   WIN-OMCNBKR66MN
+|     Groups: WinRMRemoteWMIUsers__
+|     Users: Administrator, bob, Guest
+|     Creation time: 2013-08-22T14:47:57
+|     Passwords: min length: n/a; min age: n/a days; max age: 42 days; history: n/a passwords
+|     Properties: Complexity requirements exist
+|_    Account lockout disabled
+| smb-enum-sessions: 
+|   Users logged in
+|     WIN-OMCNBKR66MN\bob since 2025-02-01T09:29:26
+|   Active SMB sessions
+|_    ADMINISTRATOR is connected from \\10.10.41.3 for 1s, idle for 1s
+```
+
+Sabiendo que tenemos este acceso, podríamos usar también el script **smb-ls**, que nos permite listar los ficheros de las diferentes shares que enumeremos, por ejemplo:
+
+```bash
+nmap -p445 --script=smb-enum-shares,smb-ls --script-args=smbusername=administrator,smbpassword=smbserver_771 192.168.1.1
+```
+
+También scripts interesantes como **smb-server-stats**, que nos proporciona estadísticas del servidor, como cuantos bytes enviados, cuantos recividos, logins fallidos, errores de permisos, etc.
+
+
+
 ---
 # {{References}}
 
