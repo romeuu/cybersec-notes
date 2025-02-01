@@ -1,6 +1,6 @@
  16-10-2024 20:09
 Status: #idea
-Tags: [[Enumeration]]
+Tags: [[cybersec-notes/Zettelkasten/Enumeration]]
 
 # Netdiscover
 

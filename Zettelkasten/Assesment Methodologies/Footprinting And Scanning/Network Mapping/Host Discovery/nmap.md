@@ -1,6 +1,6 @@
 01-08-2024 16:20
 Status: #idea
-Tags: [[Enumeration]], [[Host Discovery]]
+Tags: [[cybersec-notes/Zettelkasten/Enumeration]], [[Host Discovery]]
 
 - [[#Enumeración de hosts|Enumeración de hosts]]
 	- [[#Enumeración de hosts#Bloqueo de peticiones ICMP Windows|Bloqueo de peticiones ICMP Windows]]

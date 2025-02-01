@@ -1,6 +1,6 @@
  09-08-2024 16:30
 Status: #idea
-Tags: [[Enumeration]]
+Tags: [[cybersec-notes/Zettelkasten/Enumeration]]
 
 # Gobuster
 
