@@ -313,11 +313,18 @@ nmap -Pn -oN nmap_normal.txt
 
 ### Importación a Metasploit
 
-Si queremos usar XML e importarlo posteriormente a Metasploit tendríamos que usar la flag **-oX**, y ejecutar el siguiente comando dentro de msfconsole, asegurándonos de que la base de datos de postgresql esté activa:
+Si queremos usar XML e importarlo posteriormente a Metasploit tendríamos que usar la flag **-oX**, y ejecutar los siguientes comandos dentro de msfconsole, asegurándonos de que la base de datos de postgresql esté activa:
 
 ```bash
+systemctl start postgresql / service postgresql start
+msfdb init
+msfconsole
+workspace -a pentest_name
+workspace pentest_name
 db_import nmap_xml.xml
 ```
+
+Lo que haremos aquí será inicializar la base de datos, crear un workspace con el nombre que nosotros queramos, movernos a este workspace, y por último, importar nuestro escaneo de nmap.
 
 Posteriormente podremos listar los resultados de los escaneos con estos comandos:
 
@@ -331,6 +338,7 @@ Si después queremos hacer escaneos directamente con metasploit y que se guarden
 ```bash
 db_nmap -sS -D 192.168.1.1,192.168.1.2
 ```
+
 ## Documentación
 
 Nmap tiene muy buena documentación a la que se puede acceder usando el comando man:

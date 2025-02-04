@@ -38,15 +38,33 @@ Posteriormente, podremos visualizar los resultados de nmap, con el comando **==s
 
 ## Módulos y escaneo de puertos
 
-Para escanear puertos podremos usar módulos como el scanner/portscan/tcp. 
+Para escanear puertos podremos usar módulos como el **scanner/portscan/tcp**. 
 
 Este módulo nos permitirá verificar que puertos están abiertos, sin la necesidad de usar nmap.
 
-Para encontrar el módulo usaremos la función search de metasploit, seguido de scanner portscan.
+Para encontrar el módulo usaremos la función search de metasploit, seguido de **scanner portscan**.
+
+Si por ejemplo, queremos encontrar como sería un escaneo SYN, o TCP, usaremos el siguiente comando, y veremos que es la opción 4 o 5. 
+
+```shell
+search portscan
+```
 
 Con show options veremos las opciones que son requeridas, en el caso de este módulo, el obligatorio sería RHOSTS (set RHOSTS xxx).
 
 Una vez tengamos finalizado el escaneo de puertos, podremos hacer esto: **==search port:445==**, y nos buscará vulnerabilidades que hagan referencia a este puerto.
+
+### Ejemplo práctico
+
+Por ejemplo, en una práctica para el EJPT se determina con un escaneo TCP que el objetivo tiene una aplicación de XODA en el puerto 80.
+
+A partir de aquí, podríamos usar **search xoda**, para encontrar un exploit que podamos usar.
+
+Posteriormente, solo tendremos que configurar las opciones como RHOST, etc, y usar el comando **exploit**. Si funciona el exploit, nos abrirá una shell meterpreter, que nos permitirá interactuar con el objetivo.
+
+Con esto, podríamos ver la IP interna con ifconfig, y hacer pivoting con autoroute, que es un **módulo de Metasploit** que permite enrutar tráfico a través de una sesión comprometida (por ejemplo, una sesión de Meterpreter). Es útil cuando se ha comprometido una máquina dentro de una red interna y se quiere pivotar hacia otras máquinas dentro de esa misma red.
+
+Con todo esto podremos hacer el escaneo desde la máquina que tenía XODA, y así conseguir pivotar.
 
 ## Busca de vulnerabilidades por CVE
 
