@@ -101,6 +101,12 @@ Para confirmar si un target está usando FTP, podremos hacer un escaneo con el m
 
 A partir del momento en el que sepamos que FTP está funcionando, podremos usar los módulos auxiliares de Metasploit para ayudarnos a determinar información la versión, si el login anónimo está permitido, etc.
 
+Si queremos buscar solo módulos auxiliares de FTP, podremos hacerlo de la siguiente manera:
+
+```bash
+search type:auxiliary ftp
+```
+
 #### Versión
 
 Para empezar, podremos usar el módulo auxiliar **auxiliary/scanner/ftp/ftp-version**, 
@@ -108,7 +114,7 @@ que nos permitirá detectar la versión del servicio.
 
 #### Login
 
-También hay módulos de bruteforcing, como **auxiliary/scanner/ftp/ftp_login**, al que le tendremos que mandar parámetros como USERPASS_FILE y USER_FILE, si queremos usar ficheros, si no, si queremos un usuario o contraseña en concreto podremos usar las options de USERNAME o PASSWORD.
+También hay módulos de bruteforcing, como **auxiliary/scanner/ftp/ftp_login**, al que le tendremos que mandar parámetros como PASS_FILE y USER_FILE, si queremos usar ficheros, si no, si queremos un usuario o contraseña en concreto podremos usar las options de USERNAME o PASSWORD.
 
 Hay listas auxiliares de Metasploit en las rutas de **/usr/share/metasploit-framework/data/wordlists**, donde encontraremos **common_users.txt**, o **unix_passwords.txt**.
 
@@ -123,7 +129,7 @@ Cabe destacar que puede ser que el servidor FTP no responda después de hacer el
 #### Login anónimo
 
 Podremos probar el login anónimo como el módulo auxiliar 
-**scanner/ftp/anonymous**, simplemente especificando el RHOSTS y usando run.
+**auxiliary/scanner/ftp/anonymous**, simplemente especificando el RHOSTS y usando run.
 
 ## Busca de vulnerabilidades por CVE
 
