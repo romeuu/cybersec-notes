@@ -67,7 +67,14 @@ Con esto, podríamos ver la IP interna con **ifconfig**, y hacer pivoting con
 
 Ahora si por ejemplo, sabemos que la red interna le tiene asignado como IP **192.168.1.3**, podríamos probar a hacer un escaneo de puertos en máquinas como **192.168.1.4**, y ver que nos devuelve.
 
-Para poder escanear con total certeza esta nueva máquina, tendremos que subir el ejecutable de nmap, o algún script en bash, y esto lo conseguiremos desde meterpreter con el comando upload.
+Para poder escanear con total certeza esta nueva máquina, tendremos que subir el ejecutable de nmap, o algún script en bash, y esto lo conseguiremos desde meterpreter con el comando upload. [El ejecutable de nmap lo podremos crear](https://nmap.org/book/inst-source.html), y un script en bash sencillo para hacer esto sería este:
+
+```shell
+#!/bin/bash
+for port in {1..1000}; do
+ timeout 1 bash -c "echo >/dev/tcp/$1/$port" 2>/dev/null && echo "port $port is open"
+done
+```
 
 
 > [!TIP] Recuerda el LHOST
