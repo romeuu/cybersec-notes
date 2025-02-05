@@ -60,11 +60,18 @@ Por ejemplo, en una práctica para el EJPT se determina con un escaneo TCP que e
 
 A partir de aquí, podríamos usar **search xoda**, para encontrar un exploit que podamos usar.
 
-Posteriormente, solo tendremos que configurar las opciones como RHOST, etc, y usar el comando **exploit**. Si funciona el exploit, nos abrirá una shell meterpreter, que nos permitirá interactuar con el objetivo.
+Posteriormente, solo tendremos que configurar las opciones como RHOST, etc, y usar el comando **exploit**. Si funciona el exploit, nos abrirá una shell meterpreter, que nos permitirá interactuar con el objetivo. A partir de aquí, podremos escribir **shell**, para que nos abra una shell y seguido de **/bin/bash -i**, para que nos abra un bash dentro de la máquina afectada. 
 
-Con esto, podríamos ver la IP interna con ifconfig, y hacer pivoting con autoroute, que es un **módulo de Metasploit** que permite enrutar tráfico a través de una sesión comprometida (por ejemplo, una sesión de Meterpreter). Es útil cuando se ha comprometido una máquina dentro de una red interna y se quiere pivotar hacia otras máquinas dentro de esa misma red.
+Con esto, podríamos ver la IP interna con **ifconfig**, y hacer pivoting con 
+**autoroute -s IP_MAQUINA**, que es un **módulo de Metasploit** que permite enrutar tráfico a través de una sesión comprometida (por ejemplo, una sesión de Meterpreter). Es útil cuando se ha comprometido una máquina dentro de una red interna y se quiere pivotar hacia otras máquinas dentro de esa misma red.
 
-Con todo esto podremos hacer el escaneo desde la máquina que tenía XODA, y así conseguir pivotar.
+Ahora si por ejemplo, sabemos que la red interna le tiene asignado como IP **192.168.1.3**, podríamos probar a hacer un escaneo de puertos en máquinas como **192.168.1.4**, y ver que nos devuelve.
+
+Para poder escanear con total certeza esta nueva máquina, tendremos que subir el ejecutable de nmap, o algún script en bash, y esto lo conseguiremos desde meterpreter con el comando upload.
+
+
+> [!TIP] Recuerda el LHOST
+> Recuerda configurar bien el LHOST y todos los parámetros referentes a la máquina en la que hagas el laboratorio, ya que si no no se abrirá la shell de meterpreter.
 
 ## Busca de vulnerabilidades por CVE
 
