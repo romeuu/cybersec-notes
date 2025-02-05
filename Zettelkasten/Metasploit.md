@@ -67,7 +67,7 @@ Con esto, podríamos ver la IP interna con **ifconfig**, y hacer pivoting con
 
 Ahora si por ejemplo, sabemos que la red interna le tiene asignado como IP **192.168.1.3**, podríamos probar a hacer un escaneo de puertos en máquinas como **192.168.1.4**, y ver que nos devuelve.
 
-Para poder escanear con total certeza esta nueva máquina, tendremos que subir el ejecutable de nmap, o algún script en bash, y esto lo conseguiremos desde meterpreter con el comando upload. [El ejecutable de nmap lo podremos crear](https://nmap.org/book/inst-source.html), y un script en bash sencillo para hacer esto sería este:
+Para poder escanear con total certeza esta nueva máquina, tendremos que subir el ejecutable de nmap, o algún script en bash, y esto lo conseguiremos desde meterpreter con el comando upload. [El ejecutable de nmap lo podremos crear](https://nmap.org/book/inst-source.html), y un script en bash sencillo para escanear los 1000 primeros puertos sería este:
 
 ```shell
 #!/bin/bash
@@ -76,9 +76,54 @@ for port in {1..1000}; do
 done
 ```
 
+El procedimiento para subir los ficheros sería indicar la ruta de origen y la de destino:
+
+```bash
+upload /root/port-scanner.sh /tmp/port-scanner.sh
+```
+
+También habrá que darles permisos de ejecución a estos ficheros con el siguiente comando:
+
+```bash
+chmod +x ./nmap ./bash-port-scanner.sh
+```
 
 > [!TIP] Recuerda el LHOST
 > Recuerda configurar bien el LHOST y todos los parámetros referentes a la máquina en la que hagas el laboratorio, ya que si no no se abrirá la shell de meterpreter.
+
+## Enumeración de servicios
+
+Hay muchos módulos auxiliares que nos permitirán hacer enumeración de distintos servicios en nuestros objetivos.
+
+### FTP
+
+Para confirmar si un target está usando FTP, podremos hacer un escaneo con el módulo **scanner/portscan/tcp**, es decir, un escaneo TCP, y ver si el puerto 21 está abierto.
+
+A partir del momento en el que sepamos que FTP está funcionando, podremos usar los módulos auxiliares de Metasploit para ayudarnos a determinar información la versión, si el login anónimo está permitido, etc.
+
+#### Versión
+
+Para empezar, podremos usar el módulo auxiliar **auxiliary/scanner/ftp/ftp-version**, 
+que nos permitirá detectar la versión del servicio.
+
+#### Login
+
+También hay módulos de bruteforcing, como **auxiliary/scanner/ftp/ftp_login**, al que le tendremos que mandar parámetros como USERPASS_FILE y USER_FILE, si queremos usar ficheros, si no, si queremos un usuario o contraseña en concreto podremos usar las options de USERNAME o PASSWORD.
+
+Hay listas auxiliares de Metasploit en las rutas de **/usr/share/metasploit-framework/data/wordlists**, donde encontraremos **common_users.txt**, o **unix_passwords.txt**.
+
+Después desde metasploit podremos acceder al servidor FTP:
+
+```shell
+ftp 192.168.1.3
+```
+
+Cabe destacar que puede ser que el servidor FTP no responda después de hacer el bruteforcing como mecanismo de defensa, simplemente tienes que esperar y usar las credenciales válidas cuando se resetee.
+
+#### Login anónimo
+
+Podremos probar el login anónimo como el módulo auxiliar 
+**scanner/ftp/anonymous**, simplemente especificando el RHOSTS y usando run.
 
 ## Busca de vulnerabilidades por CVE
 
