@@ -4,6 +4,24 @@ Tags: [[Exploiting]]
 
 # Metasploit
 
+- [[#Uso:|Uso:]]
+- [[#Base de datos y nmap|Base de datos y nmap]]
+- [[#Módulos y escaneo de puertos|Módulos y escaneo de puertos]]
+	- [[#Módulos y escaneo de puertos#Ejemplo práctico|Ejemplo práctico]]
+- [[#Enumeración de servicios|Enumeración de servicios]]
+	- [[#Enumeración de servicios#FTP|FTP]]
+		- [[#FTP#Versión|Versión]]
+		- [[#FTP#Login|Login]]
+		- [[#FTP#Login anónimo|Login anónimo]]
+	- [[#Enumeración de servicios#SMB|SMB]]
+		- [[#SMB#Versión|Versión]]
+		- [[#SMB#Usuarios|Usuarios]]
+		- [[#SMB#Shares (volúmenes)|Shares (volúmenes)]]
+		- [[#SMB#Bruteforcing (Login)|Bruteforcing (Login)]]
+- [[#Variables globales|Variables globales]]
+- [[#Busca de vulnerabilidades por CVE|Busca de vulnerabilidades por CVE]]
+
+
 Metasploit es un **framework de código abierto** utilizado para desarrollar, probar y ejecutar **exploits** contra sistemas vulnerables. Es una herramienta fundamental en el ámbito de la **ciberseguridad**, específicamente en **pentesting** (pruebas de penetración). Permite a los profesionales de seguridad identificar, explotar y evaluar vulnerabilidades en redes y aplicaciones.
 
 Los **componentes** de metasploit son:
@@ -130,6 +148,59 @@ Cabe destacar que puede ser que el servidor FTP no responda después de hacer el
 
 Podremos probar el login anónimo como el módulo auxiliar 
 **auxiliary/scanner/ftp/anonymous**, simplemente especificando el RHOSTS y usando run.
+
+### SMB
+
+SMB es un protocolo para compartir ficheros entre ordenadores en una red local.
+Normalmente, se usa el puerto 445, y en versiones antiguas en el puerto 139.
+
+La implementación de SMB en Linux se llama SAMBA, y permite que los equipos sean Windows o Linux, puedan compartir ficheros entre ellos.
+
+Como vimos en FTP, podemos usar módulos auxiliares para recuperar las versiones, volúmenes, usuarios, y mucha más información.
+
+Para encontrar los módulos auxiliares relevantes para esto podremos usar el siguiente comando:
+
+```bash
+search type:auxiliary smb
+```
+
+#### Versión
+
+Para enumerar la versión podremos usar el módulo **scanner/smb/smb_version**. Esto nos devolverá la versión que se use, dándonos información como si es SMB o SAMBA, pudiendo así determinar si el target es Windows o Linux.
+
+#### Usuarios
+
+Para esto podremos usar el módulo **scanner/smb/smb_enumusers**, que nos proporcionará los usuarios existentes.
+
+#### Shares (volúmenes)
+
+Usaremos el módulo **auxiliary/scanner/smb/smb_enumshares**, hay opciones interesantes como ShowFiles, que nos permitirá mostrar detalles de los ficheros mientras hace spidering.
+
+#### Bruteforcing (Login)
+
+También existen módulos auxiliares para el bruteforcing, como **auxiliary/scanner/smb/smb_login**, con opciones que deberemos poner como el SMBUser, el PASS_FILE o STOP_ON_SUCCESS, que nos permite parar la ejecución cuando encuentra unas credenciales válidas. 
+
+Es muy similar al módulo auxiliar de FTP.
+
+Para posteriormente, probar estas credenciales, podremos usar smbclient (fuera de Metasploit) y usar el siguiente comando para listar los shares disponibles:
+
+```bash
+smbclient -L \\\\192.168.1.1\\ -U nombre_usuario
+```
+
+Y finalmente, para entrar en un share:
+
+```bash
+smbclient \\\\192.168.1.1\\public -U nombre_usuario
+```
+
+## Variables globales
+
+Para poner una variable de manera global usaremos el siguiente comando, que nos permitirá hacer esto mismo y que en todos los módulos que se use RHOSTS se ponga la IP que especifiquemos:
+
+```bash
+setg RHOSTS 192.168.1.1
+```
 
 ## Busca de vulnerabilidades por CVE
 
