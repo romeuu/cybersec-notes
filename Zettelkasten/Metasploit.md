@@ -164,9 +164,16 @@ Para encontrar los módulos auxiliares relevantes para esto podremos usar el sig
 search type:auxiliary smb
 ```
 
+A parte de metasploit, también tenemos herramientas como **nmblookup**, que nos permitirán mapear IPs a nombres de NetBIOS.
+
+```bash
+nmblookup -A demo.ine.local
+```
 #### Versión
 
 Para enumerar la versión podremos usar el módulo **scanner/smb/smb_version**. Esto nos devolverá la versión que se use, dándonos información como si es SMB o SAMBA, pudiendo así determinar si el target es Windows o Linux.
+
+También podremos usar [[nmap]], con el script **smb-os-discovery.nse**.
 
 #### Usuarios
 
@@ -193,6 +200,22 @@ Y finalmente, para entrar en un share:
 ```bash
 smbclient \\\\192.168.1.1\\public -U nombre_usuario
 ```
+
+También hay otras herramientas como rpcclient, que nos permitirán acceder con credenciales, o probar el login anónimo.
+
+Este comando nos permitirá probar el login anónimo:
+
+```bash
+rpcclient -U "" -N 192.168.1.1
+```
+
+Y este nos permitirá acceder al servidor con las credenciales admin:admin
+
+```bash
+rpcclient -U "admin" -P "admin" 192.168.1.1
+```
+
+Posteriormente, podremos usar comandos como **enumdomusers**, o **netshareenum** para ver las shares.
 
 ## Variables globales
 
