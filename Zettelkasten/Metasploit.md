@@ -217,6 +217,61 @@ rpcclient -U "admin" -P "admin" 192.168.1.1
 
 Posteriormente, podremos usar comandos como **enumdomusers**, o **netshareenum** para ver las shares.
 
+### Apache
+
+Hay muchos módulos auxiliares que podremos usar para enumerar versiones e información extra de un servidor Apache, y otros servidores web.
+
+#### Versión
+
+Como en los otros servicios, podremos usar módulos para la enumeración de versiones, en este caso, podremos usar el módulo **scanner/http/http_version**. 
+
+Si estamos ante una web con SSL válido (puerto 443), podremos poner las variables SSL a true y RPORT a 443.
+
+Esto nos dará la versión de Apache, junto el sistema operativo que está usando el servidor.
+
+Esto también lo podremos obtener con banner grabbing, o analizando las headers de una respuesta del servidor. Existe el módulo **scanner/http/http_header** para esto.
+
+#### Robots.txt
+
+Para analizar el robots.txt también podremos usar un módulo llamado **scanner/http/robots_txt**.
+
+#### Directorios
+
+También podremos hacer enumeración de directorios con el módulo **scanner/http/dir_scanner**.
+
+#### Ficheros
+
+Para encontrar ficheros podremos usar el módulo **scanner/http/files_dir**.
+
+#### Login
+
+Para intentar hacer bruteforcing de autenticación basic en html, podremos usar el módulo **scanner/http/http_login**, que con la ayuda de una wordlist (PASS_FILE y USER_FILE), intentará acceder al directorio protegido. 
+
+Si estamos usando una PASS_FILE y USER_FILE, no necesitaremos el USERPASS_FILE, por lo que podremos hacer un unset de esta variable.
+
+Si no se encuentra nada con las wordlists por defecto, puedes usar las wordlists del directorio **/usr/share/metasploit-framework/data/wordlists**, donde encontraremos **common_users.txt**, o **unix_passwords.txt**
+
+Con este módulo tendremos que indicar la URL a la que se quiere atacar, siendo el parámetro AUTH_URI.
+
+#### Usuarios
+
+También podremos hacer enumeración de usuarios con el módulo **scanner/http/apache_userdir_enum**, lo que será útil para volver al módulo de bruteforcing e indicar la variable USER_FILE con un fichero con estos usuarios.
+
+#### Subir/borrar ficheros
+
+También existen módulos como **auxiliary/scanner/http/http_put**, que nos permitirán subir un fichero a un directorio, por ejemplo:
+
+```
+use auxiliary/scanner/http/http_put
+set PATH /data
+set FILENAME test.txt
+set FILEDATA "Welcome To AttackDefense"
+run
+```
+
+Esto nos permitiría subir test.txt al directorio data. 
+
+
 ## Variables globales
 
 Para poner una variable de manera global usaremos el siguiente comando, que nos permitirá hacer esto mismo y que en todos los módulos que se use RHOSTS se ponga la IP que especifiquemos:

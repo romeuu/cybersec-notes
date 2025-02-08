@@ -8,8 +8,12 @@ La parte de enumeración es crucial, ya que nos permite listar y determinar que 
 
 Esto lo conseguiremos enumerando servicios, sistemas operativos, versiones, etc.
 
-En esta etapa, la herramienta que más usaremos será [[nmap]], ya que tiene por detrás un sistema de scripting bastante fuerte, que nos permitirá extraer información valiosa.
+En esta etapa, la herramienta que más usaremos será [[nmap]], ya que tiene por detrás un sistema de scripting bastante fuerte, que nos permitirá extraer información valiosa, así como [[Metasploit]].
 
+Enumeración de servicios comúnes:
+- [[SMB]]
+- [FTP](Metasploit#FTP)
+- Apache
 
 ---
 # Backlinks
