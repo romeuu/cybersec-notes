@@ -18,8 +18,26 @@ Tags: [[Exploiting]]
 		- [[#SMB#Usuarios|Usuarios]]
 		- [[#SMB#Shares (volúmenes)|Shares (volúmenes)]]
 		- [[#SMB#Bruteforcing (Login)|Bruteforcing (Login)]]
+	- [[#Enumeración de servicios#Apache|Apache]]
+		- [[#Apache#Versión|Versión]]
+		- [[#Apache#Robots.txt|Robots.txt]]
+		- [[#Apache#Directorios|Directorios]]
+		- [[#Apache#Ficheros|Ficheros]]
+		- [[#Apache#Login|Login]]
+		- [[#Apache#Usuarios|Usuarios]]
+		- [[#Apache#Subir/borrar ficheros|Subir/borrar ficheros]]
+	- [[#Enumeración de servicios#MySQL|MySQL]]
+		- [[#MySQL#Versión|Versión]]
+		- [[#MySQL#Bruteforce (Login)|Bruteforce (Login)]]
+		- [[#MySQL#Enum|Enum]]
+		- [[#MySQL#Queries|Queries]]
+		- [[#MySQL#Hash Dump|Hash Dump]]
+		- [[#MySQL#Directorios|Directorios]]
+		- [[#MySQL#Acceso a servidor MySQL|Acceso a servidor MySQL]]
+		- [[#MySQL#Schema|Schema]]
 - [[#Variables globales|Variables globales]]
 - [[#Busca de vulnerabilidades por CVE|Busca de vulnerabilidades por CVE]]
+
 
 
 Metasploit es un **framework de código abierto** utilizado para desarrollar, probar y ejecutar **exploits** contra sistemas vulnerables. Es una herramienta fundamental en el ámbito de la **ciberseguridad**, específicamente en **pentesting** (pruebas de penetración). Permite a los profesionales de seguridad identificar, explotar y evaluar vulnerabilidades en redes y aplicaciones.
@@ -53,6 +71,10 @@ Para arrancar nmap en metasploit, usaremos el comando **==db_nmap 192.168.18.0/2
 Posteriormente, podremos visualizar los resultados de nmap, con el comando **==services==** en metasploit, mostrándonos los servicios por IP.
 
 ![[Pasted image 20241016204333.png]]
+
+También podremos listar las credenciales que hemos conseguido con diferentes scripts, con el comando **loot**, que nos mostrará en el path un fichero txt que contendrá estas credenciales.
+
+Además, podremos usar el comando **creds**, para ver las credenciales que hemos conseguido, como por ejemplo, las hashes que se consiguen con módulos de enumeración de MySQL.
 
 ## Módulos y escaneo de puertos
 
@@ -270,6 +292,52 @@ run
 ```
 
 Esto nos permitiría subir test.txt al directorio data. 
+
+### MySQL
+
+MySQL es una base de datos relacional basada en SQL. Normalmente, se encuentra en el puerto 3306 por defecto, y podemos usar módulos auxiliares de Metasploit para enumerar este servicio.
+
+#### Versión
+
+Podremos usar el módulo **auxiliary/scanner/mysql/mysql_version**, que nos dará información también del sistema operativo, a parte de la versión de la instancia de MySQL.
+
+#### Bruteforce (Login)
+
+Podremos usar el módulo **auxiliary/scanner/mysql/mysql_login**, con las opciones comunes de PASS_FILE, USER_FILE, USERNAME, etc.
+
+Por ejemplo, es bastante común encontrar un usuario llamado root, por lo tanto podríamos poner el USERNAME root y un PASS_FILE como **unix_passwords**.
+
+#### Enum
+
+Para enumerar más, usaremos el módulo **auxiliary/admin/mysql/mysql_enum**, que requiere de un usuario y una contraseña válida para poder hacer una enumeración completa de MySQL, dándonos información como el hostname, la versión, opciones de la base de datos, lista de hashes de las contraseñas, cuentas con permisos elevados, etc.
+
+#### Queries
+
+Este es un módulo que nos permite ejecutar queries SQL, se llama **auxiliary/admin/mysql/mysql_sql**.
+
+En este tendremos que indicar el usuario y la contraseña, con los parámetros USERNAME y PASSWORD, y posteriormente modificar la opción SQL, que por defecto hace un select version().
+
+Por ejemplo, podríamos ejecutar una query que liste las bases de datos, entrar en una, ver las tablas, etc, como si se tratase de queries normales.
+
+#### Hash Dump
+
+Si queremos hacer un dumpeo de hashes directamente, podremos usar el módulo **auxiliary/scanner/mysql/mysql_hashdump**, que nos dará todas las hashes de todos los usuarios.
+
+#### Directorios
+
+Si queremos ver que directorios tienen permisos de escritura, podremos usar el módulo **auxiliary/scanner/mysql/mysql_writable_dirs**, que con una wordlist que proporcionemos, intentará escribir un archivo de prueba, y ver si efectivamente hay permisos.
+
+#### Acceso a servidor MySQL
+
+El acceso a MySQL se hará desde fuera de metasploit con los siguientes comandos:
+
+```shell
+mysql -h 192.168.1.1 -u nombre_usuario -p
+```
+
+#### Schema
+
+Hay un módulo también que nos permite ver el schema de una o varias bases de datos **auxiliary/admin/mysql/mysql_schemadump**, lo que nos permitiría ver las tablas de estas bases de datos.
 
 
 ## Variables globales
