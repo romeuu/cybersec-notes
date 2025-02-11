@@ -361,6 +361,106 @@ Tan pronto encuentre credenciales válidas abrirá una shell, a la que nos podre
 
 Con el módulo **auxiliary/scanner/ssh/ssh_enumusers** podremos enumerar los usuarios proporcionando una USER_FILE (**common_users.txt**, por ejemplo).
 
+
+### SMTP
+
+El SMTP es un protocolo de comunicación usado para la transmisión de emails.
+
+Usa el puerto 25 por defecto, y también se puede configurar en los puertos 465 y 587.
+
+Podremos usar los módulos auxiliares para enumerar la versión y los usuarios en el objetivo.
+
+#### Version
+
+Podremos usar el módulo **auxiliary/scanner/smtp/smtp_version** para enumerar la versión de SMTP, y el dominio donde se encuentra este SMTP configurado.
+
+#### User Enumeration
+
+Para esto podremos usar el módulo **auxiliary/scanner/smtp/smtp_enum**, al que tendremos que proporcionarle un USER_FILE (**common_users.txt, o unix_users.txt**, por ejemplo).
+
+Al terminar, nos dará una lista de que usuarios se han encontrado.
+
+#### Ejemplo práctico
+
+Tenemos un servidor SMTP en la IP: 192.172.212.3, con el módulo **smtp_version** podremos saber que tiene la versión: `SMTP 220 openmailbox.xyz ESMTP Postfix: Welcome to our mail server.\x0d\x0a`.
+
+Posteriormente, podremos conectarnos con netcat (nc) al servidor SMTP de la siguiente manera:
+
+```shell
+nc demo.ine.local 25
+```
+
+Lo que nos dará el mismo mensaje que vimos antes con el banner que nos proporcionó el módulo de versión.
+
+##### Verificar si un email en concreto existe
+
+Si queremos verificar si existe un email, podremos usar la instrucción VRFY:
+
+```shell
+VRFY admin@openmailbox.xyz
+```
+
+Que nos devolverá un 252 en caso de que exista ese email, y un 550 en caso de que no.
+
+##### Comandos posibles
+
+Para verificar que acciones posibles hay en el servidor, podremos usar el comando EHLO, por ejemplo:
+
+```shell
+EHLO test.com
+```
+
+Podrás usar cualquier dominio, ya que normalmente no se verifica, y es meramente informativo.
+
+Esto te devolverá una lista como esta:
+
+```shell
+250-smtp.example.com Hello fake.com [IP] 
+250-PIPELINING 
+250-SIZE 52428800 
+250-STARTTLS 
+250-AUTH LOGIN PLAIN 
+250 HELP
+```
+
+##### Enumeración de usuarios
+
+Para enumerar usuarios tendremos que usar el módulo **scanner/smtp/smtp_enum**, en este caso con la wordlist /usr/share/commix/src/txt/usernames.txt.
+
+Al pasar un tiempo, nos devuelve estos resultados: `Users found: admin, administrator, mail, postmaster, sales, support, www-data`.
+
+También podremos usar la herramienta smtp-user-enum de la siguiente manera:
+
+```shell
+smtp-user-enum -M VRFY -U users.txt -t 192.172.212.3
+```
+
+En este laboratorio fue más rápido el uso de smtp-user-enum, que el módulo de metasploit.
+
+##### Envío de mails
+
+Para enviar mails podremos hacerlo desde telnet de la siguiente manera:
+
+```shell
+telnet demo.ine.local 25
+HELO attacker.xyz
+MAIL FROM: admin@attacker.xyz
+RCPT TO:root@openmailbox.xyz
+DATA
+Subject: Hi Root
+Hello,
+This is a fake mail sent using telnet command.
+From,
+Admin
+.
+```
+
+También podremos usar la utilidad sendmail:
+
+```shell
+sendemail -f admin@attacker.xyz -t root@openmailbox.xyz -s demo.ine.local -u Fakemail -m "Hi root, a fake from admin" -o tls=no
+```
+
 ## Variables globales
 
 Para poner una variable de manera global usaremos el siguiente comando, que nos permitirá hacer esto mismo y que en todos los módulos que se use RHOSTS se ponga la IP que especifiquemos:
