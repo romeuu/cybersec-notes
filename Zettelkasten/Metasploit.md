@@ -339,6 +339,27 @@ mysql -h 192.168.1.1 -u nombre_usuario -p
 
 Hay un módulo también que nos permite ver el schema de una o varias bases de datos **auxiliary/admin/mysql/mysql_schemadump**, lo que nos permitiría ver las tablas de estas bases de datos.
 
+### SSH
+
+SSH es un protocolo de administración remota que ofrece comunicación encriptada, siendo así el sucesor de Telnet. 
+
+El puerto donde se ubica normalmente es el 22. Así como en el resto de tecnologías, podremos usar los módulos auxiliares de Metasploit para hacer enumeración.
+
+#### Versión
+
+Podremos usar el módulo **auxiliary/scanner/ssh/ssh_version** para conseguir hacer enumeración de la versión del servicio, además del banner del sistema operativo también.
+
+#### Login (Bruteforcing)
+
+Para esto existe el módulo **auxiliary/scanner/ssh/ssh_login**. Como en todos los módulos de bruteforcing, necesitaremos indicar opciones como el USERNAME, o por el contrario, un USER_FILE, y una PASSWORD o PASS_FILE.
+
+En caso de usar wordlists, podrías usar **common_users.txt** y **common_passwords.txt** o **common_unix.txt**.
+
+Tan pronto encuentre credenciales válidas abrirá una shell, a la que nos podremos conectar y manipular el objetivo como queramos spawneando una bash con el comando `bin/bash -i`.
+
+#### Enumeración de usuarios
+
+Con el módulo **auxiliary/scanner/ssh/ssh_enumusers** podremos enumerar los usuarios proporcionando una USER_FILE (**common_users.txt**, por ejemplo).
 
 ## Variables globales
 
@@ -346,6 +367,7 @@ Para poner una variable de manera global usaremos el siguiente comando, que nos 
 
 ```bash
 setg RHOSTS 192.168.1.1
+setg RHOST 192.168.1.1
 ```
 
 ## Busca de vulnerabilidades por CVE
