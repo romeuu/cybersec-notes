@@ -35,9 +35,20 @@ Tags: [[Exploiting]]
 		- [[#MySQL#Directorios|Directorios]]
 		- [[#MySQL#Acceso a servidor MySQL|Acceso a servidor MySQL]]
 		- [[#MySQL#Schema|Schema]]
+	- [[#Enumeración de servicios#SSH|SSH]]
+		- [[#SSH#Versión|Versión]]
+		- [[#SSH#Login (Bruteforcing)|Login (Bruteforcing)]]
+		- [[#SSH#Enumeración de usuarios|Enumeración de usuarios]]
+	- [[#Enumeración de servicios#SMTP|SMTP]]
+		- [[#SMTP#Version|Version]]
+		- [[#SMTP#User Enumeration|User Enumeration]]
+		- [[#SMTP#Ejemplo práctico|Ejemplo práctico]]
+			- [[#Ejemplo práctico#Verificar si un email en concreto existe|Verificar si un email en concreto existe]]
+			- [[#Ejemplo práctico#Comandos posibles|Comandos posibles]]
+			- [[#Ejemplo práctico#Enumeración de usuarios|Enumeración de usuarios]]
+			- [[#Ejemplo práctico#Envío de mails|Envío de mails]]
 - [[#Variables globales|Variables globales]]
 - [[#Busca de vulnerabilidades por CVE|Busca de vulnerabilidades por CVE]]
-
 
 
 Metasploit es un **framework de código abierto** utilizado para desarrollar, probar y ejecutar **exploits** contra sistemas vulnerables. Es una herramienta fundamental en el ámbito de la **ciberseguridad**, específicamente en **pentesting** (pruebas de penetración). Permite a los profesionales de seguridad identificar, explotar y evaluar vulnerabilidades en redes y aplicaciones.
