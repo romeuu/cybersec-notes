@@ -13,7 +13,10 @@ En esta etapa, la herramienta que más usaremos será [[nmap]], ya que tiene por
 Enumeración de servicios comúnes:
 - [[SMB]]
 - [FTP](Metasploit#FTP)
-- Apache
+- [Apache](Metasploit#Apache)
+- [MySQL](Metasploit#MySQL)
+- [SSH](Metasploit#SSH)
+- [SMTP](Metasploit#SMTP)
 
 ---
 # Backlinks
