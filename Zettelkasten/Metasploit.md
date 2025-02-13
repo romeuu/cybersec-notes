@@ -490,4 +490,6 @@ Para buscar en metasploit por CVE usaremos el siguiente comando:
 Esto nos dará una lista de exploits que podremos utilizar con referencia a ese CVE.
 
 ---
-# {{References}}
+# References
+
+https://fwhibbit.es/auditando-un-servidor-smtp
