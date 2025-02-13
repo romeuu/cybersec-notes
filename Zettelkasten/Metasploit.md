@@ -481,11 +481,77 @@ setg RHOSTS 192.168.1.1
 setg RHOST 192.168.1.1
 ```
 
-## Busca de vulnerabilidades por CVE
+## Escaneo de vulnerabilidades
+
+Con Metasploit también tendremos la oportunidad de hacer escaneo de vulnerabilidades o de importar escaneos que realicemos con Nessus.
+
+También, un punto de entrada sería usar db_nmap, ver que servicios está usando nuestro target, y a partir de ahí buscar exploits relativos a estos servicios.
+
+> [!TIP] TIP
+> Recuerda, para enumerar los servicios que enumeras en un escaneo de nmap, puedes usar el comando **services** en Metasploit.
+
+### Búsqueda de vulnerabilidades
+
+#### Servicio
+
+Por ejemplo, si queremos buscar exploits para MySQL y sabemos que la versión es la 5.5, podríamos usar algo como:
+
+```shell
+search type:exploit MySQL 
+```
+
+Y posteriormente podremos ver si hay alguno, y si se adapta a nuestra versión, seleccionando el módulo del que queremos información, y usando el comando **info**.
+
+##### Searchsploit
+
+También podremos usar **searchsploit** en Kali, ya que viene en el sistema operativo por defecto.
+
+Esta sintaxis sería si queremos enumerar los exploits para SMB y que se encuentren dentro de Metasploit. Si esto nos da igual, y queremos enumerar todos los exploits disponibles, sacaríamos el grep. 
+
+```shell
+searchsploit "Microsoft Windows SMB" | grep -e "Metasploit"
+```
+
+##### db_autopwn
+
+Por otra parte, podremos hacer uso del plugin de db_autopwn en Metasploit, que nos permitirá hacer una búsqueda relativa a los servicios que hemos enumerado, o a puertos específicos que nos convengan.
+
+El plugin se puede encontrar aquí: https://github.com/hahwul/metasploit-autopwn, y es un fichero ruby que hay que mover a la carpeta de plugins de metasploit, en principio: **/usr/share/metasploit-framework/plugins**. 
+
+Una vez tengamos el plugin descargado usaremos este comando:
+
+```shell
+mv db_autopwn.rb /usr/share/metasploit-framework/plugins
+```
+
+Posteriormente, solo tendremos que entrar en Metasploit, y usar el comando **load db_autopwn**, que se encargará de cargar el plugin.
+
+Uso de db_autopwn común, que se encargará de listar los exploits con los servicios enumerados:
+
+```shell
+db_autopwn -p -t
+```
+
+También podemos especificar los puertos con el comando:
+
+```shell
+db_autopwn -p -t -PI 445
+```
+
+
+##### Analyze
+
+En Metasploit, el comando `analyze` se usa para **automatizar la detección de vulnerabilidades** en los hosts descubiertos. Es una funcionalidad del auxiliary/scanner que revisa los servicios detectados y sugiere módulos de explotación adecuados.
+
+Posteriormente, podremos usar el comando `vulns` también.
+
+#### CVEs
 
 Para buscar en metasploit por CVE usaremos el siguiente comando:
 
-**==search cve:CVE-XXXX==**
+```shell
+search cve:CVE-XXXX
+```
 
 Esto nos dará una lista de exploits que podremos utilizar con referencia a ese CVE.
 
