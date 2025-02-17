@@ -48,7 +48,14 @@ Tags: [[Exploiting]]
 			- [[#Ejemplo práctico#Enumeración de usuarios|Enumeración de usuarios]]
 			- [[#Ejemplo práctico#Envío de mails|Envío de mails]]
 - [[#Variables globales|Variables globales]]
-- [[#Busca de vulnerabilidades por CVE|Busca de vulnerabilidades por CVE]]
+- [[#Escaneo de vulnerabilidades|Escaneo de vulnerabilidades]]
+	- [[#Escaneo de vulnerabilidades#Búsqueda de vulnerabilidades|Búsqueda de vulnerabilidades]]
+		- [[#Búsqueda de vulnerabilidades#Servicio|Servicio]]
+			- [[#Servicio#Searchsploit|Searchsploit]]
+			- [[#Servicio#db_autopwn|db_autopwn]]
+			- [[#Servicio#Analyze|Analyze]]
+		- [[#Búsqueda de vulnerabilidades#CVEs|CVEs]]
+
 
 
 Metasploit es un **framework de código abierto** utilizado para desarrollar, probar y ejecutar **exploits** contra sistemas vulnerables. Es una herramienta fundamental en el ámbito de la **ciberseguridad**, específicamente en **pentesting** (pruebas de penetración). Permite a los profesionales de seguridad identificar, explotar y evaluar vulnerabilidades en redes y aplicaciones.
