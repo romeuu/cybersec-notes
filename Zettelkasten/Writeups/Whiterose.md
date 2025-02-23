@@ -4,10 +4,6 @@ Tags: [[Writeups]]
 
 # Whiterose
 
-Olivia Cortez:olivi8
-
-10.10.170.109
-
 Se nos indica al principio que el usuario Olivia Cortez con la contraseña olivi8 serán útiles a lo largo de la máquina.
 
 Tras un escaneo de nmap, podemos determinar que los puertos 80 y 22 están abiertos, teniendo así los servicios de SSH y Nginx activos.
