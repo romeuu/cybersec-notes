@@ -4,12 +4,9 @@ Tags: [[Writeups]]
 
 # Whiterose (ENG)
 
-
-
 At the beginning, we are informed that the user **Olivia Cortez** with the password **olivi8** will be useful throughout the machine.
 
 After an nmap scan, we can determine that ports **80** and **22** are open, meaning the **SSH** and **Nginx** services are active.
-
 
 ```shell
 nmap -sC -sV -O --osscan-guess 10.10.170.109
