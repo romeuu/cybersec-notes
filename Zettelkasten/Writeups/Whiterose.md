@@ -207,6 +207,7 @@ Y ya podríamos hacer sudo su sin contraseña necesaria :).
 
 Solo nos faltaría encontrar el archivo root.txt, ver su contenido y ya tenemos nuestra sala terminada.
 
+Esta flag se encontrará dnetro de /root, con un cat ya tendremos nuestra flag.
 
 
 ---
