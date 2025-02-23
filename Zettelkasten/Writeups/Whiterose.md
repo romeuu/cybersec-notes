@@ -158,6 +158,19 @@ uid=1001(web) gid=1001(web) groups=1001(web)
 
 ```
 
+Si seguimos investigando dentro de los directorios de nuestro servidor, veremos la flag de user.txt:
+
+```shell
+web@cyprusbank:~/app$ cd ..
+cd ..
+web@cyprusbank:~$ ls
+ls
+app  user.txt
+web@cyprusbank:~$ cat user.txt
+cat user.txt
+THM{XXXXXXXXXXXXX}
+web@cyprusbank:~$ 
+```
 
 
 
