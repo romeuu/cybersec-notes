@@ -34,7 +34,31 @@ El proceso va a variar dependiendo de la versión de Windows que se esté usando
 
 - [**Windows-Kernel-Exploits**:](https://github.com/SecWiki/windows-kernel-exploits) Colección de exploits del Kernel de Windows ordenados por CVE.
 
+- **post/multi/recon/local_exploit_suggester**: Este módulo de Metasploit nos permitirá escanear las vulnerabilidades para el objetivo, usando una sesión de meterpreter que tengamos abierta.
+
 También se puede probar el comando **getsystem** en meterpreter, que intentará varias técnicas para elevar los permisos.
+
+##### Windows-Exploit-Suggester
+
+Para poder usarlo necesitaremos guardar la información de sistema en un fichero txt. Para esto, spawnearemos una shell en nuestra sesión de meterpreter y ejecutaremos el comando systeminfo:
+
+```shell
+shell
+C:\Temp:> systeminfo
+```
+
+Copiaremos el resultado del comando, y lo pondremos en un fichero txt con cualquier editor de texto (nano, vim...).
+
+Ahora solo necesitaremos pasarle esto a Windows-Exploit-Suggester:
+
+```shell
+./windows-exploit-suggester.py --update
+./windows-exploit-suggester.py --database fichero_creado_con_update --syteminfo txt_de_informacion_sistema
+```
+
+Esto nos devolverá los exploits ordenados por fiabilidad, es decir, los que salen más arriba tienen más posibilidades de funcionar bien.
+
+A partir de aquí, tocará investigar sobre los exploits, ver que PoC hay, e intentar subirlos al target para conseguir escalar los privilegios.
 
 
 
