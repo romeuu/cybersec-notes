@@ -48,7 +48,7 @@ upload backdoor.exe
 upload Akagi64.exe
 ```
 
-Para este lab, usaremos la key 23, pero esto, si miras la documentación, verás que puede variar dependiendo de lo que queramos hacer.
+Para este lab, usaremos la key 23, pero esto, si miras la documentación, verás que puede variar dependiendo de lo que queramos hacer, y de la versión de Windows.
 
 ```shell
 .\Akagi64.exe 23 C:\Temp\backdoor.exe
