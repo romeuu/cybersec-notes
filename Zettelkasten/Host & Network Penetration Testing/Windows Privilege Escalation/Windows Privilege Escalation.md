@@ -60,6 +60,15 @@ Esto nos devolverá los exploits ordenados por fiabilidad, es decir, los que sal
 
 A partir de aquí, tocará investigar sobre los exploits, ver que PoC hay, e intentar subirlos al target para conseguir escalar los privilegios.
 
+Siempre que subas ficheros, hazlo en C:\Temp, para intentar no ser detectado. Para subir un fichero, tendríamos que usar el comando upload de meterpreter.
+
+```shell
+upload /Downloads/41015.exe
+shell
+./41015.exe
+```
+
+Como vemos, subimos el fichero, abrimos un shell, y lo ejecutamos. El funcionamiento, obviamente, dependerá de cada exploit.
 
 
 ---
