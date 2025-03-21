@@ -2,6 +2,11 @@
 Status: #idea
 Tags: [[Host & Network Penetration Testing]]
 
+- [[#Windows Kernel|Windows Kernel]]
+	- [[#Windows Kernel#Kernel Exploitation|Kernel Exploitation]]
+		- [[#Kernel Exploitation#Herramientas|Herramientas]]
+			- [[#Herramientas#Windows-Exploit-Suggester|Windows-Exploit-Suggester]]
+
 # Windows Privilege Escalation
 
 La escalada de privilegios es el proceso que nos permite aumentar los permisos de un usuario a otro, normalmente de un usuario sin permisos o de bajo nivel, a uno de alto nivel como el root.
