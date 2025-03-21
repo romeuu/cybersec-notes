@@ -34,6 +34,7 @@ El proceso va a variar dependiendo de la versión de Windows que se esté usando
 
 - [**Windows-Kernel-Exploits**:](https://github.com/SecWiki/windows-kernel-exploits) Colección de exploits del Kernel de Windows ordenados por CVE.
 
+También se puede probar el comando **getsystem** en meterpreter, que intentará varias técnicas para elevar los permisos.
 
 
 
