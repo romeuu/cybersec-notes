@@ -17,7 +17,17 @@ Esto lo podríamos hacer guardando el payload en la metadata de un fichero legí
 
 Esta técnica es usada para evitar AVs y herramientas de análisis estático.
 
+## Funcionamiento
 
+Podríamos crear un fichero test.txt, y ocultar un fichero dentro de este mismo fichero de la siguiente manera:
+
+```cmd
+notepad test.txt:secret.txt
+```
+
+Si abrimos el notepad, y guardamos, cuando abramos test.txt no podremos ver el contenido del fichero secret.txt.
+
+Para poder volver a ver el contenido, tendríamos que usar el mismo comando de antes.
 
 
 ---
