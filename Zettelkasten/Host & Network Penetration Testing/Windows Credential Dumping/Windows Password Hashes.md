@@ -45,6 +45,27 @@ Los directorios de estos ficheros son:
 
 Estas contraseñas pueden estar presentes con encoding base64.
 
+Para conseguir este fichero en nuestro sistema objetivo, tendríamos que tener acceso a el, ya sea con una sesión de meterpreter o a través de otros exploits.
+
+Si tenemos una sesión de meterpreter, podremos descargar el fichero con el comando download:
+
+```shell
+download C:\Windows\Panther\Unattend.xml
+```
+
+Una vez tengamos el fichero, podremos hacer un cat y buscar las contraseñas, sobre todo del usuario de administración. Veremos que es una string en base64. Si la metemos en un fichero txt, por ejemplo password.txt, podremos usar la utilidad base64 que ya viene en kali directamente:
+
+```shell
+base64 -d password.txt
+```
+
+Y esto nos dará la contraseña. Puede que no sea válida, pero podremos probarla con psexec.py:
+
+```shell
+psexec.py Administrator@10.10.10.10
+```
+
+Si todo sale bien, deberíamos ser NT AUTHORITY\SYSTEM.
 
 ---
 # Backlinks
