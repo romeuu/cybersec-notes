@@ -2,6 +2,9 @@
 Status: #idea
 Tags: [[Windows Credential Dumping]]
 
+- [[#SAM Database|SAM Database]]
+- [[#Buscando contraseñas en ficheros de configuración|Buscando contraseñas en ficheros de configuración]]
+
 # Windows Password Hashes
 
 Windows guarda las hashes de las cuentas de usuarios localmente en la base de datos del SAM (Security Accounts Manager).
@@ -21,6 +24,26 @@ El kernel mantiene bloqueada esta base de datos, por lo tanto los atacantes norm
 En versiones recientes de Windows, la base de datos SAM está encriptada con una syskey.
 
 
+> [!TIP] Privilegios y LSASS
+> Para poder interactuar con el proceso de lsass necesitaremos permisos elevados o de administrador.
+
+
+## Buscando contraseñas en ficheros de configuración
+
+Windows permite automatizar tareas repetitivas, como la configuración e instalación de Windows en varios sistemas.
+
+Esto normalmente se consigue con la utilidad "Unattended Windows Setup", que nos permite automatizar la instalación masiva de sistemas Windows.
+
+Esta herramienta utiliza ficheros de configuración que contiene configuraciones específicas, y credenciales de cuentas válidas, especialmente, la contraseña de la cuenta Administrator.
+
+Si estos ficheros se dejan en el sistema después de la instalación, podrán revelar credenciales de usuarios que podrían ser utilizadas por atacantes para autenticarse en el sistema.
+
+Los directorios de estos ficheros son:
+
+- **C:\Windows\Panther\Unattend.xml
+- **C:\Windows\Panther\Autounattend.xml**
+
+Estas contraseñas pueden estar presentes con encoding base64.
 
 
 ---
