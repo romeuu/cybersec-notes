@@ -117,6 +117,8 @@ privilege::debug
 
 Si nos devuelve un **Privilege '20' OK**, nos está indicando que tenemos suficientes privilegios para hacer el dumping.
 
+**Recuerda hacer migrate al proceso de lsass para tener el NT AUTHORITY\SYSTEM.**
+
 Esto lo podremos hacer con el comando:
 
 ```terminal
@@ -156,7 +158,11 @@ lsa_dump_sam
 lsa_dump_secrets
 ```
 
+#### Post exploitation
 
+Después de tener los hashes, podremos realizar Pass The Hash. En esta sección linkeada se explica correctamente el proceso, y como lo podemos realizar.
+
+[[Vulnerability Assessment#Pass The Hash]]
 
 
 
