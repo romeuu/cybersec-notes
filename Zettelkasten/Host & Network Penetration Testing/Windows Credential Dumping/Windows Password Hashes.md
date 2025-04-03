@@ -4,6 +4,10 @@ Tags: [[Windows Credential Dumping]]
 
 - [[#SAM Database|SAM Database]]
 - [[#Buscando contraseñas en ficheros de configuración|Buscando contraseñas en ficheros de configuración]]
+- [[#Herramientas|Herramientas]]
+	- [[#Herramientas#Mimikatz|Mimikatz]]
+		- [[#Mimikatz#Ejecutable|Ejecutable]]
+		- [[#Mimikatz#Módulo Kiwi en metasploit|Módulo Kiwi en metasploit]]
 
 # Windows Password Hashes
 
@@ -116,7 +120,16 @@ Si nos devuelve un **Privilege '20' OK**, nos está indicando que tenemos sufici
 Esto lo podremos hacer con el comando:
 
 ```terminal
-lsadump:sam
+lsadump::sam
+lsadump::secrets
+```
+
+En este caso, el ejecutable nos da más información de la que nos proporcionará Kiwi.
+
+También podemos probar suerte y ver si nos devuelve contraseñas en texto plano:
+
+```terminal
+sekurlsa::logonpasswords
 ```
 
 #### Módulo Kiwi en metasploit
