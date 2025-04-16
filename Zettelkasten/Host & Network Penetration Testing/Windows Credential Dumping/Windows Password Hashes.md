@@ -1,4 +1,4 @@
-30-03-2025 18:56
+ o30-03-2025 18:56
 Status: #idea
 Tags: [[Windows Credential Dumping]]
 
