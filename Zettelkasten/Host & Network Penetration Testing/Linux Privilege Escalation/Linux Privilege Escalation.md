@@ -52,6 +52,12 @@ Para listar los crontab que se ejecutan usaríamos el comando:
 crontab -l
 ```
 
+Si queremos buscar un fichero que sobreescriba otro o realice acciones sobre otro:
+
+```shell
+grep -nri "/tmp/message" /usr
+```
+
 Si no tenemos editores de texto, podremos añadir la línea que nos permitirá meternos en el fichero sudoers para escalar los privilegios de la siguiente manera:
 
 ```shell
@@ -66,7 +72,7 @@ Para comprobar que estamos en la lista de sudoers, podemos usar el comando:
 sudo -L
 ```
 
-Si tenemos suerte, esto nos meterá en la lista.
+Si tenemos suerte, esto nos meterá en la lista, y posteriormente podremos hacer **sudo su**, y tendremos el shell con root.
 
 
 ---
