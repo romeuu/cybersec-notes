@@ -1,4 +1,4 @@
-23-04-2025 18:24
+**23**-04-2025 18:24
 Status: #idea
 Tags: [[Linux Privilege Escalation]], [[Host & Network Penetration Testing]]
 
